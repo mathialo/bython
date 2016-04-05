@@ -2,8 +2,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define true 1
+#define false 0
+typedef char bool;
+
 int main(int argc, char const *argv[]) {
 	
+	bool compile_only = false;
+	unsigned int filename_position = 1;
+
 	if (argc <= 1) {
 		printf("No arguments! For help run \"bython -h\"\n");
 		return 0;
@@ -16,6 +23,7 @@ int main(int argc, char const *argv[]) {
 		printf("Available flags:\n");
 		printf("    -h   Help. Displays this message\n");
 		printf("    -v   Version. Displays whivh version of bython you have installed\n");
+		printf("    -c   Compile only. Does not run the generated python file.\n");
 		return 0;
 	}
 
@@ -24,16 +32,25 @@ int main(int argc, char const *argv[]) {
 		return 0;
 	}
 
+	if (strcmp(argv[1], "-c") == 0) {
+		compile_only = true;
+		filename_position++;
+	}
+
 	char *proccmd = malloc(256*sizeof(char));
 
 	strcat(proccmd, "python /home/mathias/prog/bython/bython.py ");
-	strcat(proccmd, argv[1]);
+	strcat(proccmd, argv[filename_position]);
 
 	int returnVal = system(proccmd);
 
 	if (returnVal != 0) {
 		printf("Bython error: Something went wrong durnig parsing!\n");
 		return -1;
+	}
+
+	if (compile_only) {
+		return 0;
 	}
 
 	char *runcmd = malloc(256*sizeof(char));
