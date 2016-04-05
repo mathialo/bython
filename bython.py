@@ -1,4 +1,5 @@
-import sys, os
+# -*- coding: utf-8 -*-
+import os, sys
 
 infile = open(sys.argv[1], 'r')
 outfile = open('bython_out.py', 'w')

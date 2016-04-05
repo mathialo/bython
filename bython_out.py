@@ -1,10 +1,11 @@
-
+import sys
 
 def main() :
-	f = open("test", "w");
-	f.write("hello");
+	print "Hello, world!";
+ 
  
 
 if __name__ == '__main__' :
 	main();
  
+
