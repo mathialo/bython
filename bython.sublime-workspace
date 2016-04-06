@@ -1,0 +1,1129 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"byt",
+				"bython_out"
+			],
+			[
+				"str",
+				"strcat"
+			],
+			[
+				"arg",
+				"argv"
+			],
+			[
+				"bython",
+				"bython_out	(bython.py)"
+			],
+			[
+				"list",
+				"infile_list"
+			],
+			[
+				"inf",
+				"infile_string"
+			],
+			[
+				"in",
+				"infile_list"
+			],
+			[
+				"X",
+				"X_dy"
+			],
+			[
+				"contra",
+				"contrastadjust0	(images.py)"
+			],
+			[
+				"float",
+				"float64	(ex_9.1.py)"
+			],
+			[
+				"im_",
+				"im_new"
+			],
+			[
+				"as",
+				"astype"
+			],
+			[
+				"min",
+				"min_lum"
+			],
+			[
+				"max",
+				"max_lum"
+			],
+			[
+				"vect",
+				"vect_len"
+			],
+			[
+				"a",
+				"axis"
+			],
+			[
+				"ve",
+				"vect"
+			],
+			[
+				"vec",
+				"vector_length"
+			],
+			[
+				"img",
+				"img_new"
+			],
+			[
+				"ID",
+				"IDWTKernelHaar"
+			],
+			[
+				"DW",
+				"DWTKernelHaar"
+			],
+			[
+				"dwt",
+				"dwt_results"
+			],
+			[
+				"image",
+				"image_chars"
+			],
+			[
+				"con",
+				"convert_image_to_jpeg"
+			],
+			[
+				"my",
+				"my_image_chars"
+			],
+			[
+				"MP",
+				"MPI_COMM_WORLD"
+			],
+			[
+				"impo",
+				"import_JPEG_file	(serial_main.c)"
+			],
+			[
+				"ima",
+				"image"
+			],
+			[
+				"cop",
+				"copy_inner_image"
+			],
+			[
+				"allo",
+				"allocated"
+			],
+			[
+				"pase",
+				"paste_here"
+			],
+			[
+				"serial",
+				"serial_main"
+			],
+			[
+				"exec",
+				"exec-clean"
+			],
+			[
+				"copy_",
+				"copy_this"
+			],
+			[
+				"imag",
+				"image_data"
+			],
+			[
+				"u",
+				"u_bar"
+			],
+			[
+				"conve",
+				"convert_image_to_jpeg"
+			],
+			[
+				"imga",
+				"image"
+			],
+			[
+				"inc",
+				"inc	#include \"…\""
+			],
+			[
+				"for",
+				"for	for"
+			],
+			[
+				"x",
+				"x_new"
+			],
+			[
+				"lambda",
+				"lambda_total"
+			],
+			[
+				"lam",
+				"lambda1"
+			],
+			[
+				"drikk",
+				"drikkAlkohol"
+			],
+			[
+				"ko",
+				"koffeinfriKaffe"
+			],
+			[
+				"get",
+				"getPromille"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"paddin",
+				"padding-top"
+			],
+			[
+				"p",
+				"php	<?php … ?>"
+			],
+			[
+				"gtAl",
+				"getAlkoholinnhold	(AlkoholholdigDrikke.java)"
+			],
+			[
+				"FFTK",
+				"FFTKernelStandard"
+			],
+			[
+				"bit",
+				"bitreversearr"
+			],
+			[
+				"FFT",
+				"FFTKernelStandard"
+			],
+			[
+				"_",
+				"_DFTImpl"
+			],
+			[
+				"if",
+				"if	If Condition"
+			],
+			[
+				"sum",
+				"sum_bin"
+			],
+			[
+				"mem",
+				"memcpy"
+			],
+			[
+				"sti",
+				"stupidcopy"
+			],
+			[
+				"out",
+				"outfile"
+			],
+			[
+				"di",
+				"diff_bin"
+			],
+			[
+				"dif",
+				"diff_bin"
+			],
+			[
+				"mean",
+				"mean_bin"
+			],
+			[
+				"mena",
+				"mean_ascii"
+			],
+			[
+				"tem",
+				"timestamp3"
+			],
+			[
+				"time",
+				"timestamp1"
+			],
+			[
+				"rw",
+				"rw_ascci"
+			],
+			[
+				"rw_",
+				"rw_bin"
+			],
+			[
+				"imple",
+				"implements	(Menneske.java)"
+			],
+			[
+				"temp",
+				"temperatures"
+			],
+			[
+				"s",
+				"s"
+			],
+			[
+				"times",
+				"time_stamps"
+			],
+			[
+				"ese",
+				"exercise2	(exercise3.c)"
+			],
+			[
+				"A_n",
+				"A_new_storage"
+			],
+			[
+				"do",
+				"double"
+			],
+			[
+				"A_",
+				"A_storage"
+			],
+			[
+				"array",
+				"array3d"
+			],
+			[
+				"d",
+				"d"
+			],
+			[
+				"test",
+				"test_change_entry"
+			],
+			[
+				"found",
+				"foundIndeces"
+			],
+			[
+				"loc",
+				"localIndex"
+			],
+			[
+				"Sea",
+				"SearchEngine"
+			],
+			[
+				"ch",
+				"chrNeedle"
+			],
+			[
+				"A",
+				"A_i"
+			],
+			[
+				"eig",
+				"eig_new2"
+			],
+			[
+				"m",
+				"main	main()"
+			],
+			[
+				"calc",
+				"calculateTimes"
+			],
+			[
+				"task",
+				"task"
+			],
+			[
+				"new",
+				"newSlack"
+			],
+			[
+				"IN",
+				"Integer"
+			],
+			[
+				"manpo",
+				"manpower	(Task.java)"
+			],
+			[
+				"his",
+				"highestAmountOfManpower"
+			],
+			[
+				"manp",
+				"manpowerInUse"
+			],
+			[
+				"printstr",
+				"printThisRound"
+			],
+			[
+				"getp",
+				"getLatestPrecedingComplete"
+			],
+			[
+				"link",
+				"LinkedList"
+			],
+			[
+				"getLa",
+				"getLatestPrecedingComplete"
+			],
+			[
+				"print",
+				"printOptimalPlan	(Project.java)"
+			],
+			[
+				"getla",
+				"getLatestPrecedingComplete"
+			],
+			[
+				"real",
+				"realizable	(Testing.java)"
+			],
+			[
+				"tiem",
+				"timesNotCalculated"
+			],
+			[
+				"lat",
+				"latestPrecedingComplete"
+			],
+			[
+				"Entry",
+				"entryPoints"
+			],
+			[
+				"la",
+				"latestPrecedingComplete"
+			],
+			[
+				"follo",
+				"followingTask"
+			],
+			[
+				"follon",
+				"followingTasks"
+			],
+			[
+				"entr",
+				"entryPoint"
+			],
+			[
+				"ent",
+				"entryPoints"
+			],
+			[
+				"ear",
+				"earliestPrecedingComplete"
+			],
+			[
+				"ea",
+				"earliestPrecedingComplete"
+			],
+			[
+				"pre",
+				"preceding	(Project.java)"
+			],
+			[
+				"dfs",
+				"dfsFindLoop"
+			],
+			[
+				"re",
+				"reportLoop	(Project.java)"
+			],
+			[
+				"foun",
+				"foundLoop"
+			],
+			[
+				"fou",
+				"foundLoop"
+			],
+			[
+				"loop",
+				"loopOfTasks"
+			],
+			[
+				"lo",
+				"loopOfTasks"
+			],
+			[
+				"df",
+				"dfsFindLoop"
+			],
+			[
+				"timesta",
+				"timeStamp"
+			],
+			[
+				"pro",
+				"project"
+			],
+			[
+				"prece",
+				"precedingTasks"
+			],
+			[
+				"all",
+				"allTasks"
+			],
+			[
+				"ne",
+				"nextLine"
+			],
+			[
+				"Ta",
+				"Task	(Task.java)"
+			],
+			[
+				"set",
+				"setPrecedingTask"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "bython.c",
+			"settings":
+			{
+				"buffer_size": 1507,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Makefile/Make.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/Octave.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/Octave.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 338.0,
+		"last_filter": "close",
+		"selected_items":
+		[
+			[
+				"close",
+				"Project: Close"
+			],
+			[
+				"pro",
+				"Project: Save As"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"inden",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"add",
+				"Git: Add All"
+			],
+			[
+				"git",
+				"Git: Init"
+			],
+			[
+				"ssp",
+				"Set Syntax: Python"
+			],
+			[
+				"save",
+				"Project: Save As"
+			],
+			[
+				"af",
+				"Project: Add Folder"
+			],
+			[
+				"ssja",
+				"Set Syntax: Java"
+			],
+			[
+				"cloa",
+				"File: Close All"
+			],
+			[
+				"ssj",
+				"Set Syntax: Java"
+			],
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"add ",
+				"Project: Add Folder"
+			],
+			[
+				"ssc",
+				"Set Syntax: C"
+			],
+			[
+				"ssjava",
+				"Set Syntax: Java"
+			],
+			[
+				"ss",
+				"Set Syntax: C"
+			],
+			[
+				"java",
+				"Javatar: Actions History"
+			],
+			[
+				"pyt",
+				"Set Syntax: Python"
+			],
+			[
+				"ind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"Package Control: rm",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"clo",
+				"File: Close All"
+			],
+			[
+				"ssm",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"mat",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"ssma",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"in",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"cloas",
+				"File: Close All"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			]
+		],
+		"width": 386.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": true,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/mathias/prog/bython"
+	],
+	"file_history":
+	[
+		"/home/mathias/prog/bython/bython.py",
+		"/home/mathias/prog/bython/bython.c",
+		"/home/mathias/test.by",
+		"/home/mathias/prog/bython/test.by",
+		"/home/mathias/prog/bython/bython_out.py",
+		"/home/mathias/mit/mat-inf2360/codebase/images.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_9.5.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_9.4.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_9.3.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_9.1.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_2.22.py",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/TypeC.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/TypeB.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/TypeA.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/Resept.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/Pasient.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/Lik.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/Legemiddel.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/Lege.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/KommunaleAvtaler.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/HvitResept.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/Dispenser.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/BlaaResept.java",
+		"/home/mathias/Downloads/inf1010.2016v.oppg04/yvonnene (groupid=285513)/deadline-2016-02-24T10_00_00/delivery-001/README.txt",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_5.20.py",
+		"/home/mathias/mit/undervisning/inf1010/6/Node.java",
+		"/home/mathias/mit/undervisning/inf1010/6/EnkelIterator.java",
+		"/home/mathias/mit/undervisning/inf1010/6/DobbelLenkeListe.java",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_5.18.py",
+		"/home/mathias/mit/inf3380/oblig1/simple-jpeg/import_export_jpeg.h",
+		"/home/mathias/mit/inf3380/oblig1/parallel/parallel_main.c",
+		"/home/mathias/mit/inf3380/oblig1/serial/input",
+		"/home/mathias/mit/inf3380/oblig1/serial/serial_main.c",
+		"/home/mathias/mit/inf3380/oblig1/Makefile",
+		"/home/mathias/mit/inf3380/oblig1/serial/Makefile",
+		"/run/user/1000/gvfs/sftp:host=login.uio.no,user=mathialo/uio/hume/student-u41/mathialo/Documents/fag/inf1100/area_triangle.py",
+		"/home/mathias/mit/inf3380/oblig1/serial/output",
+		"/home/mathias/mit/inf3380/oblig1/serial/test.jpg",
+		"/home/mathias/mit/inf3380/oblig1/serial_main.c",
+		"/home/mathias/mit/inf3380/oblig1/simple-jpeg/import_export_jpeg.h.gch",
+		"/home/mathias/mit/inf3380/oblig1/parallel/parallel_main.",
+		"/home/mathias/mit/inf3380/oblig1/parallel/parallel_main",
+		"/home/mathias/mit/undervisning/inf1010/5/Liste.java",
+		"/home/mathias/mit/undervisning/inf1010/5/LIFOListe.java",
+		"/home/mathias/mit/undervisning/inf1010/5/Program.java",
+		"/home/mathias/mit/undervisning/inf1010/5/Beholder.java",
+		"/home/mathias/mit/undervisning/inf1010/5/FIFOListe.java",
+		"/home/mathias/mit/undervisning/inf1010/5/MinsteForstListe.java",
+		"/usr/include/stdio.h",
+		"/home/mathias/mit/undervisning/inf1010/5/LenkeListe.java",
+		"/home/mathias/mit/undervisning/inf1010/5/ToStorste.java",
+		"/home/mathias/mit/undervisning/inf1010/5/FemStorste.java",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_3.23.py",
+		"/home/mathias/mit/undervisning/inf1010/5/Fif",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_3.16.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_3.15.py",
+		"/home/mathias/mit/inf3380/uke1/exercise1.c",
+		"/home/mathias/mit/INF1010/oblig9_10_11/src/obl9og10/Beholder.java",
+		"/home/mathias/mit/INF1010/oblig9_10_11/src/Main2.java",
+		"/home/mathias/mit/INF1010/oblig9_10_11/src/Main.java",
+		"/home/mathias/mit/INF1010/oblig9_10_11/src/Main3.java",
+		"/home/mathias/mit/undervisning/inf1010/test/javafx/Main.java",
+		"/home/mathias/mit/undervisning/inf1010/test/javafx/JavaFXtest.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Program.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Vin.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Whiskey.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Rodvin.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Person.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Kaffe.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Hvitvin.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Drikkbar.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/AlkoholholdigDrikke.java",
+		"/home/mathias/Documents/Startside/index.html",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Whisky.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks2/Roedvin.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks1/Program.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks1/FilLeser.java",
+		"/home/mathias/mit/undervisning/inf1010/4/eks1/temp.txt",
+		"/home/mathias/mit/INF1010/oblig3/src/Hovedprog.java",
+		"/run/user/1000/gvfs/sftp:host=login.uio.no,user=mathialo/uio/hume/student-u41/mathialo/Documents/inf1010/uke2/Hund.java",
+		"/run/user/1000/gvfs/sftp:host=37.191.171.112,user=pi/var/www/html/template/variables.php",
+		"/run/user/1000/gvfs/sftp:host=37.191.171.112,user=pi/var/www/html/template/head.php",
+		"/run/user/1000/gvfs/sftp:host=37.191.171.112,user=pi/var/www/html/template/menu.php",
+		"/run/user/1000/gvfs/sftp:host=37.191.171.112,user=pi/var/www/html/inf1010/index.php",
+		"/run/user/1000/gvfs/sftp:host=37.191.171.112,user=pi/var/www/html/index.php",
+		"/run/user/1000/gvfs/sftp:host=37.191.171.112,user=pi/var/www/html/css/mainstyle.css",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Whisky.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Program.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Hvitvin.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Roedvin.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Vin.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Kaffe.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Drikkbar.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/AlkoholholdigDrikke.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Person.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Kjoretoy.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Bil.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Motorsykkel.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Motosykkel.java",
+		"/home/mathias/mit/mat-inf2360/codebase/fft.py",
+		"/home/mathias/mit/mat-inf2360/codebase/sound.py",
+		"/home/mathias/mit/mat-inf2360/ukesoppgaver/ex_2.16.py",
+		"/home/mathias/mit/inf3380/uke2/ex1.c",
+		"/home/mathias/mit/inf3380/uke2/ex2.c",
+		"/home/mathias/mit/inf3380/uke2/primes",
+		"/home/mathias/mit/inf3380/uke2/primesbinary",
+		"/home/mathias/mit/inf3380/uke1/exercise2a.c",
+		"/home/mathias/mit/inf3380/uke1/exercise2a",
+		"/home/mathias/mit/undervisning/inf1010/REFERAT GRLMØTE 04.02.16",
+		"/home/mathias/mit/undervisning/inf1010/test/Test.java",
+		"/run/user/1000/gvfs/sftp:host=login.uio.no,user=mathialo/uio/hume/student-u41/mathialo/Documents/inf1010/uke2/LinkedList.java",
+		"/run/user/1000/gvfs/sftp:host=login.uio.no,user=mathialo/uio/hume/student-u41/mathialo/Documents/inf1010/uke2/TestLinkedList.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/KanSiHei.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Menneske.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Robot.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Hund.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks1/Test.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Test.java",
+		"/home/mathias/mit/undervisning/inf1010/3/eks2/Elefant.java",
+		"/home/mathias/mit/undervisning/inf1010/retteliste",
+		"/home/mathias/mit/undervisning/inf1010/3/Sko.java",
+		"/home/mathias/mit/undervisning/inf1010/3/Eske.java",
+		"/home/mathias/mit/undervisning/inf1010/3/KanLeggesIEske.java",
+		"/home/mathias/mit/undervisning/inf1010/3/Test.java",
+		"/home/mathias/mit/undervisning/inf1010/3/Elefant.java",
+		"/home/mathias/mit/undervisning/inf1010/3/Test.jav",
+		"/home/mathias/mit/undervisning/inf1010/3/TeitKlasse.java",
+		"/home/mathias/mit/inf3380/uke1/blah.c"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"<current file>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"cmd",
+			"infile_string",
+			"\n>>>",
+			">>>",
+			"Xbw",
+			"S1",
+			"vector_length",
+			"round_off",
+			"np",
+			"temporarily",
+			"0",
+			"u",
+			"m",
+			"n",
+			"tempn",
+			"n",
+			"m",
+			"\\t",
+			"\\n",
+			"Element",
+			"settInnHersNeste",
+			"FemStorste",
+			"d",
+			"real",
+			"abs",
+			"plt",
+			"sc",
+			"private",
+			"++;\n",
+			"private",
+			"implements",
+			"MyEventHandler",
+			"root",
+			"sum",
+			"Integer",
+			"klokkeslett",
+			"skyet",
+			"f92672",
+			"e9e9e8",
+			"private",
+			"ndim",
+			"N",
+			"fread",
+			"\");\n",
+			"textfile",
+			"fp",
+			"file",
+			" ",
+			"ord1",
+			"sko1",
+			"temperature",
+			"totalstrings",
+			"array",
+			"fp",
+			"11",
+			"sort",
+			"V",
+			"V_new",
+			"]);\n",
+			"V_new_storage",
+			"A_new",
+			"A_new_storage",
+			"A",
+			"HvaSomHelst",
+			"String",
+			"innhold",
+			"beholder",
+			"int",
+			"Integer",
+			"1",
+			"int",
+			"HvaSomHelst",
+			"T",
+			"array",
+			"a",
+			"1",
+			"0",
+			"foundIndeces",
+			"sc",
+			"60s",
+			"long",
+			"chrNeedle",
+			"int",
+			"_",
+			"A",
+			"a",
+			"A",
+			"muvals",
+			"mu",
+			"A",
+			"i",
+			"Integer",
+			"LinkedList",
+			"creation",
+			"().",
+			"getLength",
+			"following",
+			"LinkedList"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"",
+			"\\n"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "bython.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1507,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								744,
+								744
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": -0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 335.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 102.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "",
+	"project": "bython.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/mit/inf3380/oblig1/inf3380_oblig1.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 256.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

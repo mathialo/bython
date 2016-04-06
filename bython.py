@@ -1,19 +1,36 @@
-# -*- coding: utf-8 -*-
-import os, sys
+import sys
 
 infile = open(sys.argv[1], 'r')
 outfile = open('bython_out.py', 'w')
 
-infile_string = infile.read();
-infile_list = list(infile_string)
+indentation_level = 0
+indentation_sign = "    "
 
-for i in range(len(infile_list)):
-	if (infile_list[i] == "{"):
-		infile_list[i] = ":"
+for line in infile:
+	# skip empty lines:
+	if line in ('\n', '\r\n'):
+		outfile.write(line)
+		continue
 
-	if (infile_list[i] == "}"):
-		infile_list[i] = " "
+	# remove existing whitespace:
+	line = line.lstrip()
 
+	# add new whitespace:
+	for i in range(indentation_level):
+		line = indentation_sign + line
+	
+	# remove brackets and update indentation level
+	line_list = list(line)
 
-infile_string = ''.join(infile_list)
-outfile.write(infile_string)
+	for i in range(len(line_list)):
+		if (line_list[i] == "{"):
+			line_list[i] = ":"
+			indentation_level += 1
+
+		if (line_list[i] == "}"):
+			line_list[i] = " "
+			indentation_level -= 1
+
+	# convert back to string and write line to file
+	line_string = ''.join(line_list)
+	outfile.write(line_string)
