@@ -31,6 +31,9 @@ for line in infile:
 			line_list[i] = " "
 			indentation_level -= 1
 
+		if (line_list[i] == ";"):
+			line_list[i] = ""
+
 	# convert back to string and write line to file
 	line_string = ''.join(line_list)
 	outfile.write(line_string)

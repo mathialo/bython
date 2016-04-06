@@ -6,6 +6,10 @@
 #define false 0
 typedef char bool;
 
+bool ends_in_by(char *str);
+
+
+
 int main(int argc, char const *argv[]) {
 	
 	bool compile_only = false;
@@ -19,11 +23,12 @@ int main(int argc, char const *argv[]) {
 	if (strcmp(argv[1], "-h") == 0) {
 		printf("Bython is a python preprosessor that translates braces into indentation\n");
 		printf("Proper use:\n\n");
-		printf("       bython [filename]\n\n");
+		printf("       bython <opt: flags> [filename] <opt: cmd-args>\n\n");
 		printf("Available flags:\n");
 		printf("    -h   Help. Displays this message\n");
 		printf("    -v   Version. Displays whivh version of bython you have installed\n");
 		printf("    -c   Compile only. Does not run the generated python file.\n");
+		printf("    -a   Compile all .by-files in directory (useful for when you're importing)\n");
 		return 0;
 	}
 
