@@ -1,9 +1,10 @@
 #define VERSON_NUMBER "0.1a"
-#define BUILD_NUMBER 1
+#define BUILD_NUMBER 3
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define true 1
 #define false 0
@@ -13,7 +14,7 @@ bool ends_in_by(const char *word);
 void change_file_name(const char *previous_name, char **new_name);
 void print_help();
 void print_version();
-void print_error(int error_number);
+void print_error(int error_number, const char *add_msg);
 bool parse_flags(const char *flags, bool *compile_only);
 
 int main(int argc, char const *argv[]) {
@@ -35,7 +36,7 @@ int main(int argc, char const *argv[]) {
 
 	/* No args, quit program */
 	if (argc <= 1) {
-		print_error(0);
+		print_error(0, NULL);
 		return -1;
 	}
 
@@ -44,18 +45,27 @@ int main(int argc, char const *argv[]) {
 		cont = parse_flags(argv[1], &compile_only);
 		filename_position++;
 
+		/* Exit if we aren't supposed to continue (ie. if we for ex. printed help) */
 		if (!cont) {
 			return 0;
 		}
 
 		/* We must now update where the file is, and check if we have enough args */
 		if (argc <= 2) {
-			print_error(0);
+			print_error(0, NULL);
 			return -1;
 		}
 	}
 
-	/* Process bython-files. Construct command */
+	/* Process bython-files. Check if file exists. Exit if it doesn't */
+	for (i=filename_position; i<argc; i++) {
+		if (access(argv[i], R_OK) == -1) {
+			print_error(2, argv[i]);
+			return -1;
+		}
+	}
+
+	/* Construct command */
 	proccmd = malloc(256*sizeof(char));
 
 	strcat(proccmd, "python /home/mathias/prog/bython/bython.py ");
@@ -70,7 +80,7 @@ int main(int argc, char const *argv[]) {
 
 	/* Check for errors during compilation. Exit if there are any */
 	if (return_val != 0) {
-		print_error(1);
+		print_error(1, NULL);
 		return -1;
 	}
 
@@ -130,7 +140,7 @@ bool parse_flags(const char *flags, bool *compile_only){
 	return result;
 }
 
-void print_error(int error_number) {
+void print_error(int error_number, const char *add_msg) {
 	switch (error_number) {
 		case 0:
 			printf("Bython error: No input files! For help, type \"bython -h\"\n");
@@ -138,6 +148,10 @@ void print_error(int error_number) {
 
 		case 1:
 			printf("Bython error: Something went wrong durnig parsing!\n");
+			break;
+
+		case 2:
+			printf("Bython error: Cannot find file: %s\n", add_msg);
 			break;
 
 	}
