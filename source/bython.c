@@ -15,6 +15,7 @@ void print_help();
 void print_version();
 void print_error(int error_number, const char *add_msg);
 bool parse_flags(const char *flags, bool *compile_only, bool *remove_files);
+bool get_install_directory(char *install_location);
 
 int main(int argc, char const *argv[]) {
 	int i;
@@ -24,6 +25,9 @@ int main(int argc, char const *argv[]) {
 	unsigned int filename_position = 1;
 	char *proccmd, *runcmd;
 	int return_val;
+
+	char *install_location = malloc(256*sizeof(char));
+	get_install_directory(install_location);
 
 	/* Run files by default, keep files by default */
 	compile_only = false;
@@ -68,7 +72,9 @@ int main(int argc, char const *argv[]) {
 	/* Construct command */
 	proccmd = malloc(256*sizeof(char));
 
-	strcat(proccmd, "python /home/mathias/prog/bython/bython.py ");
+	strcat(proccmd, "python ");
+	strcat(proccmd, install_location);
+	strcat(proccmd, "/bython.py");
 
 	for (i=filename_position; i<argc; i++) {
 		strcat(proccmd, " ");
@@ -114,6 +120,26 @@ int main(int argc, char const *argv[]) {
 
 	return 0;
 }
+
+/* This funciton is platform specific. Remake to create a windows version. */
+bool get_install_directory(char *install_location) {
+	char* path_end;
+
+	if (readlink ("/proc/self/exe", install_location, 256) <= 0)
+		return false;
+
+	path_end = strrchr(install_location, '/');
+
+	if (path_end == NULL)
+		return false;
+
+ 	path_end++;
+ 	/* Obtain the directory containing the program by truncating the
+	path after the last slash.  */
+	*path_end = '\0';
+	return true;
+}
+
 
 bool parse_flags(const char *flags, bool *compile_only, bool *remove_files) {
 	int num_of_flags, i;
