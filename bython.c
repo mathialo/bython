@@ -1,5 +1,4 @@
-#define VERSON_NUMBER "0.1a"
-#define BUILD_NUMBER 3
+#define VERSON_NUMBER "0.1"
 
 #include <stdio.h>
 #include <string.h>
@@ -15,19 +14,20 @@ void change_file_name(const char *previous_name, char **new_name);
 void print_help();
 void print_version();
 void print_error(int error_number, const char *add_msg);
-bool parse_flags(const char *flags, bool *compile_only);
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files);
 
 int main(int argc, char const *argv[]) {
 	int i;
 	char *new_name;
 	bool cont;
-	bool compile_only;
+	bool compile_only, remove_files;
 	unsigned int filename_position = 1;
 	char *proccmd, *runcmd;
 	int return_val;
 
-	/* Run files by default: */
+	/* Run files by default, keep files by default */
 	compile_only = false;
+	remove_files = false;
 	
 	/* Print args for debug */
 	/*for (i=0; i<argc; i++) {
@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]) {
 
 	/* check for flags, and act accordingly */
 	if (argv[1][0] == '-') {
-		cont = parse_flags(argv[1], &compile_only);
+		cont = parse_flags(argv[1], &compile_only, &remove_files);
 		filename_position++;
 
 		/* Exit if we aren't supposed to continue (ie. if we for ex. printed help) */
@@ -90,7 +90,7 @@ int main(int argc, char const *argv[]) {
 	}
 
 	/* Run python-file. Construct command. Change source.by to source.py */
-	change_file_name(argv[1], &new_name);
+	change_file_name(argv[filename_position], &new_name);
 
 	runcmd = malloc(256*sizeof(char));
 	strcat(runcmd, "python ");
@@ -104,10 +104,18 @@ int main(int argc, char const *argv[]) {
 
 	system(runcmd);
 
+	if (remove_files) {
+		for (i=filename_position; i<argc; i++) {
+			free(new_name);
+			change_file_name(argv[i], &new_name);
+			remove(new_name);
+		}
+	}
+
 	return 0;
 }
 
-bool parse_flags(const char *flags, bool *compile_only){
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files) {
 	int num_of_flags, i;
 
 	num_of_flags = strlen(flags)-1;
@@ -129,9 +137,14 @@ bool parse_flags(const char *flags, bool *compile_only){
 				print_version();
 				break;
 
+			case 'r':
+				*remove_files = true;
+				result = true;
+				break;
+
 			default:
 				printf("Doesn't recognize flag: %c\n", flags[i]);
-				exit(0);
+				exit(-1);
 				break;
 
 		}
@@ -165,11 +178,12 @@ void print_help() {
 	printf("    -h   Help. Displays this message\n");
 	printf("    -v   Version. Displays whivh version of bython you have installed\n");
 	printf("    -c   Compile only. Does not run the generated python file.\n");
+	printf("    -r   Delete. Removes all the generated .py-files after running\n");
 }
 
 
 void print_version() {
-	printf("Bython v%s, build %d\n", VERSON_NUMBER, BUILD_NUMBER);
+	printf("Bython v%s\n", VERSON_NUMBER);
 	printf("Mathias Lohne, 2016\n");
 }
 
