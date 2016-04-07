@@ -11,5 +11,5 @@ To run a bython program, simply type "bython source.by" to run source.by. To com
 Since it's built on python, all of your existing modules (like numpy) will work.
 
 
-# innstallation
+# installation
 Currently there are only binaries for linux, but you can try to compile from source if you don't run linux. Once you have binaries simply place the bython executable and the bython.py file in the same folder and add that folder to your system's PATH-variable. Alternatively you can make a link in a directory that already exists in the PATH-variable, like /usr/bin. 
