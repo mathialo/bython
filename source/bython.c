@@ -199,7 +199,7 @@ void print_error(int error_number, const char *add_msg) {
 void print_help() {
 	printf("Bython is a python preprosessor that translates braces into indentation\n");
 	printf("Proper use:\n\n");
-	printf("       bython <opt: flags> [filename] <opt: cmd-args>\n\n");
+	printf("       bython <opt: flags> [filename] <opt: more files>\n\n");
 	printf("Available flags:\n");
 	printf("    -h   Help. Displays this message\n");
 	printf("    -v   Version. Displays whivh version of bython you have installed\n");
