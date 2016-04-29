@@ -1,4 +1,4 @@
-#define VERSON_NUMBER "0.1"
+#define VERSON_NUMBER "0.2"
 
 #include <stdio.h>
 #include <string.h>
@@ -14,14 +14,14 @@ void change_file_name(const char *previous_name, char **new_name);
 void print_help();
 void print_version();
 void print_error(int error_number, const char *add_msg);
-bool parse_flags(const char *flags, bool *compile_only, bool *remove_files);
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line);
 bool get_install_directory(char *install_location);
 
 int main(int argc, char const *argv[]) {
 	int i;
 	char *new_name;
 	bool cont;
-	bool compile_only, remove_files;
+	bool compile_only, remove_files, add_true_line;
 	unsigned int filename_position = 1;
 	char *proccmd, *runcmd;
 	int return_val;
@@ -46,7 +46,7 @@ int main(int argc, char const *argv[]) {
 
 	/* check for flags, and act accordingly */
 	if (argv[1][0] == '-') {
-		cont = parse_flags(argv[1], &compile_only, &remove_files);
+		cont = parse_flags(argv[1], &compile_only, &remove_files, &add_true_line);
 		filename_position++;
 
 		/* Exit if we aren't supposed to continue (ie. if we for ex. printed help) */
@@ -75,6 +75,8 @@ int main(int argc, char const *argv[]) {
 	strcat(proccmd, "python ");
 	strcat(proccmd, install_location);
 	strcat(proccmd, "/bython.py");
+
+	if (add_true_line) strcat(proccmd, " ADD_TRUE_LINE");
 
 	for (i=filename_position; i<argc; i++) {
 		strcat(proccmd, " ");
@@ -141,7 +143,7 @@ bool get_install_directory(char *install_location) {
 }
 
 
-bool parse_flags(const char *flags, bool *compile_only, bool *remove_files) {
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line) {
 	int num_of_flags, i;
 	bool result = false;
 
@@ -168,8 +170,13 @@ bool parse_flags(const char *flags, bool *compile_only, bool *remove_files) {
 				result = true;
 				break;
 
+			case 't':
+				*add_true_line = true;
+				result = true;
+				break;
+
 			default:
-				printf("Doesn't recognize flag: %c\n", flags[i]);
+				printf("Unknown flag: %c\n", flags[i]);
 				exit(-1);
 				break;
 
@@ -205,6 +212,7 @@ void print_help() {
 	printf("    -v   Version. Displays whivh version of bython you have installed\n");
 	printf("    -c   Compile only. Does not run the generated python file.\n");
 	printf("    -k   Keep all the generated python files\n");
+	printf("    -t   Adds support for lower case true/false\n");
 }
 
 
