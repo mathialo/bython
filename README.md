@@ -12,4 +12,4 @@ Since it's built on python, all of your existing modules (like numpy) will work.
 
 
 ## installation
-Bython is currently only developed for Linux. To install simply download all the files in this repository, and run "sudo make install". This will compile bython from source, copy the binaries to /usr/local/bython and create a symbolic link in /usr/local/bin so that bython is available from the shell. To uninstall, simply run "sudo make uninstall" which will undo all the changes.
+Bython is currently only developed for Linux. To install simply download all the files in this repository, and run "sudo make install" in the top directory. This will compile bython from source, copy the binaries to /usr/local/bython and create a symbolic link in /usr/local/bin so that bython is available from the shell. To uninstall, simply run "sudo make uninstall" which will undo all the changes.
