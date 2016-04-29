@@ -31,8 +31,8 @@ int main(int argc, char const *argv[]) {
 
 	/* Run files by default, keep files by default */
 	compile_only = false;
-	remove_files = false;
-	
+	remove_files = true;
+
 	/* Print args for debug */
 	/*for (i=0; i<argc; i++) {
 		printf("%s\n", argv[i]);
@@ -121,7 +121,7 @@ int main(int argc, char const *argv[]) {
 	return 0;
 }
 
-/* This funciton is platform specific. Remake to create a windows version. */
+/* This funciton is platform specific for Linux. Remake to create a windows/mac version. */
 bool get_install_directory(char *install_location) {
 	char* path_end;
 
@@ -143,10 +143,10 @@ bool get_install_directory(char *install_location) {
 
 bool parse_flags(const char *flags, bool *compile_only, bool *remove_files) {
 	int num_of_flags, i;
+	bool result = false;
 
 	num_of_flags = strlen(flags)-1;
 
-	bool result = false;
 
 	for (i=1; i<num_of_flags+1; i++) {
 		switch (flags[i]) {
@@ -163,8 +163,8 @@ bool parse_flags(const char *flags, bool *compile_only, bool *remove_files) {
 				print_version();
 				break;
 
-			case 'r':
-				*remove_files = true;
+			case 'k':
+				*remove_files = false;
 				result = true;
 				break;
 
@@ -204,7 +204,7 @@ void print_help() {
 	printf("    -h   Help. Displays this message\n");
 	printf("    -v   Version. Displays whivh version of bython you have installed\n");
 	printf("    -c   Compile only. Does not run the generated python file.\n");
-	printf("    -r   Delete. Removes all the generated .py-files after running\n");
+	printf("    -k   Keep all the generated python files\n");
 }
 
 
@@ -216,13 +216,13 @@ void print_version() {
 
 bool ends_in_by(const char *word) {
 	char *tmp = malloc(4*sizeof(char));
-
 	int len = strlen(word);
+	bool result;
 
 	strncpy(tmp, word + len-3, 3);
 	tmp[4] = '\0';
 
-	bool result = strcmp(tmp, ".by") == 0;
+	result = strcmp(tmp, ".by") == 0;
 	free(tmp);
 
 	return result;
