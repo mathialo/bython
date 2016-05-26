@@ -1,7 +1,7 @@
 # bython
 Python with braces. Because python is awesome, but whitespace is aweful.
 
-Bython is a python preprosessor which translates braces into indentation.
+Bython is a python preprosessor which translates curly brackets into indentation.
 
 ## quick intro
 Bython works by first translating bython-files (suggested file ending: .by) into python-files, and then using python to run them. You therefore need a working installation of python for bython to work.
