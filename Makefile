@@ -9,11 +9,15 @@ all: source
 source:
 	$(MAKE) -C $@
 
-install: all
-	mkdir $(INSTALL_DIR)
+install: source
+	mkdir -p $(INSTALL_DIR)
 	cp binaries/* $(INSTALL_DIR)
 	ln -s $(INSTALL_DIR)bython /usr/local/bin/bython
 
+update: source
+	cp binaries/* $(INSTALL_DIR)
+
 uninstall:
 	rm /usr/local/bin/bython
-	rm -r $(INSTALL_DIR)
+	rm $(INSTALL_DIR)*
+	rmdir $(INSTALL_DIR)
