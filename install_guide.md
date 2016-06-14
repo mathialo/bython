@@ -1,4 +1,4 @@
-# Installation guide
+# installation guide
 To install simply open a terminal, move to the top directory of the bython folder, and type
 
 	> sudo make install
@@ -14,7 +14,7 @@ If you want to uninstall bython, type
 	> sudo make uninstall
 
 
-### Custom install dir
+### custom install dir
 Bython will automatically install itself to "/usr/local/bython/". If you for some reason want to change this, open the Makefile in the top directory and change the line (no 1):
 ``` 
 INSTALL_DIR = /usr/local/bython/
