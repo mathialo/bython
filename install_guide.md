@@ -1,6 +1,8 @@
 # installation guide
 To install simply open a terminal, move to the top directory of the bython folder, and type
-
+	
+	> git clone https://github.com/mathialo/bython.git
+	> cd bython
 	> sudo make install
 
 
