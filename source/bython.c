@@ -29,7 +29,7 @@ int main(int argc, char const *argv[]) {
 	char *install_location = malloc(256*sizeof(char));
 	get_install_directory(install_location);
 
-	/* Run files by default, keep files by default */
+	/* Run files by default, remove files by default */
 	compile_only = false;
 	remove_files = true;
 
@@ -176,7 +176,7 @@ bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool
 				break;
 
 			default:
-				printf("Unknown flag: %c\n", flags[i]);
+				printf("Bython error: Unknown flag: %c\n", flags[i]);
 				exit(-1);
 				break;
 
