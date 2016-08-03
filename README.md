@@ -18,13 +18,13 @@ Bython works by first translating bython-files (suggested file ending: .by) into
 
 To run a bython program, simply type
 
-	> bython source.by
+	> bython source.by arg1 arg2 ...
 
-to run `source.by`. To compile multiple files just list them all:
+to run `source.by` with arg1, arg2, ... as command line arguments. To compile multiple files, list them all with the -m flag:
 
-	> bython source1.by source2.by ...
+	> bython -m source1.by source2.by ...
 
-The first file listed will be executed, the rest will be translated from bython to python (useful for imports). 
+This is useful for imports. Notice that the -m flag has been added. It stands for multiple files, and tells bython to treat all the words in the command as filenames instead of cmd-line args.
 
 
 If you want more details on how to run bython files (flags, etc), type

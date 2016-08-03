@@ -14,14 +14,14 @@ void change_file_name(const char *previous_name, char **new_name);
 void print_help();
 void print_version();
 void print_error(int error_number, const char *add_msg);
-bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line);
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line, bool *multiple_files);
 bool get_install_directory(char *install_location);
 
 int main(int argc, char const *argv[]) {
 	int i;
 	char *new_name;
 	bool cont;
-	bool compile_only, remove_files, add_true_line;
+	bool compile_only, remove_files, add_true_line, multiple_files;
 	unsigned int filename_position = 1;
 	char *proccmd, *runcmd;
 	int return_val;
@@ -33,6 +33,7 @@ int main(int argc, char const *argv[]) {
 	compile_only = false;
 	remove_files = true;
 	add_true_line = false;
+	multiple_files = false;
 
 	/* Print args for debug */
 	/*for (i=0; i<argc; i++) {
@@ -47,7 +48,7 @@ int main(int argc, char const *argv[]) {
 
 	/* check for flags, and act accordingly */
 	if (argv[1][0] == '-') {
-		cont = parse_flags(argv[1], &compile_only, &remove_files, &add_true_line);
+		cont = parse_flags(argv[1], &compile_only, &remove_files, &add_true_line, &multiple_files);
 		filename_position++;
 
 		/* Exit if we aren't supposed to continue (ie. if we for ex. printed help) */
@@ -62,15 +63,8 @@ int main(int argc, char const *argv[]) {
 		}
 	}
 
-	/* Process bython-files. Check if file exists. Exit if it doesn't */
-	for (i=filename_position; i<argc; i++) {
-		if (access(argv[i], R_OK) == -1) {
-			print_error(2, argv[i]);
-			return -1;
-		}
-	}
 
-	/* Construct command */
+	/* Process bython files. Construct command */
 	proccmd = malloc(256*sizeof(char));
 
 	strcat(proccmd, "python ");
@@ -79,9 +73,30 @@ int main(int argc, char const *argv[]) {
 
 	if (add_true_line) strcat(proccmd, " ADD_TRUE_LINE");
 
-	for (i=filename_position; i<argc; i++) {
+
+	/* if mutiple_files, treat all words in the command as 
+	filenames. else, treat the first one as a 
+	filename, and the rest as args for that program. */
+	if (multiple_files) {	
+		for (i=filename_position; i<argc; i++) {
+			/* Check if file exists */
+			if (access(argv[i], R_OK) == -1) {
+				print_error(2, argv[i]);
+				return -1;
+			}
+
+			strcat(proccmd, " ");
+			strcat(proccmd, argv[i]);
+		}
+	} else {
+		/* Check if file exists */
+		if (access(argv[filename_position], R_OK) == -1) {
+			print_error(2, argv[filename_position]);
+			return -1;
+		}
+
 		strcat(proccmd, " ");
-		strcat(proccmd, argv[i]);
+		strcat(proccmd, argv[filename_position]);
 	}
 
 	/* Run command: */
@@ -105,11 +120,13 @@ int main(int argc, char const *argv[]) {
 	strcat(runcmd, "python ");
 	strcat(runcmd, new_name);
 
-	/* cmd-args. deprecated due to compilation of multiple files */
-	/*for (i=2; i<argc; i++) {
-		strcat(runcmd, " ");
-		strcat(runcmd, argv[i]);
-	}*/
+	/* cmd-args if running. see earlier comment (line 83ish) */
+	if (!multiple_files) {
+		for (i=filename_position; i<argc; i++) {
+			strcat(runcmd, " ");
+			strcat(runcmd, argv[i]);
+		}
+	}
 
 	system(runcmd);
 
@@ -144,7 +161,7 @@ bool get_install_directory(char *install_location) {
 }
 
 
-bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line) {
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line, bool *multiple_files) {
 	int num_of_flags, i;
 	bool result = false;
 
@@ -173,6 +190,11 @@ bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool
 
 			case 't':
 				*add_true_line = true;
+				result = true;
+				break;
+
+			case 'm':
+				*multiple_files = true;
 				result = true;
 				break;
 
@@ -207,11 +229,12 @@ void print_error(int error_number, const char *add_msg) {
 void print_help() {
 	printf("Bython is a python preprosessor that translates braces into indentation\n");
 	printf("Proper use:\n\n");
-	printf("       bython <opt: flags> [filename] <opt: more files>\n\n");
+	printf("       bython <opt: flags> [filename] <opt: args>\n\n");
 	printf("Available flags:\n");
 	printf("    -h   Help. Displays this message\n");
 	printf("    -v   Version. Displays whivh version of bython you have installed\n");
 	printf("    -c   Compile only. Does not run the generated python file.\n");
+	printf("    -m   Compile multiple files. Changes <opt: args> to <opt: more files>.\n");
 	printf("    -k   Keep all the generated python files\n");
 	printf("    -t   Adds support for lower case true/false\n");
 }
