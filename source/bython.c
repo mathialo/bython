@@ -32,6 +32,7 @@ int main(int argc, char const *argv[]) {
 	/* Run files by default, remove files by default */
 	compile_only = false;
 	remove_files = true;
+	add_true_line = false;
 
 	/* Print args for debug */
 	/*for (i=0; i<argc; i++) {
