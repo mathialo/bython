@@ -1,5 +1,5 @@
 # bython
-Python with braces. Because python is awesome, but whitespace is aweful.
+Python with braces. Because python is awesome, but whitespace is awful.
 
 Bython is a python preprosessor which translates curly brackets into indentation.
 
