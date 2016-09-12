@@ -53,7 +53,7 @@ This will compile bython from source, copy the binaries to "/usr/local/bython" a
 which will undo all the changes.
 
 
-##### custom install dir
+#### custom install dir
 Bython will automatically install itself to "/usr/local/bython/". If you for some reason want to change this, open the Makefile in the top directory and change the line (no 1):
 ``` 
 INSTALL_DIR = /usr/local/bython/
