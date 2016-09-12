@@ -11,6 +11,19 @@ Bython is a python preprosessor which translates curly brackets into indentation
  * Runs on python, that means that all of your existing modules, like NumPy and Matplotlib still works.
 
 
+### code example
+```python
+def print_message(num_of_times) {
+    for i in xrange(num_of_times) {
+        print("bython is awesome!");
+    }
+}
+
+if __name__ == "__main__" {
+    print_message(10);
+}
+```
+
 
 ### quick intro
 Bython works by first translating bython-files (suggested file ending: .by) into python-files, and then using python to run them. You therefore need a working installation of python for bython to work.
