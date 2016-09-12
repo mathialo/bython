@@ -36,14 +36,26 @@ to print the built-in help page.
 
 
 ### installation
-Bython is currently only developed for Linux. To install simply download all the files in this repository, and run 
-
+Bython is currently only developed for Linux. To install simply open a terminal, move to a suited directory (like Downloads), and type
+	
+	> git clone https://github.com/mathialo/bython.git
+	> cd bython
 	> sudo make install
+	
+If you allready have an installation of bython, but have downloaded a new version and want to update, type
 
-in the top directory. This will compile bython from source, copy the binaries to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. To uninstall, simply run 
+	> sudo make update
+
+This will compile bython from source, copy the binaries to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. To uninstall, simply run 
 
 	> sudo make uninstall
 
 which will undo all the changes.
 
-See the installation guide for more details.
+
+##### custom install dir
+Bython will automatically install itself to "/usr/local/bython/". If you for some reason want to change this, open the Makefile in the top directory and change the line (no 1):
+``` 
+INSTALL_DIR = /usr/local/bython/
+```
+to be whereever you want. The file copying and link creation will now use your new directory.
