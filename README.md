@@ -42,11 +42,11 @@ Bython is currently only developed for Linux. To install simply open a terminal,
 	> cd bython
 	> sudo make install
 	
-If you allready have an installation of bython, but have downloaded a new version and want to update, type
+This will compile bython from source, copy the binaries to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. If you allready have an installation of bython, but have downloaded a new version and want to update, type
 
 	> sudo make update
 
-This will compile bython from source, copy the binaries to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. To uninstall, simply run 
+To uninstall, simply run 
 
 	> sudo make uninstall
 
