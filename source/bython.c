@@ -1,27 +1,25 @@
 #define VERSON_NUMBER "0.2"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#define true 1
-#define false 0
-typedef char bool;
 
 bool ends_in_by(const char *word);
 void change_file_name(const char *previous_name, char **new_name);
 void print_help();
 void print_version();
 void print_error(int error_number, const char *add_msg);
-bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line, bool *multiple_files);
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line, bool *multiple_files, bool *use_python2);
 bool get_install_directory(char *install_location);
 
 int main(int argc, char const *argv[]) {
 	int i;
 	char *new_name;
 	bool cont;
-	bool compile_only, remove_files, add_true_line, multiple_files;
+	bool compile_only, remove_files, add_true_line, multiple_files, use_python2;
 	unsigned int filename_position = 1;
 	char *proccmd, *runcmd;
 	int return_val;
@@ -34,6 +32,7 @@ int main(int argc, char const *argv[]) {
 	remove_files = true;
 	add_true_line = false;
 	multiple_files = false;
+	use_python2 = false;
 
 	/* Print args for debug */
 	/*for (i=0; i<argc; i++) {
@@ -48,7 +47,7 @@ int main(int argc, char const *argv[]) {
 
 	/* check for flags, and act accordingly */
 	if (argv[1][0] == '-') {
-		cont = parse_flags(argv[1], &compile_only, &remove_files, &add_true_line, &multiple_files);
+		cont = parse_flags(argv[1], &compile_only, &remove_files, &add_true_line, &multiple_files, &use_python2);
 		filename_position++;
 
 		/* Exit if we aren't supposed to continue (ie. if we for ex. printed help) */
@@ -67,7 +66,9 @@ int main(int argc, char const *argv[]) {
 	/* Process bython files. Construct command */
 	proccmd = malloc(256*sizeof(char));
 
-	strcat(proccmd, "python ");
+	if (use_python2) strcat(proccmd, "python ");
+	else strcat(proccmd, "python3 ");
+
 	strcat(proccmd, install_location);
 	strcat(proccmd, "/bython.py");
 
@@ -117,7 +118,10 @@ int main(int argc, char const *argv[]) {
 	change_file_name(argv[filename_position], &new_name);
 
 	runcmd = malloc(256*sizeof(char));
-	strcat(runcmd, "python ");
+
+	if (use_python2) strcat(runcmd, "python ");
+	else strcat(runcmd, "python3 ");
+	
 	strcat(runcmd, new_name);
 
 	/* cmd-args if running. see earlier comment (line 83ish) */
@@ -161,7 +165,8 @@ bool get_install_directory(char *install_location) {
 }
 
 
-bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool *add_true_line, bool *multiple_files) {
+bool parse_flags(const char *flags, bool *compile_only, bool *remove_files,
+				 bool *add_true_line, bool *multiple_files, bool *use_python2) {
 	int num_of_flags, i;
 	bool result = false;
 
@@ -195,6 +200,11 @@ bool parse_flags(const char *flags, bool *compile_only, bool *remove_files, bool
 
 			case 'm':
 				*multiple_files = true;
+				result = true;
+				break;
+
+			case '2':
+				*use_python2 = true;
 				result = true;
 				break;
 
@@ -237,6 +247,7 @@ void print_help() {
 	printf("    -m   Compile multiple files. Changes <opt: args> to <opt: more files>.\n");
 	printf("    -k   Keep all the generated python files\n");
 	printf("    -t   Adds support for lower case true/false\n");
+	printf("    -2   Use python 2 instead of python 3\n");
 }
 
 
