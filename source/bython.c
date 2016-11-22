@@ -42,6 +42,7 @@ int main(int argc, char const *argv[]) {
 	/* No args, quit program */
 	if (argc <= 1) {
 		print_error(0, NULL);
+		free(install_location);
 		return -1;
 	}
 
@@ -52,12 +53,14 @@ int main(int argc, char const *argv[]) {
 
 		/* Exit if we aren't supposed to continue (ie. if we for ex. printed help) */
 		if (!cont) {
+			free(install_location);
 			return 0;
 		}
 
 		/* We must now update where the file is, and check if we have enough args */
 		if (argc <= 2) {
 			print_error(0, NULL);
+			free(install_location);
 			return -1;
 		}
 	}
@@ -83,6 +86,9 @@ int main(int argc, char const *argv[]) {
 			/* Check if file exists */
 			if (access(argv[i], R_OK) == -1) {
 				print_error(2, argv[i]);
+		
+				free(install_location);
+				free(proccmd);
 				return -1;
 			}
 
@@ -93,6 +99,9 @@ int main(int argc, char const *argv[]) {
 		/* Check if file exists */
 		if (access(argv[filename_position], R_OK) == -1) {
 			print_error(2, argv[filename_position]);
+
+			free(install_location);
+			free(proccmd);
 			return -1;
 		}
 
@@ -106,11 +115,16 @@ int main(int argc, char const *argv[]) {
 	/* Check for errors during compilation. Exit if there are any */
 	if (return_val != 0) {
 		print_error(1, NULL);
+
+		free(install_location);
+		free(proccmd);
 		return -1;
 	}
 
 	/* If the user asked to not run the files, we will stop now. */
 	if (compile_only) {
+		free(install_location);
+		free(proccmd);
 		return 0;
 	}
 
@@ -142,6 +156,10 @@ int main(int argc, char const *argv[]) {
 		}
 	}
 
+	free(new_name);
+	free(install_location);
+	free(runcmd);
+	free(proccmd);
 	return 0;
 }
 
@@ -149,7 +167,7 @@ int main(int argc, char const *argv[]) {
 bool get_install_directory(char *install_location) {
 	char* path_end;
 
-	if (readlink ("/proc/self/exe", install_location, 256) <= 0)
+	if (readlink("/proc/self/exe", install_location, 256) <= 0)
 		return false;
 
 	path_end = strrchr(install_location, '/');
@@ -263,13 +281,13 @@ bool ends_in_by(const char *word) {
 	bool result;
 
 	strncpy(tmp, word + len-3, 3);
-	tmp[4] = '\0';
 
 	result = strcmp(tmp, ".by") == 0;
-	free(tmp);
 
+	free(tmp);
 	return result;
 }
+
 
 void change_file_name(const char *previous_name, char **new_name) {
 	int len = (int)strlen(previous_name);
