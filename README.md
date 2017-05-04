@@ -14,7 +14,7 @@ Bython is a python preprosessor which translates curly brackets into indentation
 ### code example
 ```python
 def print_message(num_of_times) {
-    for i in xrange(num_of_times) {
+    for i in range(num_of_times) {
         print("bython is awesome!");
     }
 }
