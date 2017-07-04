@@ -1,13 +1,3 @@
-import sys
-
-def ends_in_by(word):
-    return word[-3:] == ".by"
-
-def change_file_name(name):
-    if ends_in_by(name):
-        return name[:-3] + ".py"
-    else:
-        return name + ".py"
 
 def parse_file(filename, add_true_line):
     infile = open(filename, 'r')
@@ -53,18 +43,5 @@ def parse_file(filename, add_true_line):
         # write to file
         outfile.write(line_string.rstrip() + "\n")
 
-def main():
-
-    add_true_line = False
-
-    for i in range(len(sys.argv)):
-        if i==0: continue
-
-        if i==1 and sys.argv[i] == "ADD_TRUE_LINE":
-            add_true_line = True
-            continue
-
-        parse_file(sys.argv[i], add_true_line)
-
-if __name__ == '__main__':
-    main()
+    infile.close()
+    outfile.close()
