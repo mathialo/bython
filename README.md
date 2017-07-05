@@ -49,7 +49,7 @@ to print the built-in help page.
 
 
 ### installation
-Bython is currently only developed for Linux and Mac. To install simply open a terminal, move to a suited directory (like Downloads), and type
+Bython is currently only developed for Unix-like OS's. To install simply open a terminal, move to a suited directory (like Downloads), and type
 	
 	> git clone https://github.com/mathialo/bython.git
 	> cd bython
