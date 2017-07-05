@@ -12,5 +12,5 @@ update:
 
 uninstall:
 	rm /usr/local/bin/bython
-	rm $(INSTALL_DIR)*
+	rm -r $(INSTALL_DIR)*
 	rmdir $(INSTALL_DIR)
