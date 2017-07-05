@@ -44,7 +44,9 @@ If you want more details on how to run bython files (flags, etc), type
 
 	> bython -h
 
-to print the built-in help page.
+to print the built-in help page. You can also consult the man page by typing
+
+	> man bython
 
 
 
