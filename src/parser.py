@@ -1,7 +1,19 @@
 
+def _ends_in_by(word):
+    return word[-3:] == ".by"
+
+
+def _change_file_name(name):
+    if _ends_in_by(name):
+        return name[:-3] + ".py"
+
+    else:
+        return name + ".py"
+
+
 def parse_file(filename, add_true_line):
     infile = open(filename, 'r')
-    outfile = open(change_file_name(filename), 'w')
+    outfile = open(_change_file_name(filename), 'w')
 
     indentation_level = 0
     indentation_sign = "    "
