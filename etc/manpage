@@ -1,0 +1,46 @@
+.TH BYTHON 1
+.SH NAME
+Bython \- Python with braces. Because python is awesome, but whitespace is awful.
+.SH SYNOPSIS
+.B bython
+[\fIFLAGS\fR]
+.IR scriptfile
+.IR args ...
+.SH DESCRIPTION
+.B bython
+is a python preprosessor which translates curly brackets into indentation.
+.SH OPTIONS
+.TP
+.BR \-h ", " \-\-help
+Show help message and exit.
+.TP
+.BR \-v ", " \-\-version
+Show version number and exit.
+.TP
+.BR \-c ", " \-\-compile
+Translate to python only (ie, don't run the resulting python files).
+.TP
+.BR \-m ", " \-\-multiple
+Treat arguments as additional files to process.
+Usually the args are sent as cmd line args to the resulting python script.
+However, if this flag is present, the remainding arguments will be treated as additional files to translate.
+.TP
+.BR \-k ", " \-\-keep
+Keep the generated python files. Normally these are deleted.
+This flag is not in effect when the -c flag is present (as it will always keep generated files when -c is present)
+.TP
+.BR \-t ", " \-\-lower_true
+Adds support for lower case true/false (in addition to True/False).
+.TP
+.BR \-2 ", " \-\-python2
+Use Python 2 to run the generated files instead of Python 3 (default).
+.SH AUTHOR
+Mathias Lohne 2017
+.SH LICENSE
+This program is licensed under the MIT license. See [1] for details. TL;DR: Do whatever you want as long as you include the original copyright and license notice.
+.TP
+[1]
+https://github.com/mathialo/bython/blob/master/LICENSE
+
+
+
