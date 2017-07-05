@@ -1,3 +1,5 @@
+import re
+
 
 def _ends_in_by(word):
     return word[-3:] == ".by"
@@ -18,42 +20,48 @@ def parse_file(filename, add_true_line):
     indentation_level = 0
     indentation_sign = "    "
 
-    if (add_true_line):
+    if add_true_line:
         outfile.write("true=True; false=False;\n")
 
+    # Read file to string
+    infile_str_raw = ""
     for line in infile:
+        infile_str_raw += line
+
+
+    # Fix indentation
+    infile_str_indented = ""
+    for line in infile_str_raw.split("\n"):
         # skip empty lines:
         if line in ('\n', '\r\n'):
-            outfile.write(line)
+            infile_str_indented += line + "\n"
             continue
 
         # remove existing whitespace:
         line = line.lstrip()
-
-        # add new whitespace:
-        for i in range(indentation_level):
-            line = indentation_sign + line
         
-        # remove brackets and update indentation level
-        line_list = list(line)
-
-        for i in range(len(line_list)):
-            if (line_list[i] == "{"):
-                line_list[i] = ":"
-                indentation_level += 1
-
-            if (line_list[i] == "}"):
-                line_list[i] = " "
+        # Check for reduced indent level
+        for i in list(line):
+            if i == "}":
                 indentation_level -= 1
 
-            if (line_list[i] == ";"):
-                line_list[i] = " "
+        # Add indentation
+        for i in range(indentation_level):
+            line = indentation_sign + line
 
-        # convert from list of chars to string
-        line_string = ''.join(line_list)
+        # Check for increased indentation
+        for i in list(line):
+            if i == "{":
+                indentation_level += 1
 
-        # write to file
-        outfile.write(line_string.rstrip() + "\n")
+        infile_str_indented += line + "\n"
+
+    # Replace { with : and remove }
+    infile_str_indented = re.sub(r"[\t ]*{[ \t]*", ":", infile_str_indented)
+    infile_str_indented = re.sub(r"}[ \t]*", "", infile_str_indented)
+
+
+    print(infile_str_indented)
 
     infile.close()
     outfile.close()
