@@ -56,7 +56,7 @@ Bython is currently only developed for Unix-like OS's. To install simply open a 
 	> git clone https://github.com/mathialo/bython.git
 	> cd bython
 	> sudo make install
-	
+
 This will compile bython from source, copy the binaries to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. If you allready have an installation of bython, but have downloaded a new version and want to update, type
 
 	> sudo make update
