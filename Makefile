@@ -1,21 +1,14 @@
 INSTALL_DIR = /usr/local/bython/
 
 
-.PHONY: source
-
-
-all: source
-
-source:
-	$(MAKE) -C $@
-
-install: source
+install: 
 	mkdir -p $(INSTALL_DIR)
-	cp binaries/* $(INSTALL_DIR)
-	ln -s $(INSTALL_DIR)bython /usr/local/bin/bython
+	cp -r src/* $(INSTALL_DIR)
+	chmod +x $(INSTALL_DIR)bython.py
+	ln -s $(INSTALL_DIR)bython.py /usr/local/bin/bython
 
-update: source
-	cp binaries/* $(INSTALL_DIR)
+update: 
+	cp src/* $(INSTALL_DIR)
 
 uninstall:
 	rm /usr/local/bin/bython
