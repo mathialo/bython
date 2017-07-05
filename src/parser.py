@@ -61,8 +61,7 @@ def parse_file(filename, add_true_line):
     infile_str_indented = re.sub(r"}[ \t]*", "", infile_str_indented)
     infile_str_indented = re.sub(r"\n:", ":", infile_str_indented)
 
-
-    print(infile_str_indented)
+    outfile.write(infile_str_indented)
 
     infile.close()
     outfile.close()
