@@ -3,3 +3,4 @@
 testcases/*
 src/__pycache__
 src/test.by
+src/test.py
