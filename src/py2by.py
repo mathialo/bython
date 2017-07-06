@@ -78,16 +78,16 @@ def reverse_parse(filename, indent_style):
 
             level = count_indent_level(leading_whitespace, indent_symbol)
 
-            if level < last_level:
-                decrese = last_level - level
-                for i in range(decrese):
-                    outfile.write((decrese - i -1)*indent_symbol + "}\n")
-                    num_close += 1
 
         new_last, num_subs = re.subn(r"\s*:$", " {", last_line)
         num_open += num_subs
         outfile.write(new_last)
 
+        if level < last_level:
+            decrese = last_level - level
+            for i in range(decrese):
+                outfile.write((level + decrese - i -1)*indent_symbol + "}\n")
+                num_close += 1
 
         last_line = line
         last_level = level
