@@ -6,19 +6,22 @@ import sys
 
 
 def parse_indent_style_input(indentinput):
-    if indentinput == "1s":
-        return " "
-
-    elif indentinput == "2s":
-        return "  "
-
-    elif indentinput == "4s":
+    if not indentinput:
         return "    "
 
-    elif indentinput == "8s":
+    elif indentinput[0] == "1s":
+        return " "
+
+    elif indentinput[0] == "2s":
+        return "  "
+
+    elif indentinput[0] == "4s":
+        return "    "
+
+    elif indentinput[0] == "8s":
         return "        "
 
-    elif indentinput == "t":
+    elif indentinput[0] == "t":
         return "\t"
 
     else:
@@ -37,6 +40,19 @@ def change_file_name(name):
         return name + ".by"
 
 
+def count_indent_level(whitespace, indent_symbol):
+
+    new_whitespace, numsubs = re.subn(indent_symbol, "", whitespace)
+
+    if not new_whitespace == "":
+        # Not all whitespace was consumed => illigal indentation
+        return -1
+
+    else:
+        return numsubs
+
+
+
 def reverse_parse(filename, indent_style):
     indent_symbol = parse_indent_style_input(indent_style)
 
@@ -50,8 +66,15 @@ def reverse_parse(filename, indent_style):
     previous_line = ""
     indentation_level = 0
 
+    i = 1
     for line in infile:
-        pass
+        if line in ("\n", "\n\r", "\r\n"):
+            leading_whitespace = ""
+        else:
+            leading_whitespace = line.split(line.lstrip())[0]
+
+        print("%d: %d" % (i, count_indent_level(leading_whitespace, indent_symbol)))
+        i += 1
 
     infile.close()
     outfile.close()
@@ -64,7 +87,7 @@ def main():
 
     cmd_args = argparser.parse_args()
 
-    reverse_parse(cmd_args.input, cmd_args.indent_style[0])
+    reverse_parse(cmd_args.input[0], cmd_args.indent_style)
 
 
 if __name__ == '__main__':
