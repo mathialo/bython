@@ -46,7 +46,7 @@ def count_indent_level(whitespace, indent_symbol):
 
     if not new_whitespace == "":
         # Not all whitespace was consumed => illigal indentation
-        return -1
+        raise TypeError
 
     else:
         return numsubs
@@ -99,19 +99,28 @@ def reverse_parse(filename, indent_style):
         outfile.write("}\n")
         num_close += 1
 
+    if (num_open != num_close):
+        raise TypeError
+
     infile.close()
     outfile.close()
 
 
 def main():
     argparser = argparse.ArgumentParser("py2by", description="py2by translates python to bython", formatter_class=argparse.RawTextHelpFormatter)
-    argparser.add_argument("-v", "--version", action="version", version="Bython v0.3\nMathias Lohne 2017")
+    argparser.add_argument("-v", "--version", action="version", version="py2by is a part of Bython v0.3\nMathias Lohne 2017")
     argparser.add_argument("input", type=str, help="python file to translate", nargs=1)
     argparser.add_argument("-i", "--indent_style", type=str, help="style of indentation to look for: 1s, 2s, 4s, 8s or t (default: 4s)", nargs=1)
 
     cmd_args = argparser.parse_args()
 
-    reverse_parse(cmd_args.input[0], cmd_args.indent_style)
+    try:
+        reverse_parse(cmd_args.input[0], cmd_args.indent_style)
+
+    except TypeError:
+        print("Error: something went wrong during parsing.", file=sys.stderr)
+        print("Could the file be incorrecly indented, or could the specified indentation style be wrong?", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == '__main__':
