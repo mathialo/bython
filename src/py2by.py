@@ -105,6 +105,7 @@ def reverse_parse(filename, indent_style):
 
 def main():
     argparser = argparse.ArgumentParser("py2by", description="py2by translates python to bython", formatter_class=argparse.RawTextHelpFormatter)
+    argparser.add_argument("-v", "--version", action="version", version="Bython v0.3\nMathias Lohne 2017")
     argparser.add_argument("input", type=str, help="python file to translate", nargs=1)
     argparser.add_argument("-i", "--indent_style", type=str, help="style of indentation to look for: 1s, 2s, 4s, 8s or t (default: 4s)", nargs=1)
 
