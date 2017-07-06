@@ -63,18 +63,41 @@ def reverse_parse(filename, indent_style):
     infile = open(filename, "r")
     outfile = open(change_file_name(filename), "w")
 
-    previous_line = ""
-    indentation_level = 0
+    last_line = ""
+    last_level = 0
 
-    i = 1
+    num_open = 0
+    num_close = 0
+
     for line in infile:
-        if line in ("\n", "\n\r", "\r\n"):
-            leading_whitespace = ""
-        else:
-            leading_whitespace = line.split(line.lstrip())[0]
+        if not line.strip() == "":
+            if line in ("\n", "\n\r", "\r\n"):
+                leading_whitespace = ""
+            else:
+                leading_whitespace = line.split(line.lstrip())[0]
 
-        print("%d: %d" % (i, count_indent_level(leading_whitespace, indent_symbol)))
-        i += 1
+            level = count_indent_level(leading_whitespace, indent_symbol)
+
+            if level < last_level:
+                decrese = last_level - level
+                for i in range(decrese):
+                    outfile.write((decrese - i -1)*indent_symbol + "}\n")
+                    num_close += 1
+
+        new_last, num_subs = re.subn(r"\s*:$", " {", last_line)
+        num_open += num_subs
+        outfile.write(new_last)
+
+
+        last_line = line
+        last_level = level
+
+
+    outfile.write(last_line)
+
+    if num_open > num_close:
+        outfile.write("}\n")
+        num_close += 1
 
     infile.close()
     outfile.close()
