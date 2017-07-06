@@ -12,12 +12,6 @@ install:
 	cp etc/py2by.1 /usr/local/share/man/man1/py2by.1
 	mandb
 
-update: 
-	cp -r src/* $(INSTALL_DIR)
-	chmod +x $(INSTALL_DIR)bython.py
-	chmod +x $(INSTALL_DIR)py2by.py
-	cp etc/bython.1 /usr/local/share/man/man1/bython.1
-	cp etc/py2by.1 /usr/local/share/man/man1/py2by.1
 
 uninstall:
 	rm /usr/local/bin/bython
