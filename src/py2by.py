@@ -68,6 +68,8 @@ def reverse_parse(filename, indent_style):
     num_open = 0
     num_close = 0
 
+    level = 0
+
     for line in infile:
         if not line.strip() == "":
             if line in ("\n", "\n\r", "\r\n"):
