@@ -3,11 +3,13 @@ import parser
 import argparse
 import os
 
+VERSION_NUMBER = "0.3.1"
+
 
 def main():
     # Setup argument parser
     argparser = argparse.ArgumentParser("bython", description="Bython is a python preprosessor that translates braces into indentation", formatter_class=argparse.RawTextHelpFormatter)
-    argparser.add_argument("-v", "--version", action="version", version="Bython v0.3\nMathias Lohne 2017")
+    argparser.add_argument("-v", "--version", action="version", version="Bython v%s\nMathias Lohne 2017" % VERSION_NUMBER)
     argparser.add_argument("-c", "--compile", help="translate to python only (don't run files)", action="store_true")
     argparser.add_argument("-m", "--multiple", help="treat arguments as additional files to process", action="store_true")
     argparser.add_argument("-k", "--keep", help="keep generated python files", action="store_true")
