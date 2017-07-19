@@ -73,6 +73,7 @@ def reverse_parse(filename, indent_style):
         if not line.strip() == "":
             if line in ("\n", "\n\r", "\r\n"):
                 leading_whitespace = ""
+
             else:
                 leading_whitespace = line.split(line.lstrip())[0]
 
@@ -94,6 +95,15 @@ def reverse_parse(filename, indent_style):
 
 
     outfile.write(last_line)
+
+    if last_level > 0:
+        outfile.write("\n")
+        decrese = last_level
+        for i in range(decrese):
+            outfile.write((decrese - i - 1)*indent_symbol + "}\n")
+            num_close += 1
+
+
 
     if num_open > num_close:
         outfile.write("}\n")
