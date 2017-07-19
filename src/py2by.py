@@ -46,7 +46,7 @@ def count_indent_level(whitespace, indent_symbol):
 
     if not new_whitespace == "":
         # Not all whitespace was consumed => illigal indentation
-        raise TypeError
+        raise RuntimeError("Illegal indentation detected.\nMaybe the selected indentation style is wrong?")
 
     else:
         return numsubs
@@ -57,8 +57,7 @@ def reverse_parse(filename, indent_style):
     indent_symbol = parse_indent_style_input(indent_style)
 
     if not indent_symbol:
-        print("Input error: %s is not a valid indentation style!" % (indent_style))
-        sys.exit(1)
+        raise RuntimeError("%s is not a valid indentation style!" % (indent_style))
 
     infile = open(filename, "r")
     outfile = open(change_file_name(filename), "w")
@@ -110,7 +109,7 @@ def reverse_parse(filename, indent_style):
         num_close += 1
 
     if (num_open != num_close):
-        raise TypeError
+        raise RuntimeError("Unmatching number of braces created.")
 
     infile.close()
     outfile.close()
@@ -127,9 +126,8 @@ def main():
     try:
         reverse_parse(cmd_args.input[0], cmd_args.indent_style)
 
-    except TypeError:
-        print("Error: something went wrong during parsing.", file=sys.stderr)
-        print("Could the file be incorrecly indented, or could the specified indentation style be wrong?", file=sys.stderr)
+    except RuntimeError as e:
+        print("Error: %s" % str(e) , file=sys.stderr)
         sys.exit(1)
 
 
