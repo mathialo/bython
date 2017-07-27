@@ -4,6 +4,19 @@ import re
 import argparse
 import sys
 
+""" Translates python to bython
+
+This program translates python files and outputs a bython (.by) file. Used
+with the bython application.
+
+Example invocation:
+
+    py2by legacycode.py -i 8s
+
+    Outputs legacycode.by in the working directory.
+
+#TODO: Finish this
+"""
 
 def parse_indent_style_input(indentinput):
     if not indentinput:
