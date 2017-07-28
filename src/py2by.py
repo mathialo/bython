@@ -32,6 +32,7 @@ def reverse_parse(filename):
     inlines = infile.readlines()
     for index, line in enumerate(inlines):
         inlines[index] = line.decode("utf-8")
+        inlines[index] = inlines[index].rstrip()
     infile.seek(0)
     tokens = list(tokenize(infile.readline))
     infile.close()
@@ -67,16 +68,12 @@ def reverse_parse(filename):
         position = indent[2]
         print(indent)
         inlines.insert(
-            index + extra,
+            index + extra - 1,
             " " * position
             + ("}","{")[token==INDENT]
         )
         extra += 1
 
-    
-    # Cleanup loop; add the remaining dedents
-    
-    
     for line in inlines:
         print(line)
 
