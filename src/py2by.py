@@ -3,17 +3,7 @@ import os
 import re
 import argparse
 import sys
-from tokenize import tokenize, untokenize, tok_name, INDENT, DEDENT, NAME
-
-'''
-pyfile = open("simpletest.py","rb")
-tokens = list(tokenize(pyfile.readline))
-
-pyfile.close()
-
-for token in tokens:
-    print(token.start[0], tok_name[token.exact_type],token.exact_type,token.string)
-'''
+from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
 def ends_in_py(word):
     return word[-3:] == ".py"
@@ -27,22 +17,26 @@ def change_file_name(name):
 
 
 def reverse_parse(filename):
+
+    # Open a file as bytes
     infile = open(filename, "rb")
-    
     inlines = infile.readlines()
+    # Reformat the contents for later modifications
     for index, line in enumerate(inlines):
         inlines[index] = line.decode("utf-8")
         inlines[index] = inlines[index].rstrip()
+    # Tokenize the same file, close it
     infile.seek(0)
     tokens = list(tokenize(infile.readline))
     infile.close()
     
     # Stores a list of tuples for INDENT/DEDENT
-    # (token, line number, position in line)
+    # (token, line_number, position_in_line)
     indent_tracker = []
     
-    # Using indent_levels as stack to keep track of the brace positions
-    # populate indent_tracker
+    # Track line by line the indentation position,
+    #  used to populate indent_tracker with the proper token and brace
+    #  position, using indent_levels as a stack.
     indent_levels = []
     position = 0;
     line_of_last_name_token = 0;
@@ -57,16 +51,14 @@ def reverse_parse(filename):
             indent_tracker.append((INDENT,current_line,position))
         if (token.exact_type == DEDENT):
             indent_tracker.append((DEDENT,current_line,indent_levels.pop()))
-            
-    # We need to know how many extra lines have been added,
-    # to adjust line numbers recorded in indent_tracker
-    extra = 0
     
+    # Add braces where necessary, keeping count of how many extra
+    # have been added
+    extra = 0
     for indent in indent_tracker:
         token = indent[0]
         index = indent[1]
         position = indent[2]
-        print(indent)
         inlines.insert(
             index + extra - 1,
             " " * position
@@ -74,14 +66,20 @@ def reverse_parse(filename):
         )
         extra += 1
 
+    outfile = open(change_file_name(filename),"w")
     for line in inlines:
-        print(line)
+        print(line,file=outfile)
 
 
 def main():
-    argparser = argparse.ArgumentParser("py2by", description="py2by translates python to bython", formatter_class=argparse.RawTextHelpFormatter)
-    argparser.add_argument("-v", "--version", action="version", version="py2by is a part of Bython v0.3\nMathias Lohne 2017")
-    argparser.add_argument("input", type=str, help="python file to translate", nargs=1)
+    argparser = argparse.ArgumentParser("py2by",
+        description="py2by translates python to bython",
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+    argparser.add_argument("-v", "--version", action="version",
+        version="py2by is a part of Bython v0.3\nMathias Lohne 2017")
+    argparser.add_argument("input", type=str,
+        help="python file to translate", nargs=1)
 
     cmd_args = argparser.parse_args()
 
