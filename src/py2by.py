@@ -35,14 +35,13 @@ def reverse_parse(filename):
     infile.seek(0)
     tokens = list(tokenize(infile.readline))
     infile.close()
-
-    print("Length:",len(tokens))
     
     # Stores a list of tuples for INDENT/DEDENT
     # (token, line number, position in line)
     indent_tracker = []
     
-    # Used as stack, to ensure matching braces are on the right level
+    # Using indent_levels as stack to keep track of the brace positions
+    # populate indent_tracker
     indent_levels = []
     position = 0;
     line_of_last_name_token = 0;
@@ -58,30 +57,30 @@ def reverse_parse(filename):
         if (token.exact_type == DEDENT):
             indent_tracker.append((DEDENT,current_line,indent_levels.pop()))
             
-
-            
-    # Counts how many extra lines we have
-    # index is our line number
-    for indent in indent_tracker:
-        print(indent)
+    # We need to know how many extra lines have been added,
+    # to adjust line numbers recorded in indent_tracker
     extra = 0
     
-    for index, line in enumerate(inlines):
-        current = indent_tracker[:1][0]
-        if(index == (current[1] + extra)):   #[:1][0] is first tuple in list
-            #print(index,indent_tracker[:1][0][1],extra)
-            #if (current[0] == INDENT or current[0] == DEDENT):
-            extra += 1
-            inlines.insert(
-                index - 1,
-                current[2]*" "
-                + ("}","{")[current[0] == INDENT]
-            )
-            indent_tracker.pop(0)
-        #print(line)
+    for indent in indent_tracker:
+        token = indent[0]
+        index = indent[1]
+        position = indent[2]
+        print(indent)
+        inlines.insert(
+            index + extra,
+            " " * position
+            + ("}","{")[token==INDENT]
+        )
+        extra += 1
 
+    
+    # Cleanup loop; add the remaining dedents
+    
+    
     for line in inlines:
         print(line)
+
+
 def main():
     argparser = argparse.ArgumentParser("py2by", description="py2by translates python to bython", formatter_class=argparse.RawTextHelpFormatter)
     argparser.add_argument("-v", "--version", action="version", version="py2by is a part of Bython v0.3\nMathias Lohne 2017")
