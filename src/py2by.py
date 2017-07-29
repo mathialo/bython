@@ -6,10 +6,14 @@ import sys
 from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
 def ends_in_py(word):
+    """Returns True if word ends in .py, else False"""
     return word[-3:] == ".py"
 
 
 def change_file_name(name):
+    """Changes .py filenames to .by filenames
+
+    If filename does not end in .py, adds .by to the end"""
     if ends_in_py(name):
         return name[:-3] + ".by"
     else:
@@ -17,15 +21,21 @@ def change_file_name(name):
 
 
 def reverse_parse(filename):
+    """Changes a Python file to a Bython file
+    
+    All semantically significant whitespace resulting in a change
+    in indentation levels will have a matching opening or closing
+    curly-brace.
+    """
 
-    # Open a file as bytes
+    # Open a file for reading as bytes
     infile = open(filename, "rb")
     inlines = infile.readlines()
-    # Reformat the contents for later modifications
+    # Store and format the contents for later modification
     for index, line in enumerate(inlines):
         inlines[index] = line.decode("utf-8")
         inlines[index] = inlines[index].rstrip()
-    # Tokenize the same file, close it
+    # Tokenize the file, store in tokens
     infile.seek(0)
     tokens = list(tokenize(infile.readline))
     infile.close()
@@ -34,9 +44,9 @@ def reverse_parse(filename):
     # (token, line_number, position_in_line)
     indent_tracker = []
     
-    # Track line by line the indentation position,
-    #  used to populate indent_tracker with the proper token and brace
-    #  position, using indent_levels as a stack.
+    # Track line by line the indentation position.
+    # Populates indent_tracker, using indent_levels as a stack
+    # to properly record whitespace for each bython brace.
     indent_levels = []
     position = 0;
     line_of_last_name_token = 0;
@@ -52,8 +62,7 @@ def reverse_parse(filename):
         if (token.exact_type == DEDENT):
             indent_tracker.append((DEDENT,current_line,indent_levels.pop()))
     
-    # Add braces where necessary, keeping count of how many extra
-    # have been added
+    # Add curly braces where necessary to create our bython file
     extra = 0
     for indent in indent_tracker:
         token = indent[0]
@@ -66,12 +75,20 @@ def reverse_parse(filename):
         )
         extra += 1
 
+    # Save the file
     outfile = open(change_file_name(filename),"w")
     for line in inlines:
         print(line,file=outfile)
 
 
 def main():
+    """
+    Translate python to bython
+
+    Command line utility and Python module for translating python code
+    to bython code, adding curly braces at semantically significant
+    indentations.
+    """ 
     argparser = argparse.ArgumentParser("py2by",
         description="py2by translates python to bython",
         formatter_class=argparse.RawTextHelpFormatter
