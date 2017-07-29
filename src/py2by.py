@@ -94,7 +94,7 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter
     )
     argparser.add_argument("-v", "--version", action="version",
-        version="py2by is a part of Bython v0.3\nMathias Lohne 2017")
+        version="py2by is a part of Bython v0.3\nMathias Lohne and Tristan Pepin 2017")
     argparser.add_argument("input", type=str,
         help="python file to translate", nargs=1)
 
