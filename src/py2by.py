@@ -5,6 +5,7 @@ import argparse
 import sys
 from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
+
 def ends_in_py(word):
     return word[-3:] == ".py"
 
@@ -17,14 +18,15 @@ def change_file_name(name):
 
 
 def reverse_parse(filename):
-
     # Open a file as bytes
     infile = open(filename, "rb")
     inlines = infile.readlines()
+
     # Reformat the contents for later modifications
     for index, line in enumerate(inlines):
         inlines[index] = line.decode("utf-8")
         inlines[index] = inlines[index].rstrip()
+
     # Tokenize the same file, close it
     infile.seek(0)
     tokens = list(tokenize(infile.readline))
@@ -68,6 +70,11 @@ def reverse_parse(filename):
 
     outfile = open(change_file_name(filename),"w")
     for line in inlines:
+
+        # Quick fix to solve problem with remaining colons, should be reworked to
+        # something more elegant
+        line = re.sub(r"\s*:", "", line)
+
         print(line,file=outfile)
 
 
