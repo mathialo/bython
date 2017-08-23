@@ -5,6 +5,7 @@ import argparse
 import sys
 from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
+
 def ends_in_py(word):
     """Returns True if word ends in .py, else False"""
     return word[-3:] == ".py"
@@ -27,15 +28,13 @@ def reverse_parse(filename):
     in indentation levels will have a matching opening or closing
     curly-brace.
     """
-
-    # Open a file for reading as bytes
-    infile = open(filename, "rb")
-    inlines = infile.readlines()
+  
     # Store and format the contents for later modification
     for index, line in enumerate(inlines):
         inlines[index] = line.decode("utf-8")
         inlines[index] = inlines[index].rstrip()
-    # Tokenize the file, store in tokens
+
+    # Tokenize the same file, close it
     infile.seek(0)
     tokens = list(tokenize(infile.readline))
     infile.close()
@@ -78,6 +77,11 @@ def reverse_parse(filename):
     # Save the file
     outfile = open(change_file_name(filename),"w")
     for line in inlines:
+
+        # Quick fix to solve problem with remaining colons, should be reworked to
+        # something more elegant
+        line = re.sub(r"\s*:", "", line)
+
         print(line,file=outfile)
 
 
