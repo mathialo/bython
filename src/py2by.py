@@ -5,6 +5,8 @@ import argparse
 import sys
 from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
+from bython import VERSION_NUMBER
+
 
 def ends_in_py(word):
     """Returns True if word ends in .py, else False"""
@@ -28,7 +30,10 @@ def reverse_parse(filename):
     in indentation levels will have a matching opening or closing
     curly-brace.
     """
-  
+    # Open a file as bytes
+    infile = open(filename, "rb")
+    inlines = infile.readlines()
+
     # Store and format the contents for later modification
     for index, line in enumerate(inlines):
         inlines[index] = line.decode("utf-8")
@@ -98,7 +103,7 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter
     )
     argparser.add_argument("-v", "--version", action="version",
-        version="py2by is a part of Bython v0.3\nMathias Lohne and Tristan Pepin 2017")
+        version="py2by is a part of Bython v%s\nMathias Lohne and Tristan Pepin 2017" % VERSION_NUMBER)
     argparser.add_argument("input", type=str,
         help="python file to translate", nargs=1)
 
