@@ -1,11 +1,20 @@
 import re
+"""
+parser.py
 
+Python module for converting bython code to python code.
+
+Usage:
+    parse_file(filename, add_true_line)
+"""
 
 def _ends_in_by(word):
+    """Return true if the string 'word' ends in '.by'"""
     return word[-3:] == ".by"
 
 
 def _change_file_name(name):
+    """Adds .by to the end of the string name, changing .py to .by"""
     if _ends_in_by(name):
         return name[:-3] + ".py"
 
@@ -14,6 +23,15 @@ def _change_file_name(name):
 
 
 def parse_file(filename, add_true_line):
+    """
+    Converts a bython file to a python file and writes it to disk.
+    
+    filename is a string pointing to the .by file you want to parse.
+    
+    add_true_line is a True/False value. If True, "true" and "false",
+    "true = True" and "false = False" are defined in the resulting
+    python file.
+    """
     infile = open(filename, 'r')
     outfile = open(_change_file_name(filename), 'w')
 
