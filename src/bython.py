@@ -18,7 +18,7 @@ Flags:
     args,               Arguments to script
 """
 
-VERSION_NUMBER = "0.3.1"
+VERSION_NUMBER = "0.3.2"
 
 def main():
     # Setup argument parser
