@@ -19,6 +19,7 @@ Flags:
 """
 
 VERSION_NUMBER = "0.3.2"
+HOME = os.path.expanduser("~")
 
 def main():
     # Setup argument parser
@@ -55,17 +56,26 @@ def main():
     # Parse arguments
     cmd_args = argparser.parse_args()
 
+    # Where to output files
+    if cmd_args.compile or cmd_args.keep:
+        # Place in same folder, no path prefix
+        placement_path = ""
+
+    else:
+        # Place in subfolder of home dir
+        placement_path = HOME + "/.bythontemp/"
+
     # Translate bython to python
     try:
         current_file_name = cmd_args.input[0]
-        parser.parse_file(cmd_args.input[0], cmd_args.lower_true)
+        parser.parse_file(cmd_args.input[0], cmd_args.lower_true, placement_path)
 
         if cmd_args.multiple:
             for arg in cmd_args.args:
                 current_file_name = arg
-                parser.parse_file(arg, cmd_args.lower_true)
+                parser.parse_file(arg, cmd_args.lower_true, placement_path)
 
-    except (TypeError, FileNotFoundError):
+    except (TypeError, FileNotFoundError) as e:
         print("Error while parsing file", current_file_name)
         return
 
@@ -76,18 +86,19 @@ def main():
     # Run file
     if cmd_args.python2:
         python_command = "python"
+
     else:
         python_command = "python3"
 
     os.system("%s %s %s" % (
         python_command,
-        parser._change_file_name(cmd_args.input[0]),
+        placement_path + parser._change_file_name(cmd_args.input[0]),
         " ".join(arg for arg in cmd_args.args))
     )
 
     # Delete file if requested
     if not cmd_args.keep:
-        os.remove(parser._change_file_name(cmd_args.input[0]))
+        os.remove(placement_path + parser._change_file_name(cmd_args.input[0]))
 
 
 if __name__ == '__main__':

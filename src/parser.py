@@ -1,4 +1,5 @@
 import re
+import os
 """
 parser.py
 
@@ -22,7 +23,7 @@ def _change_file_name(name):
         return name + ".py"
 
 
-def parse_file(filename, add_true_line):
+def parse_file(filename, add_true_line, placement_path):
     """
     Converts a bython file to a python file and writes it to disk.
     
@@ -31,9 +32,15 @@ def parse_file(filename, add_true_line):
     add_true_line is a True/False value. If True, "true" and "false",
     "true = True" and "false = False" are defined in the resulting
     python file.
+
+    placement_path is where the directory where the output files should
+    be stored. 
     """
+    if not placement_path == "":
+        os.makedirs(os.path.dirname(placement_path), exist_ok=True)
+
     infile = open(filename, 'r')
-    outfile = open(_change_file_name(filename), 'w')
+    outfile = open(placement_path + _change_file_name(filename), 'w')
 
     indentation_level = 0
     indentation_sign = "    "
