@@ -66,17 +66,40 @@ def main():
         placement_path = HOME + "/.bythontemp/"
 
     # Translate bython to python
-    try:
-        current_file_name = cmd_args.input[0]
-        parser.parse_file(cmd_args.input[0], cmd_args.lower_true, placement_path)
+    parse_stack = []
 
-        if cmd_args.multiple:
-            for arg in cmd_args.args:
-                current_file_name = arg
-                parser.parse_file(arg, cmd_args.lower_true, placement_path)
+    # Add all files from cmd line
+    parse_stack.append(cmd_args.input[0])
+    if cmd_args.multiple:
+        for arg in cmd_args.args:
+            parse_stack.append(arg)
+
+    # Add all files from imports, and recursivelly (ish) add all imports from
+    # the imports (and so on..)
+    i = 0
+    while i < len(parse_stack):
+        import_files = parser.parse_imports(parse_stack[i])
+
+        for import_file in import_files:
+            if os.path.isfile(import_file) and not import_file in parse_stack:
+                parse_stack.append(import_file)
+
+        i += 1
+
+    # Parsing
+    try:
+        for file in parse_stack:
+            current_file_name = file
+            parser.parse_file(file, cmd_args.lower_true, placement_path)
 
     except (TypeError, FileNotFoundError) as e:
         print("Error while parsing file", current_file_name)
+        
+        # Cleanup
+        try:
+            for file in parse_stack:
+                os.remove(placement_path + parser._change_file_name(file))
+
         return
 
     # Stop if we were only asked to translate
@@ -98,7 +121,8 @@ def main():
 
     # Delete file if requested
     if not cmd_args.keep:
-        os.remove(placement_path + parser._change_file_name(cmd_args.input[0]))
+        for file in parse_stack:
+            os.remove(placement_path + parser._change_file_name(file))
 
 
 if __name__ == '__main__':

@@ -23,6 +23,22 @@ def _change_file_name(name):
         return name + ".py"
 
 
+def parse_imports(filename):
+
+    infile = open(filename, 'r')
+    infile_str = ""
+
+    for line in infile:
+        infile_str += line
+
+
+    imports = re.findall(r"(?<=import\s)[\w.]+(?=;|\s|$)", infile_str)
+
+    imports_with_suffixes = [im + ".by" for im in imports]
+
+    return imports_with_suffixes
+
+
 def parse_file(filename, add_true_line, placement_path):
     """
     Converts a bython file to a python file and writes it to disk.
