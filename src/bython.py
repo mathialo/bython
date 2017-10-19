@@ -18,7 +18,7 @@ Flags:
     args,               Arguments to script
 """
 
-VERSION_NUMBER = "0.3.2"
+VERSION_NUMBER = "0.3.3"
 HOME = os.path.expanduser("~")
 
 def main():
@@ -94,7 +94,7 @@ def main():
 
     except (TypeError, FileNotFoundError) as e:
         print("Error while parsing file", current_file_name)
-        
+
         # Cleanup
         try:
             for file in parse_stack:
