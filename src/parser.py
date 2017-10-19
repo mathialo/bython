@@ -24,7 +24,10 @@ def _change_file_name(name):
 
 
 def parse_imports(filename):
-
+    """
+    Reads the file, and scans for imports. Returns all the assumed filename
+    of all the imported modules (ie, module name appended with ".by")
+    """
     infile = open(filename, 'r')
     infile_str = ""
 
