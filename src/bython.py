@@ -11,7 +11,6 @@ This is a command-line utility to translate and run bython files.
 Flags:
     -v, --version:      Print version number
     -c, --compile:      Translate to python file and store; do not run
-    -m, --multiple:     Treat arguments as additional files to process
     -t, --lower_true:   Adds support for lower case true/false
     -2, --python2:      Use python2 instead of python3
     input,              Bython files to process
@@ -31,9 +30,6 @@ def main():
         version="Bython v%s\nMathias Lohne and Tristan Pepin 2017" % VERSION_NUMBER)
     argparser.add_argument("-c", "--compile", 
         help="translate to python only (don't run files)",
-        action="store_true")
-    argparser.add_argument("-m", "--multiple", 
-        help="treat arguments as additional files to process", 
         action="store_true")
     argparser.add_argument("-k", "--keep",
         help="keep generated python files",
@@ -70,7 +66,7 @@ def main():
 
     # Add all files from cmd line
     parse_stack.append(cmd_args.input[0])
-    if cmd_args.multiple:
+    if cmd_args.compile:
         for arg in cmd_args.args:
             parse_stack.append(arg)
 

@@ -18,12 +18,7 @@ Show help message and exit.
 Show version number and exit.
 .TP
 .BR \-c ", " \-\-compile
-Translate to python only (ie, don't run the resulting python files).
-.TP
-.BR \-m ", " \-\-multiple
-Treat arguments as additional files to process.
-Usually the args are sent as cmd line args to the resulting python script.
-However, if this flag is present, the remainding arguments will be treated as additional files to translate.
+Translate to python only (ie, don't run the resulting python files). If this flag is present, the remainding arguments will be treated as additional files to translate, and not as cmd line args to the script. 
 .TP
 .BR \-k ", " \-\-keep
 Keep the generated python files. Normally these are deleted.

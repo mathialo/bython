@@ -34,14 +34,7 @@ To run a bython program, simply type
 
 	> bython source.by arg1 arg2 ...
 
-to run `source.by` with arg1, arg2, ... as command line arguments. To compile multiple files, list them all with the `-m` flag:
-
-	> bython -m source1.by source2.by ...
-
-This is useful for imports. Notice that the `-m` flag has been added. It stands for multiple files, and tells bython to treat all the words in the command as filenames instead of cmd-line args.
-
-
-If you want more details on how to run bython files (flags, etc), type
+to run `source.by` with arg1, arg2, ... as command line arguments. If you want more details on how to run bython files (flags, etc), type
 
 	> bython -h
 
@@ -53,11 +46,7 @@ Bython also includes a translator from python to bython. This is found via the `
 
 	> py2by test.py
 
-This will create a bython file called `test.by`. By default, 4 spaces are assumed as the indentation style. If your code uses something different, you can specify the indentation style with the `-i` flag. For example, if your code is indented with tabs, you write
-
-	> py2by -i t test.py
-
-A full explanation of `py2by`, including how to specify indentation styles is found by typing
+This will create a bython file called `test.by`. A full explanation of `py2by`, is found by typing
 
 	> py2by -h
 
@@ -73,7 +62,7 @@ Bython is currently only developed for Unix-like OS's. To install simply open a 
 	> cd bython
 	> sudo make install
 
-This will compile bython from source, copy the binaries to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. To uninstall, simply run 
+This will copy the executables to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. To uninstall, simply run 
 
 	> sudo make uninstall
 
