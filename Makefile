@@ -10,7 +10,7 @@ install:
 	ln -s $(INSTALL_DIR)py2by.py /usr/local/bin/py2by
 	cp etc/bython.1 /usr/local/share/man/man1/bython.1
 	cp etc/py2by.1 /usr/local/share/man/man1/py2by.1
-	mandb
+	mandb > /dev/null
 
 
 uninstall:
