@@ -90,11 +90,12 @@ def main():
 
     except (TypeError, FileNotFoundError) as e:
         print("Error while parsing file", current_file_name)
-
         # Cleanup
         try:
             for file in parse_stack:
                 os.remove(placement_path + parser._change_file_name(file))
+        except:
+            pass
 
         return
 
