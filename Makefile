@@ -19,3 +19,5 @@ uninstall:
 	rm -r $(INSTALL_DIR)*
 	rmdir $(INSTALL_DIR)
 	rm /usr/local/share/man/man1/bython.1
+	rm /usr/local/share/man/man1/py2by.1
+	mandb > /dev/null
