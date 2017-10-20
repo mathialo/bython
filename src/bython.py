@@ -2,6 +2,8 @@
 import parser
 import argparse
 import os
+import sys
+from logger import Logger
 
 """
 Bython is Python with braces.
@@ -25,9 +27,12 @@ def main():
     argparser = argparse.ArgumentParser("bython", 
         description="Bython is a python preprosessor that translates braces into indentation", 
         formatter_class=argparse.RawTextHelpFormatter)
-    argparser.add_argument("-v", "--version", 
+    argparser.add_argument("-V", "--version", 
         action="version", 
         version="Bython v%s\nMathias Lohne and Tristan Pepin 2017" % VERSION_NUMBER)
+    argparser.add_argument("-v", "--verbose", 
+        help="print progress",
+        action="store_true") 
     argparser.add_argument("-c", "--compile", 
         help="translate to python only (don't run files)",
         action="store_true")
@@ -52,52 +57,65 @@ def main():
     # Parse arguments
     cmd_args = argparser.parse_args()
 
+    # Create logger
+    logger = Logger(cmd_args.verbose)
+
     # Where to output files
     if cmd_args.compile or cmd_args.keep:
         # Place in same folder, no path prefix
         placement_path = ""
+        logger.log_info("Placing files in this directory")
 
     else:
         # Place in subfolder of home dir
         placement_path = HOME + "/.bythontemp/"
+        logger.log_info("Placing files in %s" % placement_path)
 
-    # Translate bython to python
-    parse_stack = []
+    # List of all files to translate from bython to python
+    parse_que = []
 
     # Add all files from cmd line
-    parse_stack.append(cmd_args.input[0])
+    parse_que.append(cmd_args.input[0])
     if cmd_args.compile:
         for arg in cmd_args.args:
-            parse_stack.append(arg)
+            parse_que.append(arg)
 
     # Add all files from imports, and recursivelly (ish) add all imports from
     # the imports (and so on..)
+    logger.log_info("Scanning for imports")
     i = 0
-    while i < len(parse_stack):
-        import_files = parser.parse_imports(parse_stack[i])
+    while i < len(parse_que):
+        try:
+            import_files = parser.parse_imports(parse_que[i])
+
+        except FileNotFoundError:
+            logger.log_error("No file named %s" % parse_que[i])
+            sys.exit(1)
 
         for import_file in import_files:
-            if os.path.isfile(import_file) and not import_file in parse_stack:
-                parse_stack.append(import_file)
+            if os.path.isfile(import_file) and not import_file in parse_que:
+                logger.log_info("Adding %s to parse que" % import_file)
+                parse_que.append(import_file)
 
         i += 1
 
     # Parsing
     try:
-        for file in parse_stack:
+        for file in parse_que:
             current_file_name = file
+            logger.log_info("Parsing %s" % file)
             parser.parse_file(file, cmd_args.lower_true, placement_path)
 
     except (TypeError, FileNotFoundError) as e:
-        print("Error while parsing file", current_file_name)
+        logger.log_error("Error while parsing %s.\n%s" % (current_file_name, str(e)))
         # Cleanup
         try:
-            for file in parse_stack:
+            for file in parse_que:
                 os.remove(placement_path + parser._change_file_name(file))
         except:
             pass
 
-        return
+        sys.exit(1)
 
     # Stop if we were only asked to translate
     if cmd_args.compile:
@@ -110,15 +128,19 @@ def main():
     else:
         python_command = "python3"
 
+    logger.log_info("Running")
+    logger.program_header()
     os.system("%s %s %s" % (
         python_command,
         placement_path + parser._change_file_name(cmd_args.input[0]),
         " ".join(arg for arg in cmd_args.args))
     )
+    logger.program_footer()
 
     # Delete file if requested
     if not cmd_args.keep:
-        for file in parse_stack:
+        logger.log_info("Deleting files")
+        for file in parse_que:
             os.remove(placement_path + parser._change_file_name(file))
 
 

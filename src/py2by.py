@@ -6,6 +6,7 @@ import sys
 from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
 from bython import VERSION_NUMBER
+from logger import Logger
 
 
 def ends_in_py(word):
@@ -109,11 +110,16 @@ def main():
 
     cmd_args = argparser.parse_args()
 
+    logger = Logger()
+
     try:
         reverse_parse(cmd_args.input[0])
 
-    except RuntimeError as e:
-        print("Error: %s" % str(e) , file=sys.stderr)
+    except FileNotFoundError:
+        logger.log_error("No file named %s" % cmd_args.input[0])
+
+    except Exception as e:
+        logger.log_error("Unexpected error: %s" % str(e))
         sys.exit(1)
 
 
