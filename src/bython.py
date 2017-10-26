@@ -11,7 +11,8 @@ Bython is Python with braces.
 This is a command-line utility to translate and run bython files.
 
 Flags:
-    -v, --version:      Print version number
+    -V, --version:      Print version number
+    -v, --verbose:      Print progress
     -c, --compile:      Translate to python file and store; do not run
     -t, --lower_true:   Adds support for lower case true/false
     -2, --python2:      Use python2 instead of python3
