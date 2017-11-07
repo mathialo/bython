@@ -108,6 +108,7 @@ def parse_file(filename, add_true_line, placement_path):
 
     # Support for extra, non-brace related stuff
     infile_str_indented = re.sub(r"else\s+if", "elif", infile_str_indented)
+    infile_str_indented = re.sub(r";\n", "\n", infile_str_indented)
 
     outfile.write(infile_str_indented)
 
