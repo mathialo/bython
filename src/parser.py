@@ -73,6 +73,8 @@ def parse_file(filename, add_true_line, placement_path):
     for line in infile:
         infile_str_raw += line
 
+    # Add 'pass' where there is only a {}
+    infile_str_raw = re.sub(r"{[\s\n\r]*}", "{\npass\n}", infile_str_raw)
 
     # Fix indentation
     infile_str_indented = ""
