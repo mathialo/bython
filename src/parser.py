@@ -37,8 +37,9 @@ def parse_imports(filename):
 
 
     imports = re.findall(r"(?<=import\s)[\w.]+(?=;|\s|$)", infile_str)
+    imports2 = re.findall(r"(?<=from\s)[\w.]+(?=\s+import)", infile_str)
 
-    imports_with_suffixes = [im + ".by" for im in imports]
+    imports_with_suffixes = [im + ".by" for im in imports + imports2]
 
     return imports_with_suffixes
 
