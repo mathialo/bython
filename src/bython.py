@@ -20,7 +20,7 @@ Flags:
     args,               Arguments to script
 """
 
-VERSION_NUMBER = "0.4.2"
+VERSION_NUMBER = "0.5.0"
 HOME = os.path.expanduser("~")
 
 def main():
