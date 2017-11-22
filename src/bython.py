@@ -91,12 +91,12 @@ def main():
             import_files = parser.parse_imports(parse_que[i])
 
         except FileNotFoundError:
-            logger.log_error("No file named %s" % parse_que[i])
+            logger.log_error("No file named '%s'" % parse_que[i])
             sys.exit(1)
 
         for import_file in import_files:
             if os.path.isfile(import_file) and not import_file in parse_que:
-                logger.log_info("Adding %s to parse que" % import_file)
+                logger.log_info("Adding '%s' to parse que" % import_file)
                 parse_que.append(import_file)
 
         i += 1
@@ -105,11 +105,11 @@ def main():
     try:
         for file in parse_que:
             current_file_name = file
-            logger.log_info("Parsing %s" % file)
+            logger.log_info("Parsing '%s'" % file)
             parser.parse_file(file, cmd_args.lower_true, placement_path)
 
     except (TypeError, FileNotFoundError) as e:
-        logger.log_error("Error while parsing %s.\n%s" % (current_file_name, str(e)))
+        logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))
         # Cleanup
         try:
             for file in parse_que:
@@ -132,23 +132,31 @@ def main():
 
     filename = os.path.basename(cmd_args.input[0])
 
-    logger.log_info("Running")
-    logger.program_header()
-    os.system("%s %s %s" % (
-        python_command,
-        placement_path + parser._change_file_name(filename),
-        " ".join(arg for arg in cmd_args.args))
-    )
-    logger.program_footer()
+    try:
+        logger.log_info("Running")
+        logger.program_header()
+        os.system("%s %s %s" % (
+            python_command,
+            placement_path + parser._change_file_name(filename),
+            " ".join(arg for arg in cmd_args.args))
+        )
+        logger.program_footer()
+
+    except:
+        logger.log_error("Unexpected error while running Python")
 
     # Delete file if requested
-    if not cmd_args.keep:
-        logger.log_info("Deleting files")
-        for file in parse_que:
-            os.remove(placement_path + parser._change_file_name(filename))
+    try:
+        if not cmd_args.keep:
+            logger.log_info("Deleting files")
+            for file in parse_que:
+                os.remove(placement_path + parser._change_file_name(filename))
 
+    except:
+        logger.log_error("Could not delete created python files.\nSome garbage may remain in ~/.bythontemp/")
 
 if __name__ == '__main__':
     main()
+
 
 
