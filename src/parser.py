@@ -44,7 +44,7 @@ def parse_imports(filename):
     return imports_with_suffixes
 
 
-def parse_file(filename, add_true_line, placement_path):
+def parse_file(filepath, add_true_line, placement_path):
     """
     Converts a bython file to a python file and writes it to disk.
     
@@ -60,7 +60,10 @@ def parse_file(filename, add_true_line, placement_path):
     if not placement_path == "":
         os.makedirs(os.path.dirname(placement_path), exist_ok=True)
 
-    infile = open(filename, 'r')
+    filename = os.path.basename(filepath)
+    filedir = os.path.dirname(filepath)
+
+    infile = open(filepath, 'r')
     outfile = open(placement_path + _change_file_name(filename), 'w')
 
     indentation_level = 0

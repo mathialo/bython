@@ -72,6 +72,7 @@ def main():
         placement_path = HOME + "/.bythontemp/"
         logger.log_info("Placing files in %s" % placement_path)
 
+
     # List of all files to translate from bython to python
     parse_que = []
 
@@ -129,11 +130,13 @@ def main():
     else:
         python_command = "python3"
 
+    filename = os.path.basename(cmd_args.input[0])
+
     logger.log_info("Running")
     logger.program_header()
     os.system("%s %s %s" % (
         python_command,
-        placement_path + parser._change_file_name(cmd_args.input[0]),
+        placement_path + parser._change_file_name(filename),
         " ".join(arg for arg in cmd_args.args))
     )
     logger.program_footer()
@@ -142,7 +145,7 @@ def main():
     if not cmd_args.keep:
         logger.log_info("Deleting files")
         for file in parse_que:
-            os.remove(placement_path + parser._change_file_name(file))
+            os.remove(placement_path + parser._change_file_name(filename))
 
 
 if __name__ == '__main__':
