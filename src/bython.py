@@ -150,6 +150,7 @@ def main():
         if not cmd_args.keep:
             logger.log_info("Deleting files")
             for file in parse_que:
+                filename = os.path.basename(file)
                 os.remove(placement_path + parser._change_file_name(filename))
 
     except:
