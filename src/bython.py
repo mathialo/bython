@@ -46,6 +46,10 @@ def main():
     argparser.add_argument("-2", "--python2",
         help="use python2 instead of python3 (default)",
         action="store_true")
+    argparser.add_argument("-o", "--output",
+        type=str, 
+        help="specify name of output file (if -c is present)",
+        nargs=1)
     argparser.add_argument("input",
         type=str, 
         help="bython files to process",
@@ -60,6 +64,11 @@ def main():
 
     # Create logger
     logger = Logger(cmd_args.verbose)
+
+    # Check for invalid combination of flags
+    if cmd_args.output is not None and cmd_args.compile is False:
+        logger.log_error("Cannot specify output when bython is not in compile mode")
+        sys.exit(1)
 
     # Where to output files
     if cmd_args.compile or cmd_args.keep:
@@ -106,7 +115,8 @@ def main():
         for file in parse_que:
             current_file_name = file
             logger.log_info("Parsing '%s'" % file)
-            parser.parse_file(file, cmd_args.lower_true, placement_path)
+            outputname = cmd_args.output[0] if cmd_args.output is not None else None
+            parser.parse_file(file, cmd_args.lower_true, placement_path, outputname)
 
     except (TypeError, FileNotFoundError) as e:
         logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))
