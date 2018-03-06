@@ -123,7 +123,7 @@ def main():
         # Cleanup
         try:
             for file in parse_que:
-                os.remove(placement_path + parser._change_file_name(file))
+                os.remove(placement_path + parser._change_file_name(file, None))
         except:
             pass
 
@@ -147,13 +147,14 @@ def main():
         logger.program_header()
         os.system("%s %s %s" % (
             python_command,
-            placement_path + parser._change_file_name(filename),
+            placement_path + parser._change_file_name(filename, None),
             " ".join(arg for arg in cmd_args.args))
         )
         logger.program_footer()
 
-    except:
+    except Exception as e:
         logger.log_error("Unexpected error while running Python")
+        logger.log_info("Reported error message: %s" % str(e))
 
     # Delete file if requested
     try:
@@ -161,7 +162,7 @@ def main():
             logger.log_info("Deleting files")
             for file in parse_que:
                 filename = os.path.basename(file)
-                os.remove(placement_path + parser._change_file_name(filename))
+                os.remove(placement_path + parser._change_file_name(filename, None))
 
     except:
         logger.log_error("Could not delete created python files.\nSome garbage may remain in ~/.bythontemp/")
