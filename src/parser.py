@@ -63,8 +63,8 @@ def parse_file(filepath, add_true_line, placement_path, outputname):
     placement_path is where the directory where the output files should
     be stored. 
     """
-    if not placement_path == "":
-        os.makedirs(os.path.dirname(placement_path), exist_ok=True)
+    # if not placement_path == "":
+    #     os.makedirs(os.path.dirname(placement_path), exist_ok=True)
 
     filename = os.path.basename(filepath)
     filedir = os.path.dirname(filepath)

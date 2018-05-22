@@ -21,7 +21,6 @@ Flags:
 """
 
 VERSION_NUMBER = "0.5.2"
-HOME = os.path.expanduser("~")
 
 def main():
     # Setup argument parser
@@ -72,14 +71,14 @@ def main():
 
     # Where to output files
     if cmd_args.compile or cmd_args.keep:
-        # Place in same folder, no path prefix
-        placement_path = ""
+        # No path prefix
+        path_prefix = ""
         logger.log_info("Placing files in this directory")
 
     else:
-        # Place in subfolder of home dir
-        placement_path = HOME + "/.bythontemp/"
-        logger.log_info("Placing files in %s" % placement_path)
+        # Prefix with . to hide, also to avoid name conflicts. 
+        path_prefix = "."
+        logger.log_info("Placing files in this directory, but making them hidden (ie, prefixed with .)")
 
 
     # List of all files to translate from bython to python
@@ -116,14 +115,14 @@ def main():
             current_file_name = file
             logger.log_info("Parsing '%s'" % file)
             outputname = cmd_args.output[0] if cmd_args.output is not None else None
-            parser.parse_file(file, cmd_args.lower_true, placement_path, outputname)
+            parser.parse_file(file, cmd_args.lower_true, path_prefix, outputname)
 
     except (TypeError, FileNotFoundError) as e:
         logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))
         # Cleanup
         try:
             for file in parse_que:
-                os.remove(placement_path + parser._change_file_name(file, None))
+                os.remove(path_prefix + parser._change_file_name(file, None))
         except:
             pass
 
@@ -147,7 +146,7 @@ def main():
         logger.program_header()
         os.system("%s %s %s" % (
             python_command,
-            placement_path + parser._change_file_name(filename, None),
+            path_prefix + parser._change_file_name(filename, None),
             " ".join(arg for arg in cmd_args.args))
         )
         logger.program_footer()
@@ -162,7 +161,7 @@ def main():
             logger.log_info("Deleting files")
             for file in parse_que:
                 filename = os.path.basename(file)
-                os.remove(placement_path + parser._change_file_name(filename, None))
+                os.remove(path_prefix + parser._change_file_name(filename, None))
 
     except:
         logger.log_error("Could not delete created python files.\nSome garbage may remain in ~/.bythontemp/")
