@@ -93,7 +93,7 @@ def main():
 
     # Add all files from imports, and recursivelly (ish) add all imports from
     # the imports (and so on..)
-    logger.log_info("jScanning for imports")
+    logger.log_info("Scanning for imports")
     i = 0
     while i < len(parse_que):
         try:
