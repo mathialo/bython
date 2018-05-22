@@ -1,21 +1,21 @@
-# bython
-Python with braces. Because python is awesome, but whitespace is awful.
+# Bython
+Python with braces. Because Python is awesome, but whitespace is awful.
 
-Bython is a python preprosessor which translates curly brackets into indentation.
+Bython is a Python preprosessor which translates curly brackets into indentation.
 
 
 
-## key features
+## Key features
  * "Forget" about indentaition. You should still write beautiful code, but if you mess up with tabs/spaces, or copy one piece of code to another that uses a different indentation style, it won't break.
 
- * Runs on python, that means that all of your existing modules, like NumPy and Matplotlib still works.
+ * Runs on Python, that means that all of your existing modules, like NumPy and Matplotlib still works.
 
 
-## code example
+## Code example
 ```python
 def print_message(num_of_times) {
     for i in range(num_of_times) {
-        print("bython is awesome!");
+        print("Bython is awesome!");
     }
 }
 
@@ -26,15 +26,15 @@ if __name__ == "__main__" {
 
 
 
-## quick intro
-Bython works by first translating bython-files (suggested file ending: .by) into python-files, and then using python to run them. You therefore need a working installation of python for bython to work.
+## Quick intro
+Bython works by first translating Bython-files (suggested file ending: .by) into Python-files, and then using Python to run them. You therefore need a working installation of Python for Bython to work.
 
 
-To run a bython program, simply type
+To run a Bython program, simply type
 
 	> bython source.by arg1 arg2 ...
 
-to run `source.by` with arg1, arg2, ... as command line arguments. If you want more details on how to run bython files (flags, etc), type
+to run `source.by` with arg1, arg2, ... as command line arguments. If you want more details on how to run Bython files (flags, etc), type
 
 	> bython -h
 
@@ -42,11 +42,11 @@ to print the built-in help page. You can also consult the man page by typing
 
 	> man bython
 
-Bython also includes a translator from python to bython. This is found via the `py2by` command:
+Bython also includes a translator from Python to Bython. This is found via the `py2by` command:
 
 	> py2by test.py
 
-This will create a bython file called `test.by`. A full explanation of `py2by`, is found by typing
+This will create a Bython file called `test.by`. A full explanation of `py2by`, is found by typing
 
 	> py2by -h
 
@@ -55,21 +55,21 @@ or by consulting the man page:
 	> man py2by
 
 
-## installation
+## Installation
 Bython is currently only developed for Unix-like OS's. To install simply open a terminal, move to a suited directory (like Downloads), and type
 	
 	> git clone https://github.com/mathialo/bython.git
 	> cd bython
 	> sudo make install
 
-This will copy the executables to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that bython is available from the shell. To uninstall, simply run 
+This will copy the executables to "/usr/local/bython" and create a symbolic link in "/usr/local/bin" so that Bython is available from the shell. To uninstall, simply run 
 
 	> sudo make uninstall
 
 which will undo all the changes.
 
 
-### custom install dir
+### Custom install dir
 Bython will automatically install itself to "/usr/local/bython/". If you for some reason want to change this, open the Makefile in the top directory and change the line (no 1):
 ``` 
 INSTALL_DIR = /usr/local/bython/
