@@ -15,8 +15,14 @@ def _ends_in_by(word):
     return word[-3:] == ".by"
 
 
-def _change_file_name(name):
+def _change_file_name(name, outputname):
     """Adds .by to the end of the string name, changing .py to .by"""
+
+    # If outputname is specified, return that
+    if outputname is not None:
+        return outputname
+
+    # Otherwise, create a new name
     if _ends_in_by(name):
         return name[:-3] + ".py"
 
@@ -44,7 +50,7 @@ def parse_imports(filename):
     return imports_with_suffixes
 
 
-def parse_file(filepath, add_true_line, placement_path):
+def parse_file(filepath, add_true_line, placement_path, outputname):
     """
     Converts a bython file to a python file and writes it to disk.
     
@@ -64,7 +70,7 @@ def parse_file(filepath, add_true_line, placement_path):
     filedir = os.path.dirname(filepath)
 
     infile = open(filepath, 'r')
-    outfile = open(placement_path + _change_file_name(filename), 'w')
+    outfile = open(placement_path + _change_file_name(filename, outputname), 'w')
 
     indentation_level = 0
     indentation_sign = "    "

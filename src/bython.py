@@ -20,7 +20,7 @@ Flags:
     args,               Arguments to script
 """
 
-VERSION_NUMBER = "0.5"
+VERSION_NUMBER = "0.5.2"
 HOME = os.path.expanduser("~")
 
 def main():
@@ -46,6 +46,10 @@ def main():
     argparser.add_argument("-2", "--python2",
         help="use python2 instead of python3 (default)",
         action="store_true")
+    argparser.add_argument("-o", "--output",
+        type=str, 
+        help="specify name of output file (if -c is present)",
+        nargs=1)
     argparser.add_argument("input",
         type=str, 
         help="bython files to process",
@@ -60,6 +64,11 @@ def main():
 
     # Create logger
     logger = Logger(cmd_args.verbose)
+
+    # Check for invalid combination of flags
+    if cmd_args.output is not None and cmd_args.compile is False:
+        logger.log_error("Cannot specify output when bython is not in compile mode")
+        sys.exit(1)
 
     # Where to output files
     if cmd_args.compile or cmd_args.keep:
@@ -84,7 +93,7 @@ def main():
 
     # Add all files from imports, and recursivelly (ish) add all imports from
     # the imports (and so on..)
-    logger.log_info("Scanning for imports")
+    logger.log_info("jScanning for imports")
     i = 0
     while i < len(parse_que):
         try:
@@ -106,14 +115,15 @@ def main():
         for file in parse_que:
             current_file_name = file
             logger.log_info("Parsing '%s'" % file)
-            parser.parse_file(file, cmd_args.lower_true, placement_path)
+            outputname = cmd_args.output[0] if cmd_args.output is not None else None
+            parser.parse_file(file, cmd_args.lower_true, placement_path, outputname)
 
     except (TypeError, FileNotFoundError) as e:
         logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))
         # Cleanup
         try:
             for file in parse_que:
-                os.remove(placement_path + parser._change_file_name(file))
+                os.remove(placement_path + parser._change_file_name(file, None))
         except:
             pass
 
@@ -137,20 +147,22 @@ def main():
         logger.program_header()
         os.system("%s %s %s" % (
             python_command,
-            placement_path + parser._change_file_name(filename),
+            placement_path + parser._change_file_name(filename, None),
             " ".join(arg for arg in cmd_args.args))
         )
         logger.program_footer()
 
-    except:
+    except Exception as e:
         logger.log_error("Unexpected error while running Python")
+        logger.log_info("Reported error message: %s" % str(e))
 
     # Delete file if requested
     try:
         if not cmd_args.keep:
             logger.log_info("Deleting files")
             for file in parse_que:
-                os.remove(placement_path + parser._change_file_name(filename))
+                filename = os.path.basename(file)
+                os.remove(placement_path + parser._change_file_name(filename, None))
 
     except:
         logger.log_error("Could not delete created python files.\nSome garbage may remain in ~/.bythontemp/")

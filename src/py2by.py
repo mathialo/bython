@@ -14,17 +14,23 @@ def ends_in_py(word):
     return word[-3:] == ".py"
 
 
-def change_file_name(name):
+def change_file_name(name, outputname):
     """Changes .py filenames to .by filenames
 
     If filename does not end in .py, adds .by to the end"""
+
+    # If outputname is specified, return that
+    if outputname is not None:
+        return outputname
+
+    # Otherwise, create a new name
     if ends_in_py(name):
         return name[:-3] + ".by"
     else:
         return name + ".by"
 
 
-def reverse_parse(filename):
+def reverse_parse(filename, outputname):
     """Changes a Python file to a Bython file
     
     All semantically significant whitespace resulting in a change
@@ -81,14 +87,21 @@ def reverse_parse(filename):
         extra += 1
 
     # Save the file
-    outfile = open(change_file_name(filename),"w")
-    for line in inlines:
+    outfile = open(change_file_name(filename, outputname),"w")
 
-        # Quick fix to solve problem with remaining colons, should be reworked to
-        # something more elegant
-        line = re.sub(r"\s*:", "", line)
+    # Combine lines to one string
+    entire_file = "\n".join(inlines)
 
-        print(line,file=outfile)
+    # Quick fix to solve problem with remaining colons, should be reworked to
+    # something more elegant
+    entire_file = re.sub(r"\s*:", "", entire_file)
+
+    # Another quick fix solving the problem with inline comments, (see issue 14
+    # on github). This also makes the indentation style Java-style instead of 
+    # Allman-style as before (see https://en.wikipedia.org/wiki/Indentation_style)
+    entire_file = re.sub(r"(#\s*[\w\d\s]*)?\n\s*{", r"{\1", entire_file)
+
+    print(entire_file, file=outfile)
 
 
 def main():
@@ -103,17 +116,24 @@ def main():
         description="py2by translates python to bython",
         formatter_class=argparse.RawTextHelpFormatter
     )
-    argparser.add_argument("-v", "--version", action="version",
+    argparser.add_argument("-v", "--version", 
+        action="version",
         version="py2by is a part of Bython v%s\nMathias Lohne and Tristan Pepin 2017" % VERSION_NUMBER)
+    argparser.add_argument("-o", "--output",
+        type=str, 
+        help="specify name of output file",
+        nargs=1)
     argparser.add_argument("input", type=str,
-        help="python file to translate", nargs=1)
+        help="python file to translate",
+        nargs=1)
 
     cmd_args = argparser.parse_args()
 
     logger = Logger()
 
     try:
-        reverse_parse(cmd_args.input[0])
+        outputname = cmd_args.output[0] if cmd_args.output is not None else None
+        reverse_parse(cmd_args.input[0], outputname)
 
     except FileNotFoundError:
         logger.log_error("No file named %s" % cmd_args.input[0])

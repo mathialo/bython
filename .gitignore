@@ -1,6 +1,5 @@
 *.sublime-project
 *.sublime-workspace
-testcases/*
 src/__pycache__
 src/test.by
 src/test.py
