@@ -88,13 +88,20 @@ def reverse_parse(filename, outputname):
 
     # Save the file
     outfile = open(change_file_name(filename, outputname),"w")
-    for line in inlines:
 
-        # Quick fix to solve problem with remaining colons, should be reworked to
-        # something more elegant
-        line = re.sub(r"\s*:", "", line)
+    # Combine lines to one string
+    entire_file = "\n".join(inlines)
 
-        print(line,file=outfile)
+    # Quick fix to solve problem with remaining colons, should be reworked to
+    # something more elegant
+    entire_file = re.sub(r"\s*:", "", entire_file)
+
+    # Another quick fix solving the problem with inline comments, (see issue 14
+    # on github). This also makes the indentation style Java-style instead of 
+    # Allman-style as before (see https://en.wikipedia.org/wiki/Indentation_style)
+    entire_file = re.sub(r"(#\s*[\w\d\s]*)?\n\s*{", r"{\1", entire_file)
+
+    print(entire_file, file=outfile)
 
 
 def main():

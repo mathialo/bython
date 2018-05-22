@@ -1,6 +1,4 @@
-def test() # prints hello:
+def test():# prints hello
     print("Hello!")
-    
 
 test()
-

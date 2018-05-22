@@ -1,6 +1,5 @@
-def test() # prints hello
-{
-	print("Hello!")
+def test(){# prints hello
+    print("Hello!")
 
 }
 test()
