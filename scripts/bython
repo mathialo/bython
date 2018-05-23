@@ -1,9 +1,11 @@
 #! /usr/bin/env python3
-import parser
 import argparse
 import os
 import sys
-from logger import Logger
+
+import bython.parser as parser
+from bython.logger import Logger
+from bython import VERSION_NUMBER
 
 """
 Bython is Python with braces.
@@ -19,8 +21,6 @@ Flags:
     input,              Bython files to process
     args,               Arguments to script
 """
-
-VERSION_NUMBER = "0.6"
 
 def main():
     # Setup argument parser

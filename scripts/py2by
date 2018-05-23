@@ -6,7 +6,7 @@ import sys
 from tokenize import tokenize, tok_name, INDENT, DEDENT, NAME
 
 from bython import VERSION_NUMBER
-from logger import Logger
+from bython.logger import Logger
 
 
 def ends_in_py(word):
