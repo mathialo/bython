@@ -69,10 +69,11 @@ This will copy the executables to "/usr/local/bin" so that Bython is available f
 which will undo all the changes.
 
 
-## Structure of repo
+## Structure of the repository
 At the moment, Bython is written in Python. The git repository is structured into 4 directories:
 
  * `bython` contains a Python package containing the parser and other utilities used by the main script
  * `etc` contains manual pages and other auxillary files
- * `scripts` contains the runnable Python scripts
+ * `scripts` contains the runnable Python scripts, ie the ones run from the shell
+ * `testcases` contains a couple of sample \*.by and \*.py files intended for testing the implementation
 
