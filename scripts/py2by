@@ -10,15 +10,31 @@ from bython.logger import Logger
 
 
 def ends_in_py(word):
-    """Returns True if word ends in .py, else False"""
+    """
+    Returns True if word ends in .py, else False
+
+    Args:
+        word (str):     Filename to check
+
+    Returns:
+        boolean: Whether 'word' ends with 'py' or not
+    """
     return word[-3:] == ".py"
 
 
-def change_file_name(name, outputname):
-    """Changes .py filenames to .by filenames
+def change_file_name(name, outputname=None):
+    """
+    Changes *.py filenames to *.by filenames. If filename does not end in .py, 
+    it adds .by to the end.
 
-    If filename does not end in .py, adds .by to the end"""
+    Args:
+        name (str):         Filename to edit
+        outputname (str):   Optional. Overrides result of function.
 
+    Returns:
+        str: Resulting filename with *.by at the end (unless 'outputname' is
+        specified, then that is returned).
+    """
     # If outputname is specified, return that
     if outputname is not None:
         return outputname
@@ -31,11 +47,16 @@ def change_file_name(name, outputname):
 
 
 def reverse_parse(filename, outputname):
-    """Changes a Python file to a Bython file
+    """
+    Changes a Python file to a Bython file
     
     All semantically significant whitespace resulting in a change
     in indentation levels will have a matching opening or closing
     curly-brace.
+
+    Args:
+        filename (str):     Path of file to parse
+        outputname (str):   Path of destination file
     """
     # Open a file as bytes
     infile = open(filename, "rb")

@@ -2,21 +2,35 @@ import re
 import os
 
 """
-parser.py
-
 Python module for converting bython code to python code.
-
-Usage:
-    parse_file(filename, add_true_line)
 """
 
 def _ends_in_by(word):
-    """Return true if the string 'word' ends in '.by'"""
+    """
+    Returns True if word ends in .by, else False
+
+    Args:
+        word (str):     Filename to check
+
+    Returns:
+        boolean: Whether 'word' ends with 'by' or not
+    """
     return word[-3:] == ".by"
 
 
 def _change_file_name(name, outputname):
-    """Adds .by to the end of the string name, changing .py to .by"""
+    """
+    Changes *.by filenames to *.py filenames. If filename does not end in .by, 
+    it adds .py to the end.
+
+    Args:
+        name (str):         Filename to edit
+        outputname (str):   Optional. Overrides result of function.
+
+    Returns:
+        str: Resulting filename with *.py at the end (unless 'outputname' is
+        specified, then that is returned).
+    """
 
     # If outputname is specified, return that
     if outputname is not None:
@@ -34,6 +48,13 @@ def parse_imports(filename):
     """
     Reads the file, and scans for imports. Returns all the assumed filename
     of all the imported modules (ie, module name appended with ".by")
+
+    Args:
+        filename (str):     Path to file
+
+    Returns:
+        list of str: All imported modules, suffixed with '.by'. Ie, the name
+        the imported files must have if they are bython files.
     """
     infile = open(filename, 'r')
     infile_str = ""
@@ -50,27 +71,27 @@ def parse_imports(filename):
     return imports_with_suffixes
 
 
-def parse_file(filepath, add_true_line, placement_path, outputname):
+def parse_file(filepath, add_true_line, filename_prefix, outputname=None):
     """
     Converts a bython file to a python file and writes it to disk.
-    
-    filename is a string pointing to the .by file you want to parse.
-    
-    add_true_line is a True/False value. If True, "true" and "false",
-    "true = True" and "false = False" are defined in the resulting
-    python file.
 
-    placement_path is where the directory where the output files should
-    be stored. 
+    Args:
+        filename (str):             Path to the bython file you want to parse.
+        add_true_line (boolean):    Whether to add a line at the top of the
+                                    file, adding support for C-style true/false
+                                    in addition to capitalized True/False.
+        filename_prefix (str):      Prefix to resulting file name (if -c or -k
+                                    is not present, then the files are prefixed
+                                    with a '.').
+        outputname (str):           Optional. Override name of output file. If
+                                    omitted it defaults to substituting '.by' to
+                                    '.py'    
     """
-    # if not placement_path == "":
-    #     os.makedirs(os.path.dirname(placement_path), exist_ok=True)
-
     filename = os.path.basename(filepath)
     filedir = os.path.dirname(filepath)
 
     infile = open(filepath, 'r')
-    outfile = open(placement_path + _change_file_name(filename, outputname), 'w')
+    outfile = open(filename_prefix + _change_file_name(filename, outputname), 'w')
 
     indentation_level = 0
     indentation_sign = "    "

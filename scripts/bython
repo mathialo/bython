@@ -12,12 +12,14 @@ Bython is Python with braces.
 
 This is a command-line utility to translate and run bython files.
 
-Flags:
+Flags and arguments:
     -V, --version:      Print version number
     -v, --verbose:      Print progress
     -c, --compile:      Translate to python file and store; do not run
+    -k, --keep:         Keep generated python files
     -t, --lower_true:   Adds support for lower case true/false
     -2, --python2:      Use python2 instead of python3
+    -o, --output:       Specify name of output file (if -c is present)
     input,              Bython files to process
     args,               Arguments to script
 """
@@ -165,6 +167,7 @@ def main():
 
     except:
         logger.log_error("Could not delete created python files.\nSome garbage may remain in ~/.bythontemp/")
+
 
 if __name__ == '__main__':
     main()
