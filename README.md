@@ -4,6 +4,13 @@ Python with braces. Because Python is awesome, but whitespace is awful.
 Bython is a Python preprosessor which translates curly brackets into indentation.
 
 
+## Content of README:
+  * [Key features](#key-features)
+  * [Code example](#code-example)
+  * [Installation](#installation)
+  * [Quick intro](#quick-intro)
+  * [Structure of the repository](#structure-of-the-repository)
+
 
 ## Key features
  * "Forget" about indentaition. You should still write beautiful code, but if you mess up with tabs/spaces, or copy one piece of code to another that uses a different indentation style, it won't break.
@@ -23,6 +30,26 @@ if __name__ == "__main__" {
     print_message(10);
 }
 ```
+
+
+## Installation
+You can install Bython directly from PyPI using pip:
+
+	> sudo -H pip3 install bython
+
+If you for some reason want to install it from the git repository you can use `git clone` and do a local install instead:
+
+	> git clone https://github.com/mathialo/bython.git
+	> cd bython
+	> sudo -H pip3 install .
+
+The git version is sometimes a tiny bit ahead of the PyPI version, but not significantly.
+
+To uninstall, simply run 
+
+	> sudo pip3 uninstall bython
+
+which will undo all the changes.
 
 
 
@@ -53,20 +80,6 @@ This will create a Bython file called `test.by`. A full explanation of `py2by`, 
 or by consulting the man page:
 
 	> man py2by
-
-
-## Installation
-Bython is currently only developed for Unix-like OS's. To install simply open a terminal, move to a suited directory (like Downloads), and type
-	
-	> git clone https://github.com/mathialo/bython.git
-	> cd bython
-	> sudo pip3 install .
-
-This will copy the executables to "/usr/local/bin" so that Bython is available from the shell. To uninstall, simply run 
-
-	> sudo pip3 uninstall bython
-
-which will undo all the changes.
 
 
 ## Structure of the repository
