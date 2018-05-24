@@ -104,15 +104,36 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None):
     for line in infile:
         infile_str_raw += line
 
-    # Add 'pass' where there is only a {}
-    infile_str_raw = re.sub(r"{[\s\n\r]*}", "{\npass\n}", infile_str_raw)
+    # Add 'pass' where there is only a {}. 
+    # 
+    # DEPRECATED FOR NOW. This way of doing
+    # it is causing a lot of problems with {} in comments. The feature is removed
+    # until I find another way to do it. 
+    
+    # infile_str_raw = re.sub(r"{[\s\n\r]*}", "{\npass\n}", infile_str_raw)
 
     # Fix indentation
     infile_str_indented = ""
     for line in infile_str_raw.split("\n"):
+        # Search for comments, and remove for now. Re-add them before writing to
+        # result string
+        m = re.search(r"[ \t]*(#.*$)", line)
+
+        # Make sure # sign is not inside quotations. Delete match object if it is
+        if m is not None:
+            m2 = re.search(r"[\"'].*#.*[\"']", m.group(0))
+            if m2 is not None:
+                m = None
+
+        if m is not None:
+            add_comment = m.group(0)
+            line = re.sub(r"[ \t]*(#.*$)", "", line)
+        else:
+            add_comment = ""
+
         # skip empty lines:
-        if line in ('\n', '\r\n'):
-            infile_str_indented += line + "\n"
+        if line.strip() in ('\n', '\r\n', ''):
+            infile_str_indented += indentation_level*indentation_sign + add_comment.lstrip() + "\n"
             continue
 
         # remove existing whitespace:
@@ -132,12 +153,13 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None):
             if i == "{":
                 indentation_level += 1
 
-        infile_str_indented += line + "\n"
+        # Replace { with : and remove }
+        line = re.sub(r"[\t ]*{[ \t]*", ":", line)
+        line = re.sub(r"}[ \t]*", "", line)
+        line = re.sub(r"\n:", ":", line)
 
-    # Replace { with : and remove }
-    infile_str_indented = re.sub(r"[\t ]*{[ \t]*", ":", infile_str_indented)
-    infile_str_indented = re.sub(r"}[ \t]*", "", infile_str_indented)
-    infile_str_indented = re.sub(r"\n:", ":", infile_str_indented)
+        infile_str_indented += line + add_comment + "\n"
+
 
     # Support for extra, non-brace related stuff
     infile_str_indented = re.sub(r"else\s+if", "elif", infile_str_indented)
