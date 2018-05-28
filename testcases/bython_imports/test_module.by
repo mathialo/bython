@@ -1,0 +1,3 @@
+def func() {
+	print("IT WORKS!")
+}
