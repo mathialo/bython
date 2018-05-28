@@ -81,6 +81,8 @@ or by consulting the man page:
 
 	> man py2by
 
+For a more in-depth intro, consult the [bython introduction](INTRODUCTION.md)
+
 
 ## Structure of the repository
 At the moment, Bython is written in Python. The git repository is structured into 4 directories:
