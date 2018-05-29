@@ -3,18 +3,18 @@ This document gives a more thorough introduction to Bython.
 
 ## Table of contents
 
-* [0 - Installation](#0---installation)
-   * [1 - The basics](#1---the-basics)
-      * [1.1 - Running your program](#11---running-your-program)
-      * [1.2 - Keeping generated Python files](#12---keeping-generated-python-files)
-      * [1.3 - Different Python versions](#13---different-python-versions)
-   * [2 - Differences from regular Python](#2---differences-from-regular-python)
-      * [2.1 - Dictionaries](#21---dictionaries)
-      * [2.2 - else if](#22---else-if)
-   * [3 - Imports](#3---imports)
-      * [3.1 - Importing Bython modules in Bython code](#31---importing-bython-modules-in-bython-code)
-      * [3.2 - Importing Python modules in Bython code](#32---importing-python-modules-in-bython-code)
-      * [3.3 - Importing Bython modules in Python code](#33---importing-bython-modules-in-python-code)
+  * [0 - Installation](#0---installation)
+  * [1 - The basics](#1---the-basics)
+    * [1.1 - Running your program](#11---running-your-program)
+    * [1.2 - Keeping generated Python files](#12---keeping-generated-python-files)
+    * [1.3 - Different Python versions](#13---different-python-versions)
+  * [2 - Differences from regular Python](#2---differences-from-regular-python)
+    * [2.1 - Dictionaries](#21---dictionaries)
+    * [2.2 - else if](#22---else-if)
+  * [3 - Imports](#3---imports)
+    * [3.1 - Importing Bython modules in Bython code](#31---importing-bython-modules-in-bython-code)
+    * [3.2 - Importing Python modules in Bython code](#32---importing-python-modules-in-bython-code)
+    * [3.3 - Importing Bython modules in Python code](#33---importing-bython-modules-in-python-code)
 
 # 0 - Installation
 Bython is available from PyPI, so a call to pip should do the trick:
