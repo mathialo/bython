@@ -136,7 +136,7 @@ def main():
 
     # Run file
     if cmd_args.python2:
-        python_command = "python"
+        python_command = "python2"
 
     else:
         python_command = "python3"
