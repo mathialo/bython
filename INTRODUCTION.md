@@ -113,7 +113,7 @@ else:
 
 Bython introduces C-style `else if` as an additional alternative. Normal `elif` is of course still valid:
 ``` python
-# Python-like 'elif':
+# Python-style 'elif':
 if x > 5 {
     print("value is bigger than 5")
 } elif x == 5 {
