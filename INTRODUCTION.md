@@ -64,7 +64,7 @@ A plot containing one period of a sine wave should appear.
 
 
 ## 1.2 - Keeping generated Python files
-Bython works by first translating your Bython files to regular Python, and then use Python to run it. After running, the created Pythohn files are deleted. If you want to keep the created files after running, use the `-k` (k for 'keep') flag:
+Bython works by first translating your Bython files to regular Python, and then use Python to run it. After running, the created Python files are deleted. If you want to keep the created files after running, use the `-k` (k for 'keep') flag:
 ``` bash
 bython -k test.by
 ```
