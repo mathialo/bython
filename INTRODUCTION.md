@@ -14,7 +14,11 @@ This document gives a more thorough introduction to Bython.
   * [3 - Imports](#3---imports)
     * [3.1 - Importing Bython modules in Bython code](#31---importing-bython-modules-in-bython-code)
     * [3.2 - Importing Python modules in Bython code](#32---importing-python-modules-in-bython-code)
-    * [3.3 - Importing Bython modules in Python code](#33---importing-bython-modules-in-python-code)
+    * [3.3 - Importing Bython modules in Python code](#33---importing-bython-modules-in-python-code)    
+  * [4 - Python files](#4---python-files)
+    * [4.1 - Formatting of resulting Python files](#41---formatting-of-resulting-python-files)
+    * [4.2 - Translating Python to Bython](#42---translating-python-to-bython)
+
 
 # 0 - Installation
 Bython is available from PyPI, so a call to pip should do the trick:
@@ -177,3 +181,17 @@ bython_import("test_module", globals())
 # The module is now available as test_module:
 test_module.func()
 ```
+
+
+
+# 4 - Python files
+
+## 4.1 - Formatting of resulting Python files
+Bython tries to keep the line numbers in the resulting Python files equivalent to the ones in the original source file. Thus, if an error occurs on line 42 when running Python, you can go to line 42 in the Bython code to inspect the error. 
+
+However, this approach yields some undesirable formatting on the resulting Python code. You should therefore consider using some Python formatter like [yapf](https://github.com/google/yapf) or [black](https://github.com/ambv/black) on the output from Bython to make the resulting Python code nice and tidy. 
+
+
+
+## 4.2 - Translating Python to Bython
+If you want to translate Python code to Bython, you can use the built-in `py2by` script. It's an experimental feature, but seems to work quite well. 
