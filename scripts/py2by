@@ -80,35 +80,46 @@ def reverse_parse(filename, outputname):
     # Populates indent_tracker, using indent_levels as a stack
     # to properly record whitespace for each bython brace.
     indent_levels = []
-    position = 0;
-    line_of_last_name_token = 0;
+    position = 0
+    line_of_last_name_token = 0
+    max_indent = 0
+
     for token in tokens:
         current_line = token.start[0]
         if ((token.exact_type == NAME)
             and line_of_last_name_token != current_line):
             line_of_last_name_token = current_line
             position = token.start[1]
+
         if (token.exact_type == INDENT):
             indent_levels.append(position)
             indent_tracker.append((INDENT,current_line,position))
+
         if (token.exact_type == DEDENT):
             indent_tracker.append((DEDENT,current_line,indent_levels.pop()))
-    
+
+        if (len(indent_levels) > max_indent):
+            max_indent = len(indent_levels)
+
+
     # Add curly braces where necessary to create our bython file
     extra = 0
+
     for indent in indent_tracker:
         token = indent[0]
         index = indent[1]
         position = indent[2]
+
         inlines.insert(
             index + extra - 1,
             " " * position
             + ("}","{")[token==INDENT]
         )
+
         extra += 1
 
     # Save the file
-    outfile = open(change_file_name(filename, outputname),"w")
+    outfile = open(change_file_name(filename, outputname), "w")
 
     # Combine lines to one string
     entire_file = "\n".join(inlines)
@@ -120,7 +131,13 @@ def reverse_parse(filename, outputname):
     # Another quick fix solving the problem with inline comments, (see issue 14
     # on github). This also makes the indentation style Java-style instead of 
     # Allman-style as before (see https://en.wikipedia.org/wiki/Indentation_style)
-    entire_file = re.sub(r"(#\s*[\w\d\s]*)?\n\s*{", r"{\1", entire_file)
+    entire_file = re.sub(r"(#\s*[\w\d\s]*)?\n\s*{", r" {\1", entire_file)
+
+    # Fix issue with where the closing braces are placed. Search for places where
+    # the following three things appear: (newlines) ((indented) curly brace) (newline)
+    # and invert the order.
+    for i in range(max_indent):
+        entire_file = re.sub(r"(\n+)([ \t]*})(\n)", r"\3\2\1", entire_file)
 
     print(entire_file, file=outfile)
 
