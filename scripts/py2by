@@ -131,7 +131,7 @@ def reverse_parse(filename, outputname):
     # Another quick fix solving the problem with inline comments, (see issue 14
     # on github). This also makes the indentation style Java-style instead of 
     # Allman-style as before (see https://en.wikipedia.org/wiki/Indentation_style)
-    entire_file = re.sub(r"(#\s*[\w\d\s]*)?\n\s*{", r" {\1", entire_file)
+    entire_file = re.sub(r"((?:\s*#\s*.*\n?)*)?\n\s*{", r" {\1", entire_file)
 
     # Fix issue with where the closing braces are placed. Search for places where
     # the following three things appear: (newlines) ((indented) curly brace) (newline)
