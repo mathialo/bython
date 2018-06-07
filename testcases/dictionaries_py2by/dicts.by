@@ -1,0 +1,4 @@
+dict1 = dict([("one", 1), ("two", 2)])
+dict2 = dict()
+
+dict3 = dict([("one", 1), ("two", 2), ("three", 3)])

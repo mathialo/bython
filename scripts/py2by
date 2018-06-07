@@ -46,6 +46,66 @@ def change_file_name(name, outputname=None):
         return name + ".by"
 
 
+def translate_dictionary(definition_string):
+    """
+    Translate one specific dictionary definition from using {} to using dict()
+
+    Args:
+        definition_string (str):    A string with a dictionary definition 
+                                    (including '=' beforehand)
+
+    Returns:
+        str: An equivalent definition (including '='), but using the
+        dict()-contructor instead of { and }
+    """
+    # Remove = before definition
+    definition_string = re.sub(r"\s*=\s*", "", definition_string)
+
+    # Remove { and }
+    definition_string = re.sub(r"[{}]", "", definition_string)
+    
+    # Remove newlines
+    definition_string = re.sub(r"\s*\n\s*", "", definition_string)
+
+    # Find all pairs
+    pairs = re.split(r"\s*,\s*", definition_string)
+
+    # Convert each pair to a tuple definition
+    result_inner = ""
+    for pair in pairs:
+        if pair.strip() == "": continue
+        key, value = re.split(r"\s*:\s*", pair)
+
+        if result_inner == "":
+            result_inner = "(%s, %s)" % (key, value)
+
+        else:
+            result_inner += ", (%s, %s)" % (key, value)
+
+    if result_inner == "": return "= dict()"
+    else: return "= dict([%s])" % result_inner
+
+
+
+def pre_reverse_parse(infile_string):
+    """
+    Perform some necessary changes to the file before reverse parsing can ensue.
+    This include changing dict definitions to include 
+
+    Args:
+        infile_string (str):    A string containing the whole python source
+
+    Returns:
+        str: The source with changes to dictionary definitions
+    """
+    dictionaries = re.findall(r"=\s*{\s*(?:.+\s*:\s*.+(?:\s*,\s*)?)*\s*}", infile_string)
+
+    for dictionary in dictionaries:
+        infile_string = re.sub(dictionary, translate_dictionary(dictionary), infile_string)
+
+    return infile_string
+
+
 def reverse_parse(filename, outputname):
     """
     Changes a Python file to a Bython file
@@ -119,7 +179,7 @@ def reverse_parse(filename, outputname):
         extra += 1
 
     # Save the file
-    outfile = open(change_file_name(filename, outputname), "w")
+    outfile = open(outputname, "w")
 
     # Combine lines to one string
     entire_file = "\n".join(inlines)
@@ -170,8 +230,19 @@ def main():
     logger = Logger()
 
     try:
-        outputname = cmd_args.output[0] if cmd_args.output is not None else None
-        reverse_parse(cmd_args.input[0], outputname)
+        outputname = cmd_args.output[0] if cmd_args.output is not None else change_file_name(cmd_args.input[0], None)
+
+        infile = open(cmd_args.input[0], "r")
+        infile_string = "".join(infile.readlines())
+
+        pre_parsed = pre_reverse_parse(infile_string)
+        tempoutfile = open(cmd_args.input[0]+".py2bytemp", "w")
+        tempoutfile.write(pre_parsed)
+        tempoutfile.close()
+
+        reverse_parse(cmd_args.input[0]+".py2bytemp", outputname)
+
+        os.remove(cmd_args.input[0]+".py2bytemp")
 
     except FileNotFoundError:
         logger.log_error("No file named %s" % cmd_args.input[0])
