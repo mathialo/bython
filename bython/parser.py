@@ -71,7 +71,7 @@ def parse_imports(filename):
     return imports_with_suffixes
 
 
-def parse_file(filepath, add_true_line, filename_prefix, outputname=None):
+def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change_imports=None):
     """
     Converts a bython file to a python file and writes it to disk.
 
@@ -86,6 +86,8 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None):
         outputname (str):           Optional. Override name of output file. If
                                     omitted it defaults to substituting '.by' to
                                     '.py'    
+        change_imports (dict):      Names of imported bython modules, and their 
+                                    python alternative.
     """
     filename = os.path.basename(filepath)
     filedir = os.path.dirname(filepath)
@@ -164,6 +166,12 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None):
     # Support for extra, non-brace related stuff
     infile_str_indented = re.sub(r"else\s+if", "elif", infile_str_indented)
     infile_str_indented = re.sub(r";\n", "\n", infile_str_indented)
+
+    # Change imported names if necessary
+    if change_imports is not None:
+        for module in change_imports:
+            infile_str_indented = re.sub("(?<=import\\s){}".format(module), "{} as {}".format(change_imports[module], module), infile_str_indented)
+            infile_str_indented = re.sub("(?<=from\\s){}(?=\\s+import)".format(module), change_imports[module], infile_str_indented)
 
     outfile.write(infile_str_indented)
 

@@ -79,8 +79,8 @@ def main():
 
     else:
         # Prefix with . to hide, also to avoid name conflicts. 
-        path_prefix = "."
-        logger.log_info("Placing files in this directory, but making them hidden (ie, prefixed with .)")
+        path_prefix = "python_"
+        logger.log_info("Placing files in this directory, but prefixing them with python_*")
 
 
     # List of all files to translate from bython to python
@@ -111,13 +111,21 @@ def main():
 
         i += 1
 
+    if path_prefix != "":
+        import_translations = {}
+        for file in parse_que:
+            import_translations[file[:-3]] = path_prefix + file[:-3]
+
+    else:
+        import_translations = None
+
     # Parsing
     try:
         for file in parse_que:
             current_file_name = file
             logger.log_info("Parsing '%s'" % file)
             outputname = cmd_args.output[0] if cmd_args.output is not None else None
-            parser.parse_file(file, cmd_args.lower_true, path_prefix, outputname)
+            parser.parse_file(file, cmd_args.lower_true, path_prefix, outputname, import_translations)
 
     except (TypeError, FileNotFoundError) as e:
         logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))
