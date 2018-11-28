@@ -128,7 +128,8 @@ def main():
             if cmd_args.output is None:
                 outputname = None
             elif os.path.isdir(cmd_args.output[0]):
-                outputname = os.path.join(cmd_args.output[0], parser._change_file_name(file))
+                new_file_name = parser._change_file_name(os.path.split(file)[1])
+                outputname = os.path.join(cmd_args.output[0], new_file_name)
             else:
                 outputname = cmd_args.output[0]
 
@@ -143,6 +144,7 @@ def main():
         except:
             pass
 
+        raise e
         sys.exit(1)
 
     # Stop if we were only asked to translate
