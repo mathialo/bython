@@ -124,7 +124,14 @@ def main():
         for file in parse_que:
             current_file_name = file
             logger.log_info("Parsing '%s'" % file)
-            outputname = cmd_args.output[0] if cmd_args.output is not None else None
+
+            if cmd_args.output is None:
+                outputname = None
+            elif os.path.isdir(cmd_args.output[0]):
+                outputname = os.path.join(cmd_args.output[0], parser._change_file_name(file))
+            else:
+                outputname = cmd_args.output[0]
+
             parser.parse_file(file, cmd_args.lower_true, path_prefix, outputname, import_translations)
 
     except (TypeError, FileNotFoundError) as e:
