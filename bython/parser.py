@@ -18,7 +18,7 @@ def _ends_in_by(word):
     return word[-3:] == ".by"
 
 
-def _change_file_name(name, outputname):
+def _change_file_name(name, outputname=None):
     """
     Changes *.by filenames to *.py filenames. If filename does not end in .by, 
     it adds .py to the end.
