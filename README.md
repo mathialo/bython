@@ -13,12 +13,14 @@ Bython is a Python preprosessor which translates curly brackets into indentation
 
 
 ## Key features
+
  * "Forget" about indentaition. You should still write beautiful code, but if you mess up with tabs/spaces, or copy one piece of code to another that uses a different indentation style, it won't break.
 
  * Uses Python for interpretation, that means that all of your existing modules, like NumPy and Matplotlib still works.
 
 
 ## Code example
+
 ```python
 def print_message(num_of_times) {
     for i in range(num_of_times) {
@@ -33,58 +35,79 @@ if __name__ == "__main__" {
 
 
 ## Installation
-You can install Bython directly from PyPI using pip:
 
-	$ sudo -H pip3 install bython
+You can install Bython directly from PyPI using pip (with or without `sudo -H`, depending on your Python installation):
+
+```
+$ sudo -H pip3 install bython
+```
 
 If you for some reason want to install it from the git repository you can use `git clone` and do a local install instead:
 
-	$ git clone https://github.com/mathialo/bython.git
-	$ cd bython
-	$ sudo -H pip3 install .
+```
+$ git clone https://github.com/mathialo/bython.git
+$ cd bython
+$ sudo -H pip3 install .
+```
 
 The git version is sometimes a tiny bit ahead of the PyPI version, but not significantly.
 
 To uninstall, simply run 
 
-	$ sudo pip3 uninstall bython
+```
+$ sudo pip3 uninstall bython
+```
 
 which will undo all the changes.
 
 
 
 ## Quick intro
+
 Bython works by first translating Bython-files (suggested file ending: .by) into Python-files, and then using Python to run them. You therefore need a working installation of Python for Bython to work.
 
 
 To run a Bython program, simply type
 
-	$ bython source.by arg1 arg2 ...
+```
+$ bython source.by arg1 arg2 ...
+```
 
 to run `source.by` with arg1, arg2, ... as command line arguments. If you want more details on how to run Bython files (flags, etc), type
 
-	$ bython -h
+```
+$ bython -h
+```
 
 to print the built-in help page. You can also consult the man page by typing
 
-	$ man bython
+```
+$ man bython
+```
 
 Bython also includes a translator from Python to Bython. This is found via the `py2by` command:
 
-	$ py2by test.py
+```
+$ py2by test.py
+```
 
 This will create a Bython file called `test.by`. A full explanation of `py2by`, is found by typing
 
-	$ py2by -h
+```
+$ py2by -h
+```
 
 or by consulting the man page:
 
-	$ man py2by
+```
+$ man py2by
+```
 
 For a more in-depth intro, consult the [bython introduction](INTRODUCTION.md)
 
 
 ## Structure of the repository
+
 At the moment, Bython is written in Python. The git repository is structured into 4 directories:
 
  * `bython` contains a Python package containing the parser and other utilities used by the main script
