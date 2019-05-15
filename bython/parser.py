@@ -119,19 +119,22 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
     for line in infile_str_raw.split("\n"):
         # Search for comments, and remove for now. Re-add them before writing to
         # result string
-        m = re.search(r"[ \t]*(#.*$)", line)
+        m = re.search(r"[ \t]*([(\/\/)#].*$)", line)
 
         # Make sure # sign is not inside quotations. Delete match object if it is
         if m is not None:
-            m2 = re.search(r"[\"'].*#.*[\"']", m.group(0))
+            m2 = re.search(r"[\"'].*[(\/\/)#].*[\"']", m.group(0))
             if m2 is not None:
                 m = None
 
         if m is not None:
             add_comment = m.group(0)
-            line = re.sub(r"[ \t]*(#.*$)", "", line)
+            line = re.sub(r"[ \t]*([(\/\/)#].*$)", "", line)
         else:
             add_comment = ""
+        
+        # replace // with #
+        add_comment = add_comment.replace("//", "#", 1)
 
         # skip empty lines:
         if line.strip() in ('\n', '\r\n', ''):
