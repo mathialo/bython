@@ -119,19 +119,22 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
     for line in infile_str_raw.split("\n"):
         # Search for comments, and remove for now. Re-add them before writing to
         # result string
-        m = re.search(r"[ \t]*(#.*$)", line)
+        m = re.search(r"[ \t]*([(\/\/)#].*$)", line)
 
         # Make sure # sign is not inside quotations. Delete match object if it is
         if m is not None:
-            m2 = re.search(r"[\"'].*#.*[\"']", m.group(0))
+            m2 = re.search(r"[\"'].*[(\/\/)#].*[\"']", m.group(0))
             if m2 is not None:
                 m = None
 
         if m is not None:
             add_comment = m.group(0)
-            line = re.sub(r"[ \t]*(#.*$)", "", line)
+            line = re.sub(r"[ \t]*([(\/\/)#].*$)", "", line)
         else:
             add_comment = ""
+        
+        # replace // with #
+        add_comment = add_comment.replace("//", "#", 1)
 
         # skip empty lines:
         if line.strip() in ('\n', '\r\n', ''):
@@ -177,3 +180,83 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
 
     infile.close()
     outfile.close()
+
+
+def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None):
+    """
+    Converts a bython file to a python file recursively and writes it to disk.
+
+    Args:
+        filename (str):             Path to the bython file you want to parse.
+        add_true_line (boolean):    Whether to add a line at the top of the
+                                    file, adding support for C-style true/false
+                                    in addition to capitalized True/False.
+        filename_prefix (str):      Prefix to resulting file name (if -c or -k
+                                    is not present, then the files are prefixed
+                                    with a '.').
+        outputname (str):           Optional. Override name of output file. If
+                                    omitted it defaults to substituting '.by' to
+                                    '.py'    
+        change_imports (dict):      Names of imported bython modules, and their 
+                                    python alternative.
+    """
+
+    # TODO remove defaults for the parameters 'add_true_line' and 'filename_prefix'
+    # i've put them there for ease of use
+
+    # inner function for parsing recursively
+    def recursive_parser(code, position=0, scope=""):
+
+        # scope equal to "" means it's on global scope
+        if scope == "":
+            print("g", end="") # for debugging
+            while position < len(code):
+
+                if code[position] == "{":
+                    position = recursive_parser(code, position + 1, "{")
+                    print("g", end="") # for debugging
+
+                if code[position] == "#":
+                    position = recursive_parser(code, position + 1, "#")
+
+                else:
+                    position = position + 1
+        
+        elif scope == "{":
+            print("{", end="") # for debugging
+            while position < len(code):
+
+                if code[position] == "{":
+                    position = recursive_parser(code, position + 1, "{")
+
+                if code[position] == "#":
+                    position = recursive_parser(code, position + 1, "#")
+
+                elif code[position] == "}":
+                    print("}", end="")
+                    return position + 1
+
+                else:
+                    position = position + 1
+
+        elif scope == "#":
+            print("#", end="") # for debugging
+            while position < len(code):
+
+                if code[position] == "\n":
+                    print("n", end="") # for debugging
+                    return position + 1
+
+                else:
+                    position = position + 1
+        
+        else:
+            raise Exception("invalid scope was reached")
+
+
+    # open file and read contents
+    infile = open(filepath, "r")
+    infile_str = infile.read()
+    infile.close()
+
+    recursive_parser(infile_str)

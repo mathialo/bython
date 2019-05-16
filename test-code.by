@@ -1,0 +1,17 @@
+# this file is for testing purposes only
+# TODO remove this file later
+
+def print_hello_world() {
+    str = "hello"; # hello
+    str += " world"; // world
+    if str == "hello world" {
+        print("its equal")
+    }
+    else
+    {
+        print("not equal")
+    }
+    print(str) /////# let's print it!
+}
+
+print_hello_world();
