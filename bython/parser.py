@@ -208,14 +208,20 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
     def recursive_parser(code, position=0, scope=""):
 
         # scope equal to "" means it's on global scope
-        if scope == "":
-            print("g", end="") # for debugging
+        # scope equal to "{" means it's on local scope
+        if scope == "" or scope == "{":
+
+            if scope == "":
+                print("g", end="") # for debugging
+
             while position < len(code):
 
                 # check for brace opening
                 if code[position] == "{":
+                    print("{", end="") # for debugging
                     position = recursive_parser(code, position + 1, "{")
-                    print("g", end="") # for debugging
+                    if scope == "":
+                        print("g", end="") # for debugging
 
                 # check for python-style comment
                 elif code[position] == "#":
@@ -240,45 +246,13 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                 elif code[position] == "=":
                     position = recursive_parser(code, position + 1, "=")
 
-                else:
-                    position = position + 1
-        
-        elif scope == "{":
-            print("{", end="") # for debugging
-            while position < len(code):
-
-                # check for brace opening
-                if code[position] == "{":
-                    position = recursive_parser(code, position + 1, "{")
-                
-                # check for brace closing
-                elif code[position] == "}":
-                    print("}", end="")
-                    return position + 1
-
-                # check for python-style comment
-                elif code[position] == "#":
-                    position = recursive_parser(code, position + 1, "#")
-
-                # check for c and cpp-style comment
-                elif code[position] == "/":
-                    if code[position + 1] == "/":
-                        position = recursive_parser(code, position + 2, "//")
-                    elif code[position + 1] == "*":
-                        position = recursive_parser(code, position + 2, "/*")
-                
-                # check for single-quote string start
-                elif code[position] == "\'":
-                    position = recursive_parser(code, position + 1, "\'")
-
-                # check for double-quote string start
-                elif code[position] == "\"":
-                    position = recursive_parser(code, position + 1, "\"")
-                
-                # check for equals (for python dicts with braces)
-                elif code[position] == "=":
-                    position = recursive_parser(code, position + 1, "=")
-                
+                # check for brace closing (when not on global)
+                elif scope == "{":
+                    if code[position] == "}":
+                        print("}", end="")
+                        return position + 1
+                    else:
+                        position = position + 1
 
                 else:
                     position = position + 1
