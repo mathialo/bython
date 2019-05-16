@@ -216,6 +216,9 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                     position = recursive_parser(code, position + 1, "{")
                     print("g", end="") # for debugging
 
+                if code[position] == "#":
+                    position = recursive_parser(code, position + 1, "#")
+
                 else:
                     position = position + 1
         
@@ -226,12 +229,30 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                 if code[position] == "{":
                     position = recursive_parser(code, position + 1, "{")
 
+                if code[position] == "#":
+                    position = recursive_parser(code, position + 1, "#")
+
                 elif code[position] == "}":
                     print("}", end="")
                     return position + 1
 
                 else:
                     position = position + 1
+
+        elif scope == "#":
+            print("#", end="") # for debugging
+            while position < len(code):
+
+                if code[position] == "\n":
+                    print("n", end="") # for debugging
+                    return position + 1
+
+                else:
+                    position = position + 1
+        
+        else:
+            raise Exception("invalid scope was reached")
+
 
     # open file and read contents
     infile = open(filepath, "r")
