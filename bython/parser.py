@@ -212,12 +212,33 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
             print("g", end="") # for debugging
             while position < len(code):
 
+                # check for brace opening
                 if code[position] == "{":
                     position = recursive_parser(code, position + 1, "{")
                     print("g", end="") # for debugging
 
-                if code[position] == "#":
+                # check for python-style comment
+                elif code[position] == "#":
                     position = recursive_parser(code, position + 1, "#")
+                
+                # check for c and cpp-style comment
+                elif code[position] == "/":
+                    if code[position + 1] == "/":
+                        position = recursive_parser(code, position + 2, "//")
+                    elif code[position + 1] == "*":
+                        position = recursive_parser(code, position + 2, "/*")
+                
+                # check for single-quote string start
+                elif code[position] == "\'":
+                    position = recursive_parser(code, position + 1, "\'")
+
+                # check for double-quote string start
+                elif code[position] == "\"":
+                    position = recursive_parser(code, position + 1, "\"")
+                
+                # check for equals (for python dicts with braces)
+                elif code[position] == "=":
+                    position = recursive_parser(code, position + 1, "=")
 
                 else:
                     position = position + 1
@@ -226,15 +247,38 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
             print("{", end="") # for debugging
             while position < len(code):
 
+                # check for brace opening
                 if code[position] == "{":
                     position = recursive_parser(code, position + 1, "{")
-
-                if code[position] == "#":
-                    position = recursive_parser(code, position + 1, "#")
-
+                
+                # check for brace closing
                 elif code[position] == "}":
                     print("}", end="")
                     return position + 1
+
+                # check for python-style comment
+                elif code[position] == "#":
+                    position = recursive_parser(code, position + 1, "#")
+
+                # check for c and cpp-style comment
+                elif code[position] == "/":
+                    if code[position + 1] == "/":
+                        position = recursive_parser(code, position + 2, "//")
+                    elif code[position + 1] == "*":
+                        position = recursive_parser(code, position + 2, "/*")
+                
+                # check for single-quote string start
+                elif code[position] == "\'":
+                    position = recursive_parser(code, position + 1, "\'")
+
+                # check for double-quote string start
+                elif code[position] == "\"":
+                    position = recursive_parser(code, position + 1, "\"")
+                
+                # check for equals (for python dicts with braces)
+                elif code[position] == "=":
+                    position = recursive_parser(code, position + 1, "=")
+                
 
                 else:
                     position = position + 1
@@ -250,6 +294,87 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                 else:
                     position = position + 1
         
+        elif scope == "//":
+            print("//", end="") # for debugging
+            while position < len(code):
+
+                if code[position] == "\n":
+                    print("n", end="") # for debugging
+                    return position + 1
+
+                else:
+                    position = position + 1
+        
+        elif scope == "/*":
+            print("/*", end="") # for debugging
+            while position < len(code):
+
+                # check for c-style comment closing
+                if code[position] == "*":
+                    if code[position + 1] == "/":
+                        print("*/", end="") # for debugging
+                        return position + 2
+
+                else:
+                    position = position + 1
+
+        elif scope == "\'":
+            print("\'^", end="") # for debugging
+            while position < len(code):
+
+                # check for single-quote string ending
+                if code[position] == "\'":
+                    # check if its escaped
+                    if code[position - 1] != "\\":
+                        print("$\'", end="") # for debugging
+                        return position + 1
+                    else:
+                        position = position + 1
+
+                else:
+                    position = position + 1
+        
+        elif scope == "\"":
+            print("\"^", end="") # for debugging
+            while position < len(code):
+
+                # check for single-quote string ending
+                if code[position] == "\"":
+                    # check if its escaped
+                    if code[position - 1] != "\\":
+                        print("$\'", end="") # for debugging
+                        return position + 1
+                    else:
+                        position = position + 1
+
+                else:
+                    position = position + 1
+        
+        elif scope == "=":
+            print("=", end="") # for debugging
+            while position < len(code):
+                
+                # check for dicts
+                if code[position] == "{":
+                    print(".dict.", end="") # for debugging
+                    return recursive_parser(code, position + 1, "={")
+
+                # check for non dicts
+                elif re.search(r"[^\s\n\r]", code[position]):
+                    print("!", end="") # for debugging
+                    return position
+
+                else:
+                    position = position + 1
+        
+        elif scope == "={":
+            while position < len(code):
+                if code[position] == "}":
+                    return position + 1
+
+                else:
+                    position = position + 1
+
         else:
             raise Exception("invalid scope was reached")
 
