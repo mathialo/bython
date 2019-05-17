@@ -205,7 +205,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
     # i've put them there for ease of use
 
     # inner function for parsing recursively
-    def recursive_parser(code, position=0, scope=""):
+    def recursive_parser(code, position, scope, outfile, identation):
 
         # scope equal to "" means it's on global scope
         # scope equal to "{" means it's on local scope
@@ -213,38 +213,47 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
 
             if scope == "":
                 print("g", end="") # for debugging
+            else:
+                identation = identation + 1
 
             while position < len(code):
 
                 # check for brace opening
                 if code[position] == "{":
                     print("{", end="") # for debugging
-                    position = recursive_parser(code, position + 1, "{")
+                    outfile.write(":")
+                    position = recursive_parser(code, position + 1, "{", outfile, identation)
                     if scope == "":
                         print("g", end="") # for debugging
 
                 # check for python-style comment
                 elif code[position] == "#":
-                    position = recursive_parser(code, position + 1, "#")
+                    outfile.write(code[position])
+                    position = recursive_parser(code, position + 1, "#", outfile, identation)
                 
                 # check for c and cpp-style comment
                 elif code[position] == "/":
                     if code[position + 1] == "/":
-                        position = recursive_parser(code, position + 2, "//")
+                        outfile.write("#")
+                        position = recursive_parser(code, position + 2, "//", outfile, identation)
                     elif code[position + 1] == "*":
-                        position = recursive_parser(code, position + 2, "/*")
+                        outfile.write(code[position:position+2]) # TODO implement comment on all lines
+                        position = recursive_parser(code, position + 2, "/*", outfile, identation)
                 
                 # check for single-quote string start
                 elif code[position] == "\'":
-                    position = recursive_parser(code, position + 1, "\'")
+                    outfile.write(code[position])
+                    position = recursive_parser(code, position + 1, "\'", outfile, identation)
 
                 # check for double-quote string start
                 elif code[position] == "\"":
-                    position = recursive_parser(code, position + 1, "\"")
+                    outfile.write(code[position])
+                    position = recursive_parser(code, position + 1, "\"", outfile, identation)
                 
                 # check for equals (for python dicts with braces)
                 elif code[position] == "=":
-                    position = recursive_parser(code, position + 1, "=")
+                    outfile.write(code[position])
+                    position = recursive_parser(code, position + 1, "=", outfile, identation)
 
                 # check for brace closing (when not on global)
                 elif scope == "{":
@@ -252,15 +261,17 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                         print("}", end="")
                         return position + 1
                     else:
+                        outfile.write(code[position])
                         position = position + 1
 
                 else:
+                    outfile.write(code[position])
                     position = position + 1
 
         elif scope == "#":
             print("#", end="") # for debugging
             while position < len(code):
-
+                outfile.write(code[position])
                 if code[position] == "\n":
                     print("n", end="") # for debugging
                     return position + 1
@@ -271,7 +282,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
         elif scope == "//":
             print("//", end="") # for debugging
             while position < len(code):
-
+                outfile.write(code[position])
                 if code[position] == "\n":
                     print("n", end="") # for debugging
                     return position + 1
@@ -282,10 +293,11 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
         elif scope == "/*":
             print("/*", end="") # for debugging
             while position < len(code):
-
+                outfile.write(code[position])
                 # check for c-style comment closing
                 if code[position] == "*":
                     if code[position + 1] == "/":
+                        outfile.write(code[position + 1]) # TODO remove
                         print("*/", end="") # for debugging
                         return position + 2
 
@@ -295,7 +307,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
         elif scope == "\'":
             print("\'^", end="") # for debugging
             while position < len(code):
-
+                outfile.write(code[position])
                 # check for single-quote string ending
                 if code[position] == "\'":
                     # check if its escaped
@@ -311,7 +323,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
         elif scope == "\"":
             print("\"^", end="") # for debugging
             while position < len(code):
-
+                outfile.write(code[position])
                 # check for single-quote string ending
                 if code[position] == "\"":
                     # check if its escaped
@@ -325,13 +337,13 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                     position = position + 1
         
         elif scope == "=":
+            identation = identation + 1
             print("=", end="") # for debugging
             while position < len(code):
-                
                 # check for dicts
                 if code[position] == "{":
                     print(".dict.", end="") # for debugging
-                    return recursive_parser(code, position + 1, "={")
+                    return recursive_parser(code, position + 1, "={", outfile, identation)
 
                 # check for non dicts
                 elif re.search(r"[^\s\n\r]", code[position]):
@@ -339,9 +351,11 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                     return position
 
                 else:
+                    outfile.write(code[position])
                     position = position + 1
         
         elif scope == "={":
+            outfile.write(code[position])
             while position < len(code):
                 if code[position] == "}":
                     return position + 1
@@ -353,9 +367,15 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
             raise Exception("invalid scope was reached")
 
 
-    # open file and read contents
-    infile = open(filepath, "r")
+    filename = os.path.basename(filepath)
+    filedir = os.path.dirname(filepath)
+
+    infile = open(filepath, 'r')
     infile_str = infile.read()
     infile.close()
 
-    recursive_parser(infile_str)
+    outfile = open(filename_prefix + _change_file_name(filename, outputname), 'w')
+
+    recursive_parser(infile_str, 0, "", outfile, 0)
+
+    outfile.close()
