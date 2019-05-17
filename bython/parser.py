@@ -182,6 +182,12 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
     outfile.close()
 
 
+def remove_indentation(code):
+    code = re.sub(r"^[ \t]*", "", code, 1) # remove spaces a the start of the file
+    code = re.sub(r"\n\r[ \t]+", "\n\r", code)
+    code = re.sub(r"\n[ \t]+", "\n", code)
+    return code
+
 def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None):
     """
     Converts a bython file to a python file recursively and writes it to disk.
@@ -376,6 +382,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
 
     outfile = open(filename_prefix + _change_file_name(filename, outputname), 'w')
 
+    infile_str = remove_indentation(infile_str)
     recursive_parser(infile_str, 0, "", outfile, 0)
 
     outfile.close()
