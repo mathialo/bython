@@ -376,11 +376,15 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
             while position < len(code):
                 # check for dicts
                 if code[position] == "{":
+                    outfile.write(code[position])
+                    indent_if_newline(code[position], outfile, indentation, indentation_str)
                     print(".dict.", end="") # for debugging
                     return recursive_parser(code, position + 1, "={", outfile, indentation + 1, indentation_str)
 
                 # check for non dicts
                 elif re.search(r"[^\s\n\r]", code[position]):
+                    outfile.write(code[position])
+                    indent_if_newline(code[position], outfile, indentation, indentation_str)
                     print("!", end="") # for debugging
                     return position
 
@@ -390,13 +394,16 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                     position = position + 1
         
         elif scope == "={":
-            outfile.write(code[position])
-            indent_if_newline(code[position], outfile, indentation, indentation_str)
             while position < len(code):
+                
                 if code[position] == "}":
+                    outfile.write(code[position])
+                    indent_if_newline(code[position], outfile, indentation - 1, indentation_str)
                     return position + 1
 
                 else:
+                    outfile.write(code[position])
+                    indent_if_newline(code[position], outfile, indentation, indentation_str)
                     position = position + 1
 
         else:
