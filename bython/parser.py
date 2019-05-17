@@ -183,10 +183,24 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
 
 
 def remove_indentation(code):
-    code = re.sub(r"^[ \t]*", "", code, 1) # remove spaces a the start of the file
-    code = re.sub(r"\n\r[ \t]+", "\n\r", code)
-    code = re.sub(r"\n[ \t]+", "\n", code)
+    code = re.sub(r"^[ \t]*", "", code, 1)
+    code = re.sub(r"\r?\n[ \t]+", "\n", code)
     return code
+
+
+def prepare_braces(code):
+    # TODO fix issue with comment on the line before the brace
+    # TODO fix issue with brance within comments
+    code = re.sub(r" \{", "{", code)
+    code = re.sub(r"[ \t]*\r?\n[ \t]*\{", "{", code)
+    code = re.sub(r"\{", "{\n", code)
+    return code
+
+
+def remove_empty_lines(code):
+    code = re.sub(r"\r?\n[ \t]*(\r?\n[ \t]*)+", "\n", code)
+    return code
+
 
 def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None):
     """
@@ -383,6 +397,14 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
     outfile = open(filename_prefix + _change_file_name(filename, outputname), 'w')
 
     infile_str = remove_indentation(infile_str)
+    infile_str = prepare_braces(infile_str)
+    infile_str = remove_empty_lines(infile_str)
+
+    # TODO remove
+    filteredfile = open(filename + ".filtered", 'w')
+    filteredfile.write(infile_str)
+    filteredfile.close()
+
     recursive_parser(infile_str, 0, "", outfile, 0)
 
     outfile.close()
