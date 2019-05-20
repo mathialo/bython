@@ -196,6 +196,12 @@ def prepare_braces(code):
     return code
 
 
+def remove_semicolons(code):
+    code = re.sub(r";\r?(?=\n)", "", code)
+    code = re.sub(r";$", "", code)
+    return code
+
+
 def remove_empty_lines(code):
     code = re.sub(r"\r?\n[ \t]*(\r?\n[ \t]*)+", "\n", code)
     return code
@@ -234,7 +240,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
     def recursive_parser(code, position, scope, outfile, indentation, indentation_str="    "):
 
         # scope equal to "" means it's on global scope
-        # scope equal to "{" means it's on local scope
+        # scope equal to "{" means it's on a local scope
         if scope == "" or scope == "{":
 
             if scope == "":
@@ -248,7 +254,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                 if code[position] == "{":
                     print("{", end="") # for debugging
                     outfile.write(":")
-                    position = recursive_parser(code, position + 1, "{", outfile, indentation + 1, indentation_str)
+                    position = recursive_parser(code, position + 1, "{", outfile, indentation, indentation_str)
                     if scope == "":
                         print("g", end="") # for debugging
 
@@ -421,6 +427,7 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
     infile_str = remove_indentation(infile_str)
     infile_str = prepare_braces(infile_str)
     infile_str = remove_empty_lines(infile_str)
+    infile_str = remove_semicolons(infile_str)
 
     # TODO remove
     filteredfile = open(filename + ".filtered", 'w')
