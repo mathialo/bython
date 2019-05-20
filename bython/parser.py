@@ -197,6 +197,7 @@ def prepare_braces(code):
 
 
 def remove_semicolons(code):
+    # TODO reimplement! not working properly when there are comments after it
     code = re.sub(r";\r?(?=\n)", "", code)
     code = re.sub(r";$", "", code)
     return code
@@ -434,7 +435,6 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
     infile_str = remove_indentation(infile_str)
     infile_str = prepare_braces(infile_str)
     infile_str = remove_empty_lines(infile_str)
-    infile_str = remove_semicolons(infile_str)
 
     # TODO remove
     filteredfile = open(filename + ".filtered", 'w')
