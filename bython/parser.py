@@ -376,7 +376,6 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                     position = position + 1
         
         elif scope == "=":
-            indentation = indentation + 1
             print("=", end="") # for debugging
             while position < len(code):
                 # check for dicts
@@ -403,12 +402,14 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                 
                 if code[position] == "}":
                     outfile.write(code[position])
-                    indent_if_newline(code[position], outfile, indentation - 1, indentation_str)
                     return position + 1
 
                 else:
                     outfile.write(code[position])
-                    indent_if_newline(code[position], outfile, indentation, indentation_str)
+                    if code[position + 1] == "}":
+                        indent_if_newline(code[position], outfile, indentation - 1, indentation_str)
+                    else:
+                        indent_if_newline(code[position], outfile, indentation, indentation_str)
                     position = position + 1
 
         else:
