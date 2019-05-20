@@ -189,10 +189,9 @@ def remove_indentation(code):
 
 
 def prepare_braces(code):
-    # TODO fix issue with comment on the line before the brace
-    # TODO fix issue with brance within comments
-    code = re.sub(r" \{", "{", code)
-    code = re.sub(r"[ \t]*\r?\n[ \t]*\{", "{", code)
+    # TODO fix issue with brace within comments
+    code = re.sub(r"[ \t]*\{", "{", code)
+    code = re.sub(r"[ \t]*(\/\/.*)?(\#.*)?\r?\n[ \t]*{", "{", code)
     code = re.sub(r"\{", "{\n", code)
     return code
 
