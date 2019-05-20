@@ -235,7 +235,9 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
 
     # TODO remove defaults for the parameters 'add_true_line' and 'filename_prefix'
     # i've put them there for ease of use
-
+    # TODO create a class and put all the new function in it
+    # TODO make the code cleaner
+    
     # inner function for parsing recursively
     def recursive_parser(code, position, scope, outfile, indentation, indentation_str="    "):
 
@@ -275,10 +277,12 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                 
                 # check for single-quote string start
                 elif code[position] == "\'":
+                    outfile.write("\'")
                     position = recursive_parser(code, position + 1, "\'", outfile, indentation, indentation_str)
 
                 # check for double-quote string start
                 elif code[position] == "\"":
+                    outfile.write("\"")
                     position = recursive_parser(code, position + 1, "\"", outfile, indentation, indentation_str)
                 
                 # check for equals (for python dicts with braces)
@@ -387,17 +391,17 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                     print(".dict.", end="") # for debugging
                     return recursive_parser(code, position + 1, "={", outfile, indentation + 1, indentation_str)
 
-                # check for non dicts
-                elif re.search(r"[^\s\n\r]", code[position]):
-                    outfile.write(code[position])
-                    indent_if_newline(code[position], outfile, indentation, indentation_str)
-                    print("!", end="") # for debugging
-                    return position
-
-                else:
+                # check for whitespaces/newlines
+                elif re.search(r"[\s\n\r]", code[position]):
                     outfile.write(code[position])
                     indent_if_newline(code[position], outfile, indentation, indentation_str)
                     position = position + 1
+
+                # if it gets here, non-dict was found
+                else:
+                    indent_if_newline(code[position], outfile, indentation, indentation_str)
+                    print("!", end="") # for debugging
+                    return position
         
         elif scope == "={":
             while position < len(code):
