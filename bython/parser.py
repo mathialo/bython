@@ -269,17 +269,16 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                         outfile.write("#")
                         position = recursive_parser(code, position + 2, "//", outfile, indentation, indentation_str)
                     elif code[position + 1] == "*":
-                        outfile.write(code[position:position+2]) # TODO implement comment on all lines
+                        outfile.write("#")
+                        outfile.write(code[position:position+2])
                         position = recursive_parser(code, position + 2, "/*", outfile, indentation, indentation_str)
                 
                 # check for single-quote string start
                 elif code[position] == "\'":
-                    outfile.write(code[position])
                     position = recursive_parser(code, position + 1, "\'", outfile, indentation, indentation_str)
 
                 # check for double-quote string start
                 elif code[position] == "\"":
-                    outfile.write(code[position])
                     position = recursive_parser(code, position + 1, "\"", outfile, indentation, indentation_str)
                 
                 # check for equals (for python dicts with braces)
@@ -331,13 +330,16 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
             while position < len(code):
                 outfile.write(code[position])
                 indent_if_newline(code[position], outfile, indentation, indentation_str)
+                if code[position] == "\n":
+                    outfile.write("#")
+
                 # check for c-style comment closing
                 if code[position] == "*":
                     if code[position + 1] == "/":
-                        outfile.write(code[position + 1]) # TODO remove
                         print("*/", end="") # for debugging
+                        outfile.write(code[position + 1])
                         return position + 2
-
+                
                 else:
                     position = position + 1
 
