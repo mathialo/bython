@@ -168,7 +168,7 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
 
     # Support for extra, non-brace related stuff
     infile_str_indented = re.sub(r"else\s+if", "elif", infile_str_indented)
-    infile_str_indented = re.sub(r";\n", "\n", infile_str_indented)
+    infile_str_indented = re.sub(r";[ \t]+\n", "\n", infile_str_indented)
 
     # Change imported names if necessary
     if change_imports is not None:
@@ -198,6 +198,8 @@ def prepare_braces(code):
 
 def remove_semicolons(code):
     # TODO reimplement! not working properly when there are comments after it
+    # TODO remove the single-line comments for now (?)
+
     code = re.sub(r";\r?(?=\n)", "", code)
     code = re.sub(r";$", "", code)
     return code
@@ -234,8 +236,6 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
                                     python alternative.
     """
 
-    # TODO remove defaults for the parameters 'add_true_line' and 'filename_prefix'
-    # i've put them there for ease of use
     # TODO create a class and put all the new function in it
     # TODO make the code cleaner
     
@@ -423,24 +423,50 @@ def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outp
             raise Exception("invalid scope was reached")
 
 
+    # get filepath/filename
     filename = os.path.basename(filepath)
-    filedir = os.path.dirname(filepath)
 
+    # open input file
     infile = open(filepath, 'r')
     infile_str = infile.read()
     infile.close()
 
+    # open output file
     outfile = open(filename_prefix + _change_file_name(filename, outputname), 'w')
 
+    # true=True; false=False;
+    if add_true_line:
+        outfile.write("true=True\nfalse=False\n")
+    
+    # remove indentation
     infile_str = remove_indentation(infile_str)
+
+    # rearrange braces
     infile_str = prepare_braces(infile_str)
+
+    # remove empty lines
     infile_str = remove_empty_lines(infile_str)
 
-    # TODO remove
+    # change 'else if' into 'elif'
+    infile_str = re.sub(r"else\s+if", "elif", infile_str)
+
+    # remove semicolons
+    infile_str = remove_semicolons(infile_str)
+
+    # change imported names (if necessary)
+    if change_imports is not None:
+        for module in change_imports:
+            infile_str = re.sub("(?<=import\\s){}".format(module), "{} as {}".format(change_imports[module], module), infile_str)
+            infile_str = re.sub("(?<=from\\s){}(?=\\s+import)".format(module), change_imports[module], infile_str)
+
+    # output filtered file (for debugging)
+    # TODO remove later
     filteredfile = open(filename + ".filtered", 'w')
     filteredfile.write(infile_str)
     filteredfile.close()
 
+    # start recursive function
     recursive_parser(infile_str, 0, "", outfile, 0, "    ")
 
+    # close output file
     outfile.close()
