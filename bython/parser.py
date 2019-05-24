@@ -190,7 +190,8 @@ def remove_indentation(code):
 
 def prepare_braces(code):
     # TODO fix issue with brace within comments
-    code = re.sub(r"[ \t]*\{", "{", code)
+    # TODO fix removing spaces and tabs from within strings
+    #code = re.sub(r"[ \t]*\{", "{", code)
     code = re.sub(r"[ \t]*(\/\/.*|\#.*)?\r?\n[ \t]*\{", "{ \\1\n", code)
     return code
 
@@ -220,7 +221,7 @@ def indent_if_newline(code, outfile, indentation, indentation_str):
             outfile.write(indentation_str)
 
 
-def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None, debug_mode=False):
+def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None, debug_mode=True):
     """
     Converts a bython file to a python file recursively and writes it to disk.
 
@@ -281,6 +282,9 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                         outfile.write("#")
                         outfile.write(code[position:position+2])
                         position = recursive_parser(code, position + 2, "/*", outfile, indentation, indentation_str)
+                    else:
+                        outfile.write("/")
+                        position = position + 1
                 
                 # check for single-quote string start
                 elif code[position] == "\'":
@@ -395,7 +399,6 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                         return position + 1
                     else:
                         position = position + 1
-
                 else:
                     position = position + 1
         
@@ -487,6 +490,9 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
 
     # start recursive function
     recursive_parser(infile_str, 0, "", outfile, 0, "    ", debug_mode)
+
+    if debug_mode:
+        print("\n", end="")
 
     # close output file
     outfile.close()
