@@ -47,6 +47,9 @@ def main():
     argparser.add_argument("-2", "--python2",
         help="use python2 instead of python3 (default)",
         action="store_true")
+    argparser.add_argument("-d", "--debug", 
+        help="enable debug mode",
+        action="store_true")
     argparser.add_argument("-o", "--output",
         type=str, 
         help="specify name of output file (if -c is present)",
@@ -133,7 +136,7 @@ def main():
             else:
                 outputname = cmd_args.output[0]
 
-            parser.parse_file_recursively(file, cmd_args.lower_true, path_prefix, outputname, import_translations)
+            parser.parse_file_recursively(file, cmd_args.lower_true, path_prefix, outputname, import_translations, cmd_args.debug)
 
     except (TypeError, FileNotFoundError) as e:
         logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))

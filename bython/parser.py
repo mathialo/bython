@@ -221,7 +221,7 @@ def indent_if_newline(code, outfile, indentation, indentation_str):
             outfile.write(indentation_str)
 
 
-def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None, debug_mode=True):
+def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None, debug_mode=False):
     """
     Converts a bython file to a python file recursively and writes it to disk.
 
@@ -263,7 +263,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                     if debug_mode:
                         print("{", end="") # for debugging
                     outfile.write(":")
-                    position = recursive_parser(code, position + 1, "{", outfile, indentation, indentation_str)
+                    position = recursive_parser(code, position + 1, "{", outfile, indentation, indentation_str, debug_mode)
                     if scope == "":
                         if debug_mode:
                             print("g", end="") # for debugging
@@ -271,17 +271,17 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 # check for python-style comment
                 elif code[position] == "#":
                     outfile.write(code[position])
-                    position = recursive_parser(code, position + 1, "#", outfile, indentation, indentation_str)
+                    position = recursive_parser(code, position + 1, "#", outfile, indentation, indentation_str, debug_mode)
                 
                 # check for c and cpp-style comment
                 elif code[position] == "/":
                     if code[position + 1] == "/":
                         outfile.write("#")
-                        position = recursive_parser(code, position + 2, "//", outfile, indentation, indentation_str)
+                        position = recursive_parser(code, position + 2, "//", outfile, indentation, indentation_str, debug_mode)
                     elif code[position + 1] == "*":
                         outfile.write("#")
                         outfile.write(code[position:position+2])
-                        position = recursive_parser(code, position + 2, "/*", outfile, indentation, indentation_str)
+                        position = recursive_parser(code, position + 2, "/*", outfile, indentation, indentation_str, debug_mode)
                     else:
                         outfile.write("/")
                         position = position + 1
@@ -289,17 +289,17 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 # check for single-quote string start
                 elif code[position] == "\'":
                     outfile.write("\'")
-                    position = recursive_parser(code, position + 1, "\'", outfile, indentation, indentation_str)
+                    position = recursive_parser(code, position + 1, "\'", outfile, indentation, indentation_str, debug_mode)
 
                 # check for double-quote string start
                 elif code[position] == "\"":
                     outfile.write("\"")
-                    position = recursive_parser(code, position + 1, "\"", outfile, indentation, indentation_str)
+                    position = recursive_parser(code, position + 1, "\"", outfile, indentation, indentation_str, debug_mode)
                 
                 # check for equals (for python dicts with braces)
                 elif code[position] == "=":
                     outfile.write(code[position])
-                    position = recursive_parser(code, position + 1, "=", outfile, indentation, indentation_str)
+                    position = recursive_parser(code, position + 1, "=", outfile, indentation, indentation_str, debug_mode)
 
                 # check for brace closing (when not on global)
                 elif scope == "{":
@@ -412,7 +412,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                     indent_if_newline(code[position], outfile, indentation, indentation_str)
                     if debug_mode:
                         print(".dict.", end="") # for debugging
-                    return recursive_parser(code, position + 1, "={", outfile, indentation + 1, indentation_str)
+                    return recursive_parser(code, position + 1, "={", outfile, indentation + 1, indentation_str, debug_mode)
 
                 # check for whitespaces/newlines
                 elif re.search(r"[\s\n\r]", code[position]):
