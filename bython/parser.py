@@ -220,7 +220,7 @@ def indent_if_newline(code, outfile, indentation, indentation_str):
             outfile.write(indentation_str)
 
 
-def parse_file_recursive(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None):
+def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", outputname=None, change_imports=None):
     """
     Converts a bython file to a python file recursively and writes it to disk.
 
