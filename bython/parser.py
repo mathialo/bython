@@ -191,16 +191,19 @@ def remove_indentation(code):
 def prepare_braces(code):
     # TODO fix issue with brace within comments
     code = re.sub(r"[ \t]*\{", "{", code)
-    code = re.sub(r"[ \t]*(\/\/.*)?(\#.*)?\r?\n[ \t]*{", "{", code)
-    code = re.sub(r"\{", "{\n", code)
+    code = re.sub(r"[ \t]*(\/\/.*|\#.*)?\r?\n[ \t]*\{", "{ \\1\n", code)
     return code
 
 
 def remove_semicolons(code):
-    # TODO reimplement! not working properly when there are comments after it
-    # TODO remove the single-line comments for now (?)
+    # remove semicolons, but keep any comments
+    # TODO fix: if a semicolon is follwed by a comment starter '//' or '#', the semicolon will be removed even inside strings or comments
+    code = re.sub(r"[ \t]*;[ \t]*(\/\/.*|\#.*)?\r?(?=\n)", " \\1", code)
 
-    code = re.sub(r";\r?(?=\n)", "", code)
+    # remove any extra spaces added at the end of lines
+    code = re.sub(r"[ \t]\r?\n", "\n", code)
+    
+    # remove a semicolon placed right before the EOF
     code = re.sub(r";$", "", code)
     return code
 
