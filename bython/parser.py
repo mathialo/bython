@@ -249,7 +249,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
 
         # scope equal to "" means it's on global scope
         # scope equal to "{" means it's on a local scope
-        if scope == "" or scope == "{":
+        if scope == "" or scope == "{" or scope == "(":
 
             if scope == "":
                 if debug_mode:
@@ -268,6 +268,13 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                     if scope == "":
                         if debug_mode:
                             print("g", end="") # for debugging
+                
+                # check for parenthesis opening
+                if code[position] == "(":
+                    if debug_mode:
+                        print("(", end="") # for debugging
+                    outfile.write(code[position])
+                    position = recursive_parser(code, position + 1, "(", outfile, indentation, indentation_str, debug_mode)
 
                 # check for python-style comment
                 elif code[position] == "#":
@@ -315,6 +322,15 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                             outfile.write(code[position])
                             indent_if_newline(code[position], outfile, indentation, indentation_str)
                         position = position + 1
+                
+                elif scope == "(":
+                    outfile.write(code[position])
+                    indent_if_newline(code[position], outfile, indentation, indentation_str)
+                    if code[position] == ")":
+                        if debug_mode:
+                            print(")", end="")
+                        return position + 1
+                    position = position + 1
 
                 else:
                     outfile.write(code[position])
