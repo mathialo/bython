@@ -216,7 +216,6 @@ def remove_empty_lines(code):
 
 def indent_if_newline(code, outfile, indentation, indentation_str):
     if code == "\n":
-        #print(identation, end="")
         for x in range(indentation):
             outfile.write(indentation_str)
 
@@ -308,8 +307,11 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                             print("}", end="")
                         return position + 1
                     else:
-                        outfile.write(code[position])
-                        indent_if_newline(code[position], outfile, indentation, indentation_str)
+                        if code[position] == "\n" and code[position + 1] == "}":
+                                pass
+                        else:
+                            outfile.write(code[position])
+                            indent_if_newline(code[position], outfile, indentation, indentation_str)
                         position = position + 1
 
                 else:
@@ -484,9 +486,10 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
 
     # output filtered file (for debugging)
     # TODO remove later
-    filteredfile = open(filename + ".filtered", 'w')
-    filteredfile.write(infile_str)
-    filteredfile.close()
+    if debug_mode:
+        filteredfile = open(filename + ".filtered", 'w')
+        filteredfile.write(infile_str)
+        filteredfile.close()
 
     # start recursive function
     recursive_parser(infile_str, 0, "", outfile, 0, "    ", debug_mode)
