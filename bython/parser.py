@@ -448,6 +448,8 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                             print("*/", end="") # for debugging
                         outfile.write(code[position + 1])
                         return position + 2
+                    else:
+                        position = position + 1
                 
                 else:
                     position = position + 1
