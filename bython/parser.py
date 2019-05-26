@@ -183,12 +183,33 @@ def parse_file(filepath, add_true_line, filename_prefix, outputname=None, change
 
 
 def remove_indentation(code):
+    """
+    Removes indentation from string
+
+    Args:
+        code (str):     The string that will be manipulated
+    
+    Returns:
+        str: A string with the changes applied
+    """
     code = re.sub(r"^[ \t]*", "", code, 1)
     code = re.sub(r"\r?\n[ \t]+", "\n", code)
     return code
 
 
 def prepare_braces(code):
+    """
+    Moves braces to the optimal position. E.g.: "while x < 10{".
+    Removes additional spacing after "}".
+    Ensures comments come after the opening braces. E.g. "while x < 10{ // comment".
+
+    Args:
+        code (str):     The string that will be manipulated
+    
+    Returns:
+        str: A string with the changes applied
+    """
+
     # TODO fix issue with brace within comments
     # TODO fix removing spaces and tabs from within strings
     code = re.sub(r"[ \t]*(\/\/.*|\#.*)?\r?\n[ \t]*\{", "{ \\1\n", code)
@@ -199,6 +220,15 @@ def prepare_braces(code):
 
 
 def remove_semicolons(code):
+    """
+    Find and removes the semicolons placed at the end of lines
+
+    Args:
+        code (str):     The string that will be manipulated
+    
+    Returns:
+        str: A string with the changes applied
+    """
     # remove semicolons, but keep any comments
     # TODO fix: if a semicolon is follwed by a comment starter '//' or '#', the semicolon will be removed even inside strings or comments
     code = re.sub(r"[ \t]*;[ \t]*(\/\/.*|\#.*)?\r?(?=\n)", " \\1", code)
@@ -212,11 +242,29 @@ def remove_semicolons(code):
 
 
 def remove_empty_lines(code):
+    """
+    Find and removes empty lines
+
+    Args:
+        code (str):     The string that will be manipulated
+    
+    Returns:
+        str: A string with the changes applied
+    """
     code = re.sub(r"\r?\n[ \t]*(\r?\n[ \t]*)+", "\n", code)
     return code
 
 
 def indent_if_newline(code, outfile, indentation, indentation_str):
+    """
+    Applies indentation.
+
+    Args:
+        code (str):                 The string that will be manipulated
+        outfile (file):             The file which will be indented
+        indentation (int):          The desired indentation level
+        indentation_str (str):      The indentation style (usually spaces or tabs)
+    """
     if code == "\n":
         for x in range(indentation):
             outfile.write(indentation_str)
@@ -239,16 +287,30 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                                     '.py'    
         change_imports (dict):      Names of imported bython modules, and their 
                                     python alternative.
+        debug_mode (boolean):       Enables debug output (scope detection)
     """
-
-    # TODO create a class and put all the new function in it
-    # TODO make the code cleaner
     
     # inner function for parsing recursively
     def recursive_parser(code, position, scope, outfile, indentation, indentation_str="    ", debug_mode=False):
+        """
+        Recursive inner function for scope detection and for writing the final .py code to disk
 
+        Args:
+            code (str):             The string that will be interpreted
+            position (int):         Current position on the code string
+            scope (str):            Current scope ("", "{", "(", "#", "//"
+                                    "/*", "/'", "/"", "=", "={")
+            outfile (file)          The output file which will be writen to
+            indentation (int):      The current indentation level
+            indentation_str (str):  The indentation style (usually spaces or tabs)
+            debug_mode (boolean):   Enables debug output (scope detection)
+
+        Returns:
+            int: Next position on the string
+        """
         # scope equal to "" means it's on global scope
         # scope equal to "{" means it's on a local scope
+        # scope equal to "(" means it's inside function parameters or tuples
         if scope == "" or scope == "{" or scope == "(":
 
             if scope == "":
@@ -257,6 +319,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
             else:
                 indentation = indentation + 1
 
+            # keep parsing until EOF
             while position < len(code):
 
                 # check for brace opening
@@ -323,6 +386,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                             indent_if_newline(code[position], outfile, indentation, indentation_str)
                         position = position + 1
                 
+                # check for parenthesis opening
                 elif scope == "(":
                     outfile.write(code[position])
                     indent_if_newline(code[position], outfile, indentation, indentation_str)
@@ -337,6 +401,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                     indent_if_newline(code[position], outfile, indentation, indentation_str)
                     position = position + 1
 
+        # scope equal to "#" means it's inside a python style comment
         elif scope == "#":
             if debug_mode:
                 print("#", end="") # for debugging
@@ -351,6 +416,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 else:
                     position = position + 1
         
+        # scope equal to "//" means it's inside a c++ style comment
         elif scope == "//":
             if debug_mode:
                 print("//", end="") # for debugging
@@ -365,6 +431,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 else:
                     position = position + 1
         
+        # scope equal to "/*" means it's inside a c style comment
         elif scope == "/*":
             if debug_mode:
                 print("/*", end="") # for debugging
@@ -385,6 +452,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 else:
                     position = position + 1
 
+        # scope equal to "\'" means it's inside a single quote string
         elif scope == "\'":
             if debug_mode:
                 print("\'^", end="") # for debugging
@@ -404,6 +472,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 else:
                     position = position + 1
         
+        # scope equal to "\"" means it's inside a double quote string
         elif scope == "\"":
             if debug_mode:
                 print("\"^", end="") # for debugging
@@ -422,6 +491,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 else:
                     position = position + 1
         
+        # scope equal to "=" means a possible python dictionary
         elif scope == "=":
             if debug_mode:
                 print("=", end="") # for debugging
@@ -447,6 +517,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                         print("!", end="") # for debugging
                     return position
         
+        # scope equal to "={" means it's inside a python dictionary
         elif scope == "={":
             while position < len(code):
                 
@@ -462,6 +533,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                         indent_if_newline(code[position], outfile, indentation, indentation_str)
                     position = position + 1
 
+        # if scope is invalid an exception will be thrown
         else:
             raise Exception("invalid scope was reached")
 
@@ -497,17 +569,17 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
     infile_str = remove_semicolons(infile_str)
 
     # change imported names (if necessary)
+    # TODO testing
     if change_imports is not None:
         for module in change_imports:
             infile_str = re.sub("(?<=import\\s){}".format(module), "{} as {}".format(change_imports[module], module), infile_str)
             infile_str = re.sub("(?<=from\\s){}(?=\\s+import)".format(module), change_imports[module], infile_str)
 
     # output filtered file (for debugging)
-    # TODO remove later
     if debug_mode:
-        filteredfile = open(filename + ".filtered", 'w')
-        filteredfile.write(infile_str)
-        filteredfile.close()
+        filtered_file = open(filename + ".filtered", 'w')
+        filtered_file.write(infile_str)
+        filtered_file.close()
 
     # start recursive function
     recursive_parser(infile_str, 0, "", outfile, 0, "    ", debug_mode)
