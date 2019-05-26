@@ -31,7 +31,7 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter)
     argparser.add_argument("-V", "--version", 
         action="version", 
-        version="Bython v%s\nMathias Lohne, Tristan Pepin and Filipe Nascimento 2019" % VERSION_NUMBER)
+        version="Bython v%s\nMathias Lohne, Tristan Pepin and Filipe do Nascimento 2019" % VERSION_NUMBER)
     argparser.add_argument("-v", "--verbose", 
         help="print progress",
         action="store_true") 
