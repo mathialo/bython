@@ -584,7 +584,7 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
         filtered_file.close()
     
     # adding a newline at EOF
-    infile_str += infile_str + "\n"
+    infile_str += "\n"
 
     # start recursive function
     recursive_parser(infile_str, 0, "", outfile, 0, "    ", debug_mode)
