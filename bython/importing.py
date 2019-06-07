@@ -41,7 +41,7 @@ def bython_import(module_name, globals, logger=None):
 
     logger.log_info("Parsing %s" % path)
     try:
-        bython.parser.parse_file(path, False, os.path.join(sys.path[0], "python_"))
+        bython.parser.parse_file_recursively(path, False, os.path.join(sys.path[0], "python_"))
 
         error_during_parsing = None
 

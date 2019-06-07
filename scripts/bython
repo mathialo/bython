@@ -31,7 +31,7 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter)
     argparser.add_argument("-V", "--version", 
         action="version", 
-        version="Bython v%s\nMathias Lohne and Tristan Pepin 2018" % VERSION_NUMBER)
+        version="Bython v%s\nMathias Lohne, Tristan Pepin and Filipe do Nascimento 2019" % VERSION_NUMBER)
     argparser.add_argument("-v", "--verbose", 
         help="print progress",
         action="store_true") 
@@ -46,6 +46,9 @@ def main():
         action="store_true")
     argparser.add_argument("-2", "--python2",
         help="use python2 instead of python3 (default)",
+        action="store_true")
+    argparser.add_argument("-d", "--debug", 
+        help="enable debug mode",
         action="store_true")
     argparser.add_argument("-o", "--output",
         type=str, 
@@ -133,7 +136,7 @@ def main():
             else:
                 outputname = cmd_args.output[0]
 
-            parser.parse_file(file, cmd_args.lower_true, path_prefix, outputname, import_translations)
+            parser.parse_file_recursively(file, cmd_args.lower_true, path_prefix, outputname, import_translations, cmd_args.debug)
 
     except (TypeError, FileNotFoundError) as e:
         logger.log_error("Error while parsing '%s'.\n%s" % (current_file_name, str(e)))
