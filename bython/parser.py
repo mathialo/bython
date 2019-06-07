@@ -347,10 +347,10 @@ def parse_file_recursively(filepath, add_true_line=False, filename_prefix="", ou
                 
                 # check for c and cpp-style comment
                 elif code[position] == "/":
-                    if code[position + 1] == "/":
-                        outfile.write("#")
-                        position = recursive_parser(code, position + 2, "//", outfile, indentation, indentation_str, debug_mode)
-                    elif code[position + 1] == "*":
+                    #if code[position + 1] == "/":
+                        #outfile.write("#")
+                        #position = recursive_parser(code, position + 2, "//", outfile, indentation, indentation_str, debug_mode)
+                    if code[position + 1] == "*":
                         outfile.write("#")
                         outfile.write(code[position:position+2])
                         position = recursive_parser(code, position + 2, "/*", outfile, indentation, indentation_str, debug_mode)
