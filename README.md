@@ -1,7 +1,7 @@
 # Bython
 Python with braces. Because Python is awesome, but whitespace is awful.
 
-Bython is a Python preprosessor which translates curly brackets into indentation.
+Bython is a Python preprocessor which translates curly brackets into indentation.
 
 
 ## Content of README:
@@ -14,7 +14,7 @@ Bython is a Python preprosessor which translates curly brackets into indentation
 
 ## Key features
 
- * "Forget" about indentaition. You should still write beautiful code, but if you mess up with tabs/spaces, or copy one piece of code to another that uses a different indentation style, it won't break.
+ * "Forget" about indentation. You should still write beautiful code, but if you mess up with tabs/spaces, or copy one piece of code to another that uses a different indentation style, it won't break.
 
  * Uses Python for interpretation, that means that all of your existing modules, like NumPy and Matplotlib still works.
 
@@ -111,7 +111,7 @@ For a more in-depth intro, consult the [bython introduction](INTRODUCTION.md)
 At the moment, Bython is written in Python. The git repository is structured into 4 directories:
 
  * `bython` contains a Python package containing the parser and other utilities used by the main script
- * `etc` contains manual pages and other auxillary files
- * `scripts` contains the runnable Python scripts, ie the ones run from the shell
+ * `etc` contains manual pages and other auxiliary files
+ * `scripts` contains Python scripts to run from the shell
  * `testcases` contains a couple of sample \*.by and \*.py files intended for testing the implementation
 
